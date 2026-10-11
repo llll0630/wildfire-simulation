@@ -1,0 +1,53 @@
+{
+  "seed": 3,
+  "assets": [
+    {
+      "name": "grass_green_01",
+      "kind": "grass",
+      "species": "green",
+      "height_m": 0.55,
+      "crown_diameter_m": 1.02,
+      "crown_area_m2": 0.8
+    },
+    {
+      "name": "grass_green_02",
+      "kind": "grass",
+      "species": "green",
+      "height_m": 0.52,
+      "crown_diameter_m": 1.05,
+      "crown_area_m2": 0.9
+    },
+    {
+      "name": "grass_green_03",
+      "kind": "grass",
+      "species": "green",
+      "height_m": 0.55,
+      "crown_diameter_m": 0.86,
+      "crown_area_m2": 0.6
+    },
+    {
+      "name": "grass_dry_01",
+      "kind": "grass",
+      "species": "dry",
+      "height_m": 1.06,
+      "crown_diameter_m": 1.08,
+      "crown_area_m2": 0.9
+    },
+    {
+      "name": "grass_dry_02",
+      "kind": "grass",
+      "species": "dry",
+      "height_m": 1.09,
+      "crown_diameter_m": 1.12,
+      "crown_area_m2": 1.0
+    },
+    {
+      "name": "grass_dry_03",
+      "kind": "grass",
+      "species": "dry",
+      "height_m": 1.09,
+      "crown_diameter_m": 1.15,
+      "crown_area_m2": 1.0
+    }
+  ]
+}

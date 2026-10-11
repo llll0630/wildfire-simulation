@@ -1,0 +1,45 @@
+{
+  "seed": 3,
+  "assets": [
+    {
+      "name": "shrub_olive_01",
+      "kind": "shrub",
+      "species": "olive",
+      "height_m": 2.22,
+      "crown_diameter_m": 3.64,
+      "crown_area_m2": 10.4
+    },
+    {
+      "name": "shrub_olive_02",
+      "kind": "shrub",
+      "species": "olive",
+      "height_m": 2.11,
+      "crown_diameter_m": 3.0,
+      "crown_area_m2": 7.1
+    },
+    {
+      "name": "shrub_olive_03",
+      "kind": "shrub",
+      "species": "olive",
+      "height_m": 1.97,
+      "crown_diameter_m": 3.97,
+      "crown_area_m2": 12.4
+    },
+    {
+      "name": "shrub_bush_01",
+      "kind": "shrub",
+      "species": "bush",
+      "height_m": 2.32,
+      "crown_diameter_m": 3.24,
+      "crown_area_m2": 8.3
+    },
+    {
+      "name": "shrub_bush_02",
+      "kind": "shrub",
+      "species": "bush",
+      "height_m": 2.17,
+      "crown_diameter_m": 3.6,
+      "crown_area_m2": 10.2
+    }
+  ]
+}

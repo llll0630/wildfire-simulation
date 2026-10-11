@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "name": "house_01",
+      "label": "石头小屋",
+      "footprint_x_m": 9.4,
+      "footprint_y_m": 7.4,
+      "height_m": 5.9
+    },
+    {
+      "name": "house_02",
+      "label": "乡村木板房",
+      "footprint_x_m": 12.9,
+      "footprint_y_m": 10.9,
+      "height_m": 5.82
+    },
+    {
+      "name": "house_03",
+      "label": "郊区两层住宅",
+      "footprint_x_m": 12.3,
+      "footprint_y_m": 12.8,
+      "height_m": 9.8
+    }
+  ]
+}

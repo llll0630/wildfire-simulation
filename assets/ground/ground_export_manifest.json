@@ -1,0 +1,32 @@
+{
+  "mat_grass": {
+    "export_material": "mat_grass_export",
+    "texture": "textures/mat_grass.png",
+    "tile_m": 8.0
+  },
+  "mat_litter": {
+    "export_material": "mat_litter_export",
+    "texture": "textures/mat_litter.png",
+    "tile_m": 4.0
+  },
+  "mat_farmland": {
+    "export_material": "mat_farmland_export",
+    "texture": "textures/mat_farmland.png",
+    "tile_m": 7.6
+  },
+  "mat_urban": {
+    "export_material": "mat_urban_export",
+    "texture": "textures/mat_urban.png",
+    "tile_m": 45.0
+  },
+  "mat_water": {
+    "export_material": "mat_water_export",
+    "texture": "textures/mat_water.png",
+    "tile_m": 8.0
+  },
+  "mat_bare": {
+    "export_material": "mat_bare_export",
+    "texture": "textures/mat_bare.png",
+    "tile_m": 8.0
+  }
+}

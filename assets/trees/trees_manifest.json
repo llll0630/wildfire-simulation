@@ -1,0 +1,69 @@
+{
+  "seed": 3,
+  "assets": [
+    {
+      "name": "tree_oak_01",
+      "kind": "tree",
+      "species": "oak",
+      "height_m": 9.64,
+      "crown_diameter_m": 9.37,
+      "crown_area_m2": 68.9
+    },
+    {
+      "name": "tree_oak_02",
+      "kind": "tree",
+      "species": "oak",
+      "height_m": 11.26,
+      "crown_diameter_m": 8.29,
+      "crown_area_m2": 53.9
+    },
+    {
+      "name": "tree_oak_03",
+      "kind": "tree",
+      "species": "oak",
+      "height_m": 10.68,
+      "crown_diameter_m": 9.47,
+      "crown_area_m2": 70.4
+    },
+    {
+      "name": "tree_oak_04",
+      "kind": "tree",
+      "species": "oak",
+      "height_m": 9.54,
+      "crown_diameter_m": 8.37,
+      "crown_area_m2": 55.0
+    },
+    {
+      "name": "tree_pine_01",
+      "kind": "tree",
+      "species": "pine",
+      "height_m": 8.2,
+      "crown_diameter_m": 3.92,
+      "crown_area_m2": 12.1
+    },
+    {
+      "name": "tree_pine_02",
+      "kind": "tree",
+      "species": "pine",
+      "height_m": 8.23,
+      "crown_diameter_m": 3.94,
+      "crown_area_m2": 12.2
+    },
+    {
+      "name": "tree_pine_03",
+      "kind": "tree",
+      "species": "pine",
+      "height_m": 7.69,
+      "crown_diameter_m": 3.68,
+      "crown_area_m2": 10.6
+    },
+    {
+      "name": "tree_pine_04",
+      "kind": "tree",
+      "species": "pine",
+      "height_m": 9.35,
+      "crown_diameter_m": 4.49,
+      "crown_area_m2": 15.8
+    }
+  ]
+}
