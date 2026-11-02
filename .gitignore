@@ -1,2 +1,6 @@
 *.blend1
 __pycache__/
+# 地形数据（setup_terrain_data.py 下载，体积大，不提交）
+terrain_data/
+# 测试输出
+tests/output/

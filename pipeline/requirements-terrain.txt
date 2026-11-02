@@ -1,0 +1,8 @@
+# 取地形（terrain_data.py）和准备数据（setup_terrain_data.py）用，普通 Python 3.11+，不是 Blender 自带的 Python
+# 测试时用的版本：numpy 2.5.4、pyproj 3.8.0、shapely 2.2.0、rasterio 1.5.2、scipy 1.x、pyshp 2.4.2
+numpy>=1.24,<3
+pyproj>=3.4,<4
+shapely>=2,<3
+rasterio>=1.3,<2
+scipy>=1.11,<2
+pyshp>=2.3,<3

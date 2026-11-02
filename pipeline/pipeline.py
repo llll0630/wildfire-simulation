@@ -10,6 +10,8 @@
 #    --ground-only   只生成地面，不放树、草、房子（看场景大小用）
 #    --glb           用导出用素材（*_export.blend）搭场景，并导出 scene.glb 给网页用
 #                    （需要先运行过 asset_builders/build_export_assets.py）
+#    --terrain 地形.npz  用真实地形（terrain_data.py 生成）；不加就是原来的平地场景
+#                    地形相关代码在 terrain_core.py（摆放、高度）和 terrain_blender.py（搭场景）
 #
 #  输出（在输出文件夹里）：
 #    scene.blend     生成的 Blender 场景
@@ -161,15 +163,16 @@ def build(decision, layout, ground_only=False, export=False):
         ring.data.materials.append(m)
 
 
-def export_glb(path):
-    """导出 GLB：不含相机和灯光（网页端自己设置），贴图转成 JPEG 减小文件"""
+def export_glb(path, terrain=False):
+    """导出 GLB：不含相机和灯光（网页端自己设置），贴图转成 JPEG 减小文件。
+    地形场景的中景远景用顶点颜色上色，要导出顶点颜色"""
+    extra = {'export_vertex_color': 'ACTIVE', 'export_image_quality': 80} if terrain else {'export_image_quality': 85}
     bpy.ops.export_scene.gltf(filepath=path, export_format='GLB', export_cameras=False, export_lights=False,
-                              export_image_format='JPEG', export_image_quality=85, export_gpu_instances=True,
-                              export_gn_mesh=True)
+                              export_image_format='JPEG', export_gpu_instances=True, export_gn_mesh=True, **extra)
 
 
 def setup_preview(scene_js):
-    """预览用的天空、太阳、相机（相机放在用户初始位置稍高处）"""
+    """预览用的天空、太阳、相机（相机放在用户初始位置稍高处；地形场景放在高空视角）"""
     s = bpy.context.scene
     sun = bpy.data.lights.new('Sun', 'SUN'); sun.energy = 3.0; sun.color = (1.0, 0.93, 0.82)
     so = bpy.data.objects.new('Sun', sun); so.rotation_euler = (math.radians(50), 0, math.radians(35))
@@ -180,7 +183,12 @@ def setup_preview(scene_js):
     cam = bpy.data.objects.new('Camera', cd); s.collection.objects.link(cam); s.camera = cam
     size = rules.SCENE_SIZE
     cam.location = (0, -size * 0.625, size * 0.25)
-    cam.rotation_euler = (Vector((0, size * 0.04, 0)) - cam.location).to_track_quat('-Z', 'Y').to_euler()
+    target = Vector((0, size * 0.04, 0))
+    if 'aerial' in scene_js:                        # three.js 坐标 [x, y, z] → Blender (x, -z, y)
+        to_b = lambda v: Vector((v[0], -v[2], v[1]))
+        cam.location, target = to_b(scene_js['aerial']['position']), to_b(scene_js['aerial']['look_at'])
+        cd.clip_end = 300000
+    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
     for eng in ('BLENDER_EEVEE', 'BLENDER_EEVEE_NEXT'):
         try: s.render.engine = eng; break
         except TypeError: pass
@@ -205,8 +213,31 @@ def frame_viewport():
                 bpy.ops.view3d.view_all()
 
 
-def generate(inputs, seed=None):
-    """在当前打开的 Blender 里直接生成场景（粘贴进 Scripting 运行时用）"""
+def generate_terrain(inputs, terrain_path, seed=None, export=False):
+    """地形场景：做决定（规则不变）→ 按地形摆放 → 搭场景。返回 (seed, scene_json)"""
+    import random, time
+    import terrain_core as tc, terrain_blender as tb
+    if seed is None:
+        seed = random.SystemRandom().randrange(1, 2 ** 31)
+    t0 = time.perf_counter(); timing = {}
+    t = tc.Terrain(terrain_path)
+    veg, houses = rules.load_manifests()
+    p = tc.plan(t, inputs, seed, veg, houses)
+    timing['plan'] = round(time.perf_counter() - t0, 2)
+    built = tb.build(sys.modules[__name__], t, p, seed, export=export, timing=timing)
+    js = tb.scene_json(t, p, seed, built, inputs)
+    js['debug']['timing_s'] = timing
+    return seed, js
+
+
+def generate(inputs, seed=None, terrain=None):
+    """在当前打开的 Blender 里直接生成场景（粘贴进 Scripting 运行时用）。terrain = 地形 .npz 路径（可选）"""
+    if terrain:
+        seed, js = generate_terrain(inputs, terrain, seed)
+        setup_preview(js)
+        frame_viewport()
+        print(f"[pipeline] seed={seed} 地形={terrain} 摆放={js['debug']['stats']['placed']} 火={js['fire']['level']}")
+        return js
     seed, decision, layout, js = rules.run_rules(inputs, seed)
     build(decision, layout)
     setup_preview(js)
@@ -226,11 +257,15 @@ def main():
     ap.add_argument('--render', action='store_true')
     ap.add_argument('--ground-only', action='store_true', help='只生成地面（看场景大小用）')
     ap.add_argument('--glb', action='store_true', help='用导出用素材搭场景，并导出 scene.glb')
+    ap.add_argument('--terrain', default=None, help='地形文件 .npz（terrain_data.py 生成）；不加就是平地')
     a = ap.parse_args(argv)
     a.out = os.path.abspath(a.out)          # 渲染输出要用绝对路径，否则会存到别的地方
 
     with open(a.input, encoding='utf-8') as f:
         inputs = json.load(f)
+    if a.terrain:
+        main_terrain(a, inputs)
+        return
     seed, decision, layout, js = rules.run_rules(inputs, a.seed)
     build(decision, layout, a.ground_only, export=a.glb)
 
@@ -249,6 +284,34 @@ def main():
     print(f"[pipeline] seed={seed} 地面={js['ground']} 树={d['counts']['trees']} 灌木={d['counts']['shrubs']} "
           f"草={d['counts']['grass']} 房子={d['counts']['houses']} 火={js['fire']['level']} "
           f"树冠火={len(js['fire']['burning_trees'])}棵 烟={js['smoke_level']} 天空={js['sky']}")
+
+
+def main_terrain(a, inputs):
+    """命令行：地形场景（--terrain）"""
+    import time
+    if a.ground_only:
+        print('[pipeline] --ground-only 只用于平地场景，地形场景忽略')
+    t0 = time.perf_counter()
+    seed, js = generate_terrain(inputs, a.terrain, a.seed, export=a.glb)
+    os.makedirs(a.out, exist_ok=True)
+    if a.glb:
+        t1 = time.perf_counter()
+        export_glb(os.path.join(a.out, 'scene.glb'), terrain=True)
+        js['debug']['timing_s']['export_glb'] = round(time.perf_counter() - t1, 2)
+        js['debug']['stats']['glb_mb'] = round(os.path.getsize(os.path.join(a.out, 'scene.glb')) / 1e6, 2)
+    js['debug']['timing_s']['total'] = round(time.perf_counter() - t0, 2)
+    with open(os.path.join(a.out, 'scene.json'), 'w', encoding='utf-8') as f:
+        json.dump(js, f, ensure_ascii=False)
+    setup_preview(js)
+    bpy.ops.wm.save_as_mainfile(filepath=os.path.join(a.out, 'scene.blend'))
+    if a.render:
+        bpy.context.scene.render.filepath = os.path.join(a.out, 'preview.png')
+        bpy.ops.render.render(write_still=True)
+    d = js['debug']
+    print(f"[pipeline] seed={seed} 地形 摆放={d['stats']['placed']} 中景树={d['stats']['mid_trees']} "
+          f"火={js['fire']['level']} 用时={d['timing_s']['total']}s")
+    print('[pipeline-json] ' + json.dumps({'seed': seed, 'stats': d['stats'], 'checks': d['checks'],
+                                           'timing_s': d['timing_s'], 'fire': js['fire']['level']}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

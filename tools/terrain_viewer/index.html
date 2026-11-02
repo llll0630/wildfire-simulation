@@ -1,0 +1,195 @@
+<!doctype html>
+<!-- 地形场景查看工具：检查 pipeline 输出的 scene.glb + scene.json（第一人称走动、贴地、高空视角）。
+     不是网站本身；网站那边可以参考这里的贴地写法 groundAt()，以及雾和远裁剪面的设置。
+     用法：把场景输出文件夹放在这个文件旁边（默认叫 scene/），在这个文件夹里运行
+       python -m http.server 8766
+     然后打开 http://localhost:8766/?scene=scene -->
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>地形场景查看</title>
+<style>
+  :root { --panel: rgba(16, 20, 26, .78); --text: #eef2f6; --muted: #aab4bf; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #8fa8c7; font: 14px/1.45 system-ui, "Microsoft YaHei", sans-serif; color: var(--text); }
+  canvas { display: block; touch-action: none; }
+  #panel { position: fixed; top: 12px; left: 12px; width: 268px; max-width: calc(100vw - 48px); padding: 12px 14px; background: var(--panel); border-radius: 10px; }
+  #panel label { display: block; margin-top: 10px; color: var(--muted); }
+  select, input[type=range] { width: 100%; margin-top: 4px; }
+  button { padding: 6px 10px; margin: 8px 6px 0 0; border: 0; border-radius: 6px; background: #3b4a5c; color: var(--text); font: inherit; cursor: pointer; }
+  button.on { background: #2f7bd6; }
+  #stats { margin-top: 10px; font-size: 12px; color: var(--muted); white-space: pre-line; }
+  #help { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  #walk { position: fixed; right: 18px; bottom: 22px; width: 76px; height: 76px; border-radius: 50%; display: none; margin: 0; background: var(--panel); }
+  @media (pointer: coarse) { #walk { display: block; } }
+  #msg { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; pointer-events: none; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+</head>
+<body>
+<div id="panel">
+  <strong>地形场景查看</strong>
+  <div id="where"></div>
+  <button id="fp" class="on">第一人称</button><button id="air">高空</button>
+  <div id="stats">加载中…</div>
+  <div id="help">拖动看四周；WASD 或方向键走动，Shift 加速。活动范围限制在 200 m 内。</div>
+</div>
+<button id="walk">前进</button>
+<div id="msg">加载中…</div>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const WALK_HALF = 100, EYE = 1.7;
+const HAZE = new THREE.Color().setRGB(0.56, 0.66, 0.78);
+const ZENITH = new THREE.Color().setRGB(0.20, 0.36, 0.62);
+
+const params = new URLSearchParams(location.search);
+// 场景文件夹（里面有 scene.glb 和 scene.json），相对这个网页所在的位置
+const dir = (params.get('scene') || 'scene').replace(/\/$/, '');
+const $ = id => document.getElementById(id);
+$('where').textContent = dir;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.AgXToneMapping;
+document.body.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(HAZE, 1 / 55000);
+const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.3, 400000);
+camera.rotation.order = 'YXZ';
+
+// 天空：地平线和雾同色，这样远山能自然融进去
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(300000, 32, 16), new THREE.ShaderMaterial({
+  side: THREE.BackSide, depthWrite: false, fog: false,
+  uniforms: { a: { value: HAZE }, b: { value: ZENITH } },
+  vertexShader: `varying vec3 p; void main(){ p = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `varying vec3 p; uniform vec3 a; uniform vec3 b;
+    void main(){ gl_FragColor = vec4(mix(a, b, smoothstep(0.0, 0.45, p.y)), 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
+})));
+scene.add(new THREE.HemisphereLight(0xcfdcf0, 0x5a5a48, 1.1));
+const sun = new THREE.DirectionalLight(0xffeed8, 2.6);
+sun.position.set(-0.5, 0.75, 0.45);
+scene.add(sun);
+
+let data, mode = 'fp', yaw = 0, pitch = 0, ready = false;
+const pos = new THREE.Vector3();
+const keys = new Set();
+let walkHeld = false;
+
+// 走动时贴着地面：从 scene.json 的高度网格插值（网页坐标 z = -Blender y）
+function groundAt(x, z) {
+  const h = data.height, n = h.n;
+  const u = Math.min(Math.max((x + h.half) / h.step, 0), n - 1.001);
+  const v = Math.min(Math.max((-z + h.half) / h.step, 0), n - 1.001);
+  const i = Math.floor(u), j = Math.floor(v), s = u - i, t = v - j;
+  const d = h.data;
+  return d[j * n + i] * (1 - s) * (1 - t) + d[j * n + i + 1] * s * (1 - t)
+       + d[(j + 1) * n + i] * (1 - s) * t + d[(j + 1) * n + i + 1] * s * t;
+}
+
+function aim(from, to) {
+  const d = new THREE.Vector3().subVectors(to, from);
+  yaw = Math.atan2(-d.x, -d.z);
+  pitch = Math.atan2(d.y, Math.hypot(d.x, d.z));
+}
+
+function setMode(m) {
+  mode = m;
+  $('fp').classList.toggle('on', m === 'fp');
+  $('air').classList.toggle('on', m === 'air');
+  const v = m === 'fp' ? data.spawn : data.aerial;
+  pos.fromArray(v.position);
+  aim(pos, new THREE.Vector3().fromArray(v.look_at));
+}
+$('fp').onclick = () => setMode('fp');
+$('air').onclick = () => setMode('air');
+
+// 拖动看四周
+let drag = null;
+renderer.domElement.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; });
+addEventListener('pointerup', () => { drag = null; });
+addEventListener('pointermove', e => {
+  if (!drag) return;
+  yaw -= (e.clientX - drag[0]) * 0.004;
+  pitch = THREE.MathUtils.clamp(pitch - (e.clientY - drag[1]) * 0.004, -1.4, 1.4);
+  drag = [e.clientX, e.clientY];
+});
+addEventListener('keydown', e => keys.add(e.code));
+addEventListener('keyup', e => keys.delete(e.code));
+$('walk').onpointerdown = () => { walkHeld = true; };
+$('walk').onpointerup = $('walk').onpointerleave = () => { walkHeld = false; };
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+let frames = 0, fps = 0, lastFps = performance.now(), loadSec = 0;
+const clock = new THREE.Clock();
+
+function move(dt) {
+  const f = (keys.has('KeyW') || keys.has('ArrowUp') || walkHeld ? 1 : 0) - (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0);
+  const r = (keys.has('KeyD') || keys.has('ArrowRight') ? 1 : 0) - (keys.has('KeyA') || keys.has('ArrowLeft') ? 1 : 0);
+  const speed = (keys.has('ShiftLeft') || keys.has('ShiftRight') ? 15 : 6) * dt;
+  pos.x += (-Math.sin(yaw) * f + Math.cos(yaw) * r) * speed;
+  pos.z += (-Math.cos(yaw) * f - Math.sin(yaw) * r) * speed;
+  if (mode === 'fp') {
+    pos.x = THREE.MathUtils.clamp(pos.x, -WALK_HALF, WALK_HALF);
+    pos.z = THREE.MathUtils.clamp(pos.z, -WALK_HALF, WALK_HALF);
+    pos.y = groundAt(pos.x, pos.z) + EYE;
+  }
+}
+
+function showStats() {
+  const i = renderer.info.render;
+  $('stats').textContent =
+    `帧率 ${fps} fps（这台电脑，不代表手机）\n` +
+    `三角形 ${(i.triangles / 1e6).toFixed(2)} M · 绘制 ${i.calls} 次\n` +
+    `GLB ${data.debug.stats.glb_mb ?? '-'} MB · 加载 ${loadSec.toFixed(1)} s`;
+}
+
+function frame() {
+  requestAnimationFrame(frame);
+  if (!ready) return;
+  move(Math.min(clock.getDelta(), 0.1));
+  camera.position.copy(pos);
+  camera.rotation.set(pitch, yaw, 0);
+  renderer.render(scene, camera);
+  frames++;
+  const now = performance.now();
+  if (now - lastFps > 500) { fps = Math.round(frames * 1000 / (now - lastFps)); frames = 0; lastFps = now; showStats(); }
+}
+
+async function start() {
+  const t0 = performance.now();
+  data = await (await fetch(`${dir}/scene.json`)).json();
+  const gltf = await new GLTFLoader().loadAsync(`${dir}/scene.glb`);
+  scene.add(gltf.scene);
+  loadSec = (performance.now() - t0) / 1000;
+  setMode('fp');
+  ready = true;
+  $('msg').style.display = 'none';
+  // 给自动测试用的入口
+  window.__t = {
+    ready: true, data, renderer, scene, camera, setMode, groundAt,
+    look(deg, pitchDeg = 0) { yaw = THREE.MathUtils.degToRad(deg); pitch = THREE.MathUtils.degToRad(pitchDeg); },
+    teleport(x, z) { pos.x = x; pos.z = z; pos.y = groundAt(x, z) + EYE; },
+    press(code, on) { on ? keys.add(code) : keys.delete(code); },
+    state: () => ({ pos: pos.toArray(), yaw, pitch, mode, fps, loadSec,
+                    tris: renderer.info.render.triangles, calls: renderer.info.render.calls }),
+  };
+}
+start().catch(e => { $('msg').textContent = '加载失败：' + e.message; console.error(e); });
+frame();
+</script>
+</body>
+</html>
