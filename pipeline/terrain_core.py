@@ -178,10 +178,15 @@ def mid_mesh(t):
     return axis, x, y, t.height(x, y), faces
 
 
-def add_skirt(x, y, z, faces, n, drop=SKIRT_DROP):
-    """近景网格四周加一圈往下垂的边，两张网格接缝处有高度差时也不会漏出缝"""
-    ring = ([i for i in range(n)] + [j * n + n - 1 for j in range(1, n)]
+def ring_indices(n):
+    """n x n 网格最外一圈顶点的序号（按顺序绕一圈）"""
+    return ([i for i in range(n)] + [j * n + n - 1 for j in range(1, n)]
             + [(n - 1) * n + i for i in range(n - 2, -1, -1)] + [j * n for j in range(n - 2, 0, -1)])
+
+
+def add_skirt(x, y, z, faces, n, drop=SKIRT_DROP):
+    """近景网格四周加一圈往下垂的边，中景比近景低一点时也不会漏出缝（中景比近景高的情况由 match_mid_edge 处理）"""
+    ring = ring_indices(n)
     base_i = len(x)
     x2 = np.concatenate([x, x[ring]]); y2 = np.concatenate([y, y[ring]]); z2 = np.concatenate([z, z[ring] - drop])
     m = len(ring)
@@ -189,10 +194,42 @@ def add_skirt(x, y, z, faces, n, drop=SKIRT_DROP):
     return x2, y2, z2, faces
 
 
+def _edge_point(x, y):
+    """每个点投到最近的近景边上：返回边上的点、沿边的坐标、是哪条边"""
+    h = NEAR_HALF
+    on_x = np.abs(x) >= np.abs(y)
+    ex = np.where(on_x, np.sign(x) * h, x); ey = np.where(on_x, y, np.sign(y) * h)
+    side = np.where(on_x, np.where(x >= 0, 0, 1), np.where(y >= 0, 2, 3))
+    return ex, ey, np.where(on_x, ey, ex), side
+
+
+def mid_edge_height(t, x, y, axis=None):
+    """中景网格在近景边线上的高度：中景沿边线只有每个 axis 点的高度，中间是直线"""
+    axis = mid_axis() if axis is None else axis
+    h = NEAR_HALF
+    ex, ey, along, side = _edge_point(np.asarray(x, dtype=float), np.asarray(y, dtype=float))
+    out = np.empty_like(along)
+    for k, (vx, vy) in enumerate(((np.full_like(axis, h), axis), (np.full_like(axis, -h), axis),
+                                  (axis, np.full_like(axis, h)), (axis, np.full_like(axis, -h)))):
+        m = side == k
+        out[m] = np.interp(along[m], axis, t.height(vx, vy))
+    return out
+
+
+def match_mid_edge(t, x, y, z, blend=10.0):
+    """近景边缘的高度改成和中景在交界线上完全一样，往里 10 m 内逐渐过渡回原高度。
+    近景边缘每 2.5 m 一个点、中景 10 m 一个点，有的地方中景会高出近景零点几米，
+    往下垂的挡边盖不住这种缝，远处会透过缝看到一条黑线"""
+    ex, ey, _, _ = _edge_point(x, y)
+    delta = mid_edge_height(t, x, y) - t.height(ex, ey)
+    w = 1 - smoothstep(0, blend, NEAR_HALF - np.maximum(np.abs(x), np.abs(y)))
+    return z + delta * w
+
+
 def near_mesh(t):
     ax = near_axis()
     x, y, faces = grid_mesh(ax, ax)
-    z = t.height(x, y)
+    z = match_mid_edge(t, x, y, t.height(x, y))
     return ax, x, y, z, faces
 
 
@@ -431,7 +468,7 @@ def plan(t, inputs, seed, veg_m, house_m):
 
 # ---------------- 自动检查（结果写进 scene.json 的 debug.checks） ----------------
 def seam_gap(t, axis):
-    """近景边缘和中景网格（线性插值）之间的高度差"""
+    """地形数据在近景边缘和中景网格（线性插值）之间的高度差；网格上已由 match_mid_edge 对齐，实际的缝见 near_mid_crack_m"""
     e = near_axis()
     worst = 0.0
     for ex, ey in ((np.full_like(e, NEAR_HALF), e), (np.full_like(e, -NEAR_HALF), e),
@@ -474,6 +511,10 @@ def run_checks(t, layout, fire, spawn_xy, near_z, mid_z, axis, mid_tree_xy):
     }
     ax = near_axis()
     n = len(ax); zz = near_z.reshape(n, n)
+    xx, yy = np.meshgrid(ax, ax)
+    ring = ring_indices(n)
+    edge = mid_edge_height(t, xx.ravel()[ring], yy.ravel()[ring], axis)
+    checks['near_mid_crack_m'] = round(float(np.abs(near_z[ring] - edge).max()), 3)     # 两张网格实际的缝，应为 0
     walk = np.ix_(np.abs(ax) <= 100, np.abs(ax) <= 100)
     gy, gx = np.gradient(zz, NEAR_STEP)
     sl = np.degrees(np.arctan(np.hypot(gx, gy)))[walk]
@@ -491,5 +532,5 @@ def run_checks(t, layout, fire, spawn_xy, near_z, mid_z, axis, mid_tree_xy):
 
 CHECK_LIMITS = {          # 超过就算没通过（tests/terrain_regression.py 用）
     'houses_in_water': 0, 'houses_overlapping_pairs': 0, 'trees_in_water': 0, 'grass_in_water': 0,
-    'mid_trees_in_water': 0, 'near_mid_seam_max_m': 0.6, 'spawn_slope_deg': 15,
+    'mid_trees_in_water': 0, 'near_mid_seam_max_m': 0.6, 'near_mid_crack_m': 0.01, 'spawn_slope_deg': 15,
 }

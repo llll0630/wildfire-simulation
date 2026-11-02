@@ -122,6 +122,14 @@ def set_uv(me, half):
     uv.uv.foreach_set('vector', data.ravel())
 
 
+def set_ground_normals(me, z, n):
+    """法线按地面坡度算，挡边也用它上沿那个点的法线；否则挡边是竖着的面，露出来时是一条暗线"""
+    gy, gx = np.gradient(z.reshape(n, n), tc.NEAR_STEP)
+    nrm = np.stack([-gx, -gy, np.ones_like(gx)], axis=-1).reshape(-1, 3)
+    nrm /= np.linalg.norm(nrm, axis=1, keepdims=True)
+    me.normals_split_custom_set_from_vertices(np.concatenate([nrm, nrm[tc.ring_indices(n)]]).tolist())
+
+
 # ---------------- 实例 ----------------
 def scatter(coll, name, src, items):
     """和 pipeline.scatter 一样（同款素材合成一组 GPU 实例），只是每个点带上地形高度"""
@@ -199,6 +207,7 @@ def build(base, t, p, seed, export=False, timing=None):
     x2, y2, z2, f2 = tc.add_skirt(x, y, near_z, faces, len(ax))
     near = make_mesh_object('terrain_near', x2, y2, z2, f2, c_ter)
     set_uv(near.data, tc.NEAR_HALF)
+    set_ground_normals(near.data, near_z, len(ax))
     stats['near_vertices'] = len(x)
     if timing is not None:
         timing['terrain_meshes'] = round(clock() - t0, 2); t0 = clock()
