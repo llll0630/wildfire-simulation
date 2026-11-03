@@ -171,8 +171,9 @@ function frame() {
 
 async function start() {
   const t0 = performance.now();
-  data = await (await fetch(`${dir}/scene.json`)).json();
-  const gltf = await new GLTFLoader().loadAsync(`${dir}/scene.glb`);
+  // 场景经常重新生成，不用浏览器缓存，否则会看到旧版本
+  data = await (await fetch(`${dir}/scene.json`, { cache: 'no-store' })).json();
+  const gltf = await new GLTFLoader().loadAsync(`${dir}/scene.glb?t=${Date.now()}`);
   scene.add(gltf.scene);
   loadSec = (performance.now() - t0) / 1000;
   setMode('fp');

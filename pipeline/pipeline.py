@@ -12,6 +12,8 @@
 #                    （需要先运行过 asset_builders/build_export_assets.py）
 #    --terrain 地形.npz  用真实地形（terrain_data.py 生成）；不加就是原来的平地场景
 #                    地形相关代码在 terrain_core.py（摆放、高度）和 terrain_blender.py（搭场景）
+#    --buildings 建筑.npz  真实建筑和道路（buildings_data.py 生成，要和 --terrain 一起用）；
+#                    加了就不再随机放房子（这个地方没有数据时也不放）。代码在 buildings_blender.py
 #
 #  输出（在输出文件夹里）：
 #    scene.blend     生成的 Blender 场景
@@ -213,8 +215,9 @@ def frame_viewport():
                 bpy.ops.view3d.view_all()
 
 
-def generate_terrain(inputs, terrain_path, seed=None, export=False):
-    """地形场景：做决定（规则不变）→ 按地形摆放 → 搭场景。返回 (seed, scene_json)"""
+def generate_terrain(inputs, terrain_path, seed=None, export=False, buildings_path=None):
+    """地形场景：做决定（规则不变）→ 按地形摆放 → 搭场景。返回 (seed, scene_json)
+    buildings_path = buildings_data.py 生成的 .npz（可选）"""
     import random, time
     import terrain_core as tc, terrain_blender as tb
     if seed is None:
@@ -222,7 +225,11 @@ def generate_terrain(inputs, terrain_path, seed=None, export=False):
     t0 = time.perf_counter(); timing = {}
     t = tc.Terrain(terrain_path)
     veg, houses = rules.load_manifests()
-    p = tc.plan(t, inputs, seed, veg, houses)
+    bld = None
+    if buildings_path:
+        import buildings_data
+        bld = buildings_data.load(buildings_path)
+    p = tc.plan(t, inputs, seed, veg, houses, bld)
     timing['plan'] = round(time.perf_counter() - t0, 2)
     built = tb.build(sys.modules[__name__], t, p, seed, export=export, timing=timing)
     js = tb.scene_json(t, p, seed, built, inputs)
@@ -230,10 +237,10 @@ def generate_terrain(inputs, terrain_path, seed=None, export=False):
     return seed, js
 
 
-def generate(inputs, seed=None, terrain=None):
-    """在当前打开的 Blender 里直接生成场景（粘贴进 Scripting 运行时用）。terrain = 地形 .npz 路径（可选）"""
+def generate(inputs, seed=None, terrain=None, buildings=None):
+    """在当前打开的 Blender 里直接生成场景（粘贴进 Scripting 运行时用）。terrain = 地形 .npz 路径、buildings = 建筑 .npz 路径（都可选）"""
     if terrain:
-        seed, js = generate_terrain(inputs, terrain, seed)
+        seed, js = generate_terrain(inputs, terrain, seed, buildings_path=buildings)
         setup_preview(js)
         frame_viewport()
         print(f"[pipeline] seed={seed} 地形={terrain} 摆放={js['debug']['stats']['placed']} 火={js['fire']['level']}")
@@ -258,11 +265,14 @@ def main():
     ap.add_argument('--ground-only', action='store_true', help='只生成地面（看场景大小用）')
     ap.add_argument('--glb', action='store_true', help='用导出用素材搭场景，并导出 scene.glb')
     ap.add_argument('--terrain', default=None, help='地形文件 .npz（terrain_data.py 生成）；不加就是平地')
+    ap.add_argument('--buildings', default=None, help='真实建筑和道路 .npz（buildings_data.py 生成），要和 --terrain 一起用')
     a = ap.parse_args(argv)
     a.out = os.path.abspath(a.out)          # 渲染输出要用绝对路径，否则会存到别的地方
 
     with open(a.input, encoding='utf-8') as f:
         inputs = json.load(f)
+    if a.buildings and not a.terrain:
+        ap.error('--buildings 要和 --terrain 一起用')
     if a.terrain:
         main_terrain(a, inputs)
         return
@@ -292,7 +302,7 @@ def main_terrain(a, inputs):
     if a.ground_only:
         print('[pipeline] --ground-only 只用于平地场景，地形场景忽略')
     t0 = time.perf_counter()
-    seed, js = generate_terrain(inputs, a.terrain, a.seed, export=a.glb)
+    seed, js = generate_terrain(inputs, a.terrain, a.seed, export=a.glb, buildings_path=a.buildings)
     os.makedirs(a.out, exist_ok=True)
     if a.glb:
         t1 = time.perf_counter()

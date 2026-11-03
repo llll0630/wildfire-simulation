@@ -24,6 +24,7 @@ MID_FINE = 10.0              # 300 m 以内中景加密到这个间距，陡坡�
 MID_GROWTH = 1.08            # 往外每一格比上一格大多少
 FAR_HALF = 90000.0           # 远景到多远
 MAX_HOUSE_SLOPE = 14.0       # 房子只放在坡度小于这个值的地方（度）
+BUILDING_CLASS = 5           # buildings_data.py 占地图里“建筑”的编号
 ASSET_TREE_HALF = 150.0      # 这个范围内的树都用真实素材（活动范围外，但离得近看得清）
 GRASS_RING_HALF = 170.0      # 草丛延伸到这里并逐渐变稀
 NEAR_TREE_TRIES = 15000      # 600 m 内简化树的尝试次数（再按森林占比筛）
@@ -345,8 +346,9 @@ def extend_near(t, layout, veg_m, rng, blocked):
                                     'rot': rng.uniform(0, 6.28), 's': rng.uniform(1.0, 1.8)})
 
 
-def place_fire(t, decision, layout, rng):
-    """火的中心：优先“能烧的地表、不在水里、离房子够远”，都找不到时退而求其次，尽量不放进水里"""
+def place_fire(t, decision, layout, rng, avoid=None):
+    """火的中心：优先“能烧的地表、不在水里、离房子够远”，都找不到时退而求其次，尽量不放进水里。
+    avoid(x, y)：退而求其次时也不放的地方（真实建筑里）"""
     if not layout.get('fire'):
         return None
     half = rules.SCENE_SIZE / 2
@@ -361,7 +363,8 @@ def place_fire(t, decision, layout, rng):
     burnable = c[F] + c[S] + c[G] + 0.5 * c[A]
     ok_house = np.array([clear(a, b) for a, b in zip(x.tolist(), y.tolist())])
     center = None
-    for mask in ((c[W] < 0.1) & (burnable > 0.5) & ok_house, (c[W] < 0.1) & ok_house, c[W] < 0.1):
+    not_avoided = ~avoid(x, y) if avoid is not None else np.ones(len(x), dtype=bool)
+    for mask in ((c[W] < 0.1) & (burnable > 0.5) & ok_house, (c[W] < 0.1) & ok_house, (c[W] < 0.1) & not_avoided, c[W] < 0.1):
         if mask.any():
             k = int(np.argmax(mask))
             center = (float(x[k]), float(y[k])); break
@@ -413,12 +416,14 @@ def best_direction(t):
     return math.radians(best['deg']), best['skyline_deg'], best, rows
 
 
-def pick_spawn(t, dx, dy):
-    """出生点：在活动范围内找一块缓坡、树少、不在水里、朝选定方向看得开的地方"""
+def pick_spawn(t, dx, dy, avoid=None):
+    """出生点：在活动范围内找一块缓坡、树少、不在水里、朝选定方向看得开的地方。avoid(x, y) 为真的点不选（如建筑里）"""
     best, best_score = (0.0, 0.0), -1e9
     for gx in range(-90, 91, 10):
         for gy in range(-90, 91, 10):
             x, y = np.array([float(gx)]), np.array([float(gy)])
+            if avoid is not None and avoid(float(gx), float(gy)):
+                continue
             sl = float(t.slope(x, y)[0])
             c = t.cover(x, y)[:, 0]
             ds = np.array([40.0, 80.0, 150.0, 300.0, 600.0])
@@ -430,18 +435,49 @@ def pick_spawn(t, dx, dy):
     return best
 
 
-def plan(t, inputs, seed, veg_m, house_m):
-    """完整的“做决定”：5 个输入 → 决定 → 按地形摆放 → 出生点、火。返回给 Blender 端搭场景用的东西"""
+def building_circles(bld, half):
+    """真实建筑当成等面积的圆（火离房子的距离用），只取 ±half 以内的"""
+    out = []
+    for b in bld.buildings:
+        p = np.array(b['poly'], dtype=float)
+        cx, cy = p.mean(axis=0)
+        if abs(cx) < half and abs(cy) < half:
+            area = 0.5 * abs(np.dot(p[:, 0], np.roll(p[:, 1], 1)) - np.dot(p[:, 1], np.roll(p[:, 0], 1)))
+            out.append({'x': float(cx), 'y': float(cy), 'r': math.sqrt(area / math.pi)})
+    return out
+
+
+def footprint_distance(bld, x, y):
+    """点到最近的真实建筑轮廓的距离（米）；在建筑里面时为 0"""
+    a = np.concatenate([np.array(b['poly'], dtype=float) for b in bld.buildings]) if bld.buildings else None
+    if a is None:
+        return 999.0
+    b_ = np.concatenate([np.roll(np.array(b['poly'], dtype=float), -1, axis=0) for b in bld.buildings])
+    ab = b_ - a
+    tt = np.clip(((x - a[:, 0]) * ab[:, 0] + (y - a[:, 1]) * ab[:, 1]) / np.maximum((ab ** 2).sum(axis=1), 1e-9), 0, 1)
+    d = float(np.hypot(a[:, 0] + tt * ab[:, 0] - x, a[:, 1] + tt * ab[:, 1] - y).min())
+    return 0.0 if int(bld.classes(np.array([x]), np.array([y]))[0]) == BUILDING_CLASS else d
+
+
+def plan(t, inputs, seed, veg_m, house_m, bld=None):
+    """完整的“做决定”：5 个输入 → 决定 → 按地形摆放 → 出生点、火。返回给 Blender 端搭场景用的东西
+    bld = buildings_data.load(...) 的结果（可选）：有它时不再随机放房子（没有数据也不放），树草让开真实建筑和道路"""
     import random
     rng = random.Random(seed)
     tree_h = {m['name']: m['height_m'] for m in veg_m if m['kind'] == 'tree'}
     decision = rules.decide(inputs, rng)
     layout = rules.place(decision, rng, veg_m, house_m)
+    if bld is not None:
+        layout['houses'] = []                    # 房子全部换成真实建筑，地形不压平
     placement = relocate(t, layout, rng)
 
     ang, hz, best_view, view_rows = best_direction(t)
     dx, dy = math.cos(ang), math.sin(ang)
-    sx, sy = pick_spawn(t, dx, dy)
+    avoid = None
+    if bld is not None:
+        ring = np.array([(0, 0), (4, 0), (-4, 0), (0, 4), (0, -4)], dtype=float)     # 出生点 4 m 内不能有建筑
+        avoid = lambda x, y: bool((bld.classes(x + ring[:, 0], y + ring[:, 1]) == BUILDING_CLASS).any())
+    sx, sy = pick_spawn(t, dx, dy, avoid)
 
     def in_view(x, y, near_half, far_half, length):
         """出生点视线前方的扇形，里面少放树，免得一进场景就被挡住"""
@@ -453,9 +489,22 @@ def plan(t, inputs, seed, veg_m, house_m):
     layout['trees'] = [i for i in layout['trees'] if not in_view(i['x'], i['y'], 7, 45, 130)]
     layout['shrubs'] = [i for i in layout['shrubs'] if not in_view(i['x'], i['y'], 3, 10, 40)]
     extend_near(t, layout, veg_m, rng, lambda x, y: in_view(x, y, 7, 45, 400))
+    if bld is not None:
+        placement['buildings_removed'] = {}
+        for k in ('trees', 'shrubs', 'grass'):
+            before = len(layout[k])
+            if layout[k]:
+                keep = ~bld.blocked(np.array([i['x'] for i in layout[k]]), np.array([i['y'] for i in layout[k]]))
+                layout[k] = [i for i, ok in zip(layout[k], keep.tolist()) if ok]
+            placement['buildings_removed'][k] = before - len(layout[k])
     for tr in layout['trees']:
         tr.setdefault('h', tree_h[tr['name']] * tr.get('s', 1.0))
-    layout['fire'] = place_fire(t, decision, layout, rng)
+    if bld is not None:
+        layout['houses'] = building_circles(bld, ASSET_TREE_HALF)   # 只给选火的位置用
+        layout['fire'] = place_fire(t, decision, layout, rng, lambda x, y: bld.classes(x, y) == BUILDING_CLASS)
+        layout['houses'] = []
+    else:
+        layout['fire'] = place_fire(t, decision, layout, rng)
     for key in ('houses', 'trees', 'shrubs', 'grass'):
         if layout[key]:
             zs = t.height(np.array([i['x'] for i in layout[key]]), np.array([i['y'] for i in layout[key]]))
@@ -463,7 +512,7 @@ def plan(t, inputs, seed, veg_m, house_m):
                 it['z'] = zv
     return {'rng': rng, 'decision': decision, 'layout': layout, 'placement': placement,
             'dir': (dx, dy), 'skyline_deg': hz, 'best_view': best_view, 'view_rows': view_rows,
-            'spawn': (sx, sy), 'in_view': in_view}
+            'spawn': (sx, sy), 'in_view': in_view, 'buildings': bld}
 
 
 # ---------------- 自动检查（结果写进 scene.json 的 debug.checks） ----------------
@@ -483,7 +532,7 @@ def seam_gap(t, axis):
     return round(worst, 2)
 
 
-def run_checks(t, layout, fire, spawn_xy, near_z, mid_z, axis, mid_tree_xy):
+def run_checks(t, layout, fire, spawn_xy, near_z, mid_z, axis, mid_tree_xy, bld=None):
     def cov(items):
         if not items:
             return np.zeros((8, 0))
@@ -527,10 +576,24 @@ def run_checks(t, layout, fire, spawn_xy, near_z, mid_z, axis, mid_tree_xy):
         checks['fire_water_fraction'] = round(float(fc[W]), 2)
         checks['fire_burnable_fraction'] = round(float(fc[F] + fc[S] + fc[G] + 0.5 * fc[A]), 2)
         checks['fire_min_house_gap_m'] = round(min([math.hypot(cx - h['x'], cy - h['y']) - h['r'] for h in hs] or [999]), 1)
+    if bld is not None:
+        def on_blocked(items):
+            return int(bld.blocked(np.array([i['x'] for i in items]), np.array([i['y'] for i in items])).sum()) if items else 0
+        checks['buildings_status'] = bld.status
+        checks['plants_on_buildings_or_roads'] = sum(on_blocked(layout[k]) for k in ('trees', 'shrubs', 'grass'))
+        checks['mid_trees_on_buildings_or_roads'] = int(bld.blocked(fx, fy).sum()) if len(fx) else 0
+        ring = np.array([(0, 0), (4, 0), (-4, 0), (0, 4), (0, -4)], dtype=float)
+        checks['spawn_in_building'] = bool((bld.classes(sx + ring[:, 0], sy + ring[:, 1]) == BUILDING_CLASS).any())
+        if fire:
+            cx, cy = fire['center']
+            checks['fire_min_building_gap_m'] = round(footprint_distance(bld, cx, cy), 1)
+            checks['fire_in_building'] = checks['fire_min_building_gap_m'] == 0
     return checks
 
 
 CHECK_LIMITS = {          # 超过就算没通过（tests/terrain_regression.py 用）
     'houses_in_water': 0, 'houses_overlapping_pairs': 0, 'trees_in_water': 0, 'grass_in_water': 0,
     'mid_trees_in_water': 0, 'near_mid_seam_max_m': 0.6, 'near_mid_crack_m': 0.01, 'spawn_slope_deg': 15,
+    'plants_on_buildings_or_roads': 0, 'mid_trees_on_buildings_or_roads': 0, 'spawn_in_building': False,
+    'fire_in_building': False,
 }

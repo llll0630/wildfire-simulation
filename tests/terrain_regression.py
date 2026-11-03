@@ -4,6 +4,8 @@
 #  需要先运行 pipeline/setup_terrain_data.py；不需要原始栅格（示例地点用数据包里的数据，
 #  海边/国境用全国 3 km 粗数据，所以这 6 个地点的近景很粗，出生点和房子的检查只作参考）
 #  检查项和上限见 pipeline/terrain_core.py 的 CHECK_LIMITS；结果在 tests/output/regression.jsonl
+#  加 --buildings：每个地点再取一次真实建筑和道路（buildings_data.py，要联网），结果在 regression_buildings.jsonl
+#    升级 Overture 版本时用：python tests/terrain_regression.py --blender ... --buildings --glb --release 新版本
 # ===============================================================
 import argparse, json, os, subprocess, sys
 
@@ -25,6 +27,8 @@ def main():
     ap.add_argument('--blender', required=True)
     ap.add_argument('--seed', type=int, default=1)
     ap.add_argument('--glb', action='store_true', help='同时导出 GLB（慢，用来测时间和文件大小）')
+    ap.add_argument('--buildings', action='store_true', help='加上真实建筑和道路（要联网）')
+    ap.add_argument('--release', default=None, help='和 --buildings 一起用：Overture 版本（默认用代码里固定的版本）；不用缓存')
     a = ap.parse_args()
     from terrain_core import CHECK_LIMITS
     os.makedirs(OUT, exist_ok=True)
@@ -42,6 +46,20 @@ def main():
                '--input', inputs, '--terrain', npz, '--seed', str(a.seed), '--out', os.path.join(OUT, site)]
         if a.glb:
             cmd.append('--glb')
+        b_line = None
+        if a.buildings:
+            bnpz = os.path.join(OUT, f'{site}.buildings.npz')
+            bcmd = [sys.executable, os.path.join(PIPE, 'buildings_data.py'), '--terrain', npz, '--out', bnpz]
+            if a.release:
+                bcmd += ['--release', a.release, '--no-cache']
+            br = subprocess.run(bcmd, capture_output=True, text=True, encoding='utf-8', errors='replace', env=env)
+            b_line = next((l for l in br.stdout.splitlines() if l.startswith('[buildings] {')), None)
+            if br.returncode != 0 or b_line is None:
+                failed += 1
+                print(f'{site:28} 取建筑失败\n' + '\n'.join((br.stdout + br.stderr).splitlines()[-8:]))
+                continue
+            b_line = json.loads(b_line[len('[buildings] '):])
+            cmd += ['--buildings', bnpz]
         r = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace', env=env)
         line = next((l for l in r.stdout.splitlines() if l.startswith('[pipeline-json] ')), None)
         if line is None:
@@ -54,10 +72,17 @@ def main():
         coarse_note = '（粗数据）' if site in COARSE else ''
         if bad and site in EXAMPLES:
             failed += 1
+        if b_line:
+            d['buildings_data'] = b_line
         results.append({'site': site, **d})
-        print(f"{site:28} 摆放 {d['stats']['placed']} 中景树 {d['stats']['mid_trees']:5} 用时 {d['timing_s']['total']:5.1f}s "
+        extra = ''
+        if b_line:
+            extra = (f" 建筑 {b_line['buildings']} 栋（{b_line['status']}）道路 {b_line['road_km']} km"
+                     + (f" GLB {d['stats']['glb_mb']} MB" if 'glb_mb' in d['stats'] else ''))
+        print(f"{site:28} 摆放 {d['stats']['placed']} 中景树 {d['stats']['mid_trees']:5} 用时 {d['timing_s']['total']:5.1f}s{extra} "
               f"{'通过' if not bad else '未通过' + coarse_note + ': ' + '; '.join(bad)}")
-    with open(os.path.join(OUT, 'regression.jsonl'), 'w', encoding='utf-8') as f:
+    name = 'regression_buildings.jsonl' if a.buildings else 'regression.jsonl'
+    with open(os.path.join(OUT, name), 'w', encoding='utf-8') as f:
         for r_ in results:
             f.write(json.dumps(r_, ensure_ascii=False) + '\n')
     print(f'\n{len(results)} 个地点完成，{failed} 个示例地点未通过')

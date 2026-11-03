@@ -124,6 +124,7 @@ def save_terrain(out, local_elev, local_cover, ox, oy, cs, cx, cy):
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     np.savez_compressed(out, local_elev=local_elev, local_cover=local_cover,
                         local_ox=ox - cx, local_oy=oy - cy, local_cs=cs,
+                        origin_x=cx, origin_y=cy,                            # 场景中心（EPSG:5070），buildings_data.py 用
                         local_missing=int(missing.sum()), local_no_cover=int(no_cover.sum()),
                         **{k: v for k, v in far.items() if k not in ('far_filled', 'far_outside_cells')})
     return {'local_grid': f'{n}x{n}', 'local_cell_m': cs, 'local_missing_height': int(missing.sum()),

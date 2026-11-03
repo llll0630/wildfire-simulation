@@ -74,8 +74,9 @@ def flat_material(name, rgb):
     return m
 
 
-def bake_near(t, paths, tiles, avg):
-    """近景地面：按地表占比混合 6 张贴图，烘焙成一张图（数值都是贴图原本的 sRGB）"""
+def bake_near(t, paths, tiles, avg, bld=None):
+    """近景地面：按地表占比混合 6 张贴图，烘焙成一张图（数值都是贴图原本的 sRGB）
+    有真实建筑数据（bld）时，路、小路、铺装、建筑底下按真实位置换颜色"""
     n = BAKE_SIZE; half = tc.NEAR_HALF
     ax = (np.arange(n) + 0.5) / n * 2 * half - half
     x, y = np.meshgrid(ax, ax)
@@ -97,6 +98,9 @@ def bake_near(t, paths, tiles, avg):
     for key, weight in groups:
         if weight.max() > 0.001:
             rgb += tiled(key) * weight[..., None]
+    if bld is not None:
+        import buildings_blender as bb
+        rgb = bb.overlay_ground(bld, x, y, rgb, {k: tiled(k) for k in ('mat_urban', 'mat_bare')})
     fade = tc.smoothstep(85, half - 3, np.maximum(np.abs(x), np.abs(y)))[..., None]      # 边缘淡出到中景颜色
     far = np.power(np.clip(tc.cover_colors(t, x, y, avg), 0, 1), 1 / 2.2)
     rgb = rgb * (1 - fade) + far * fade
@@ -211,9 +215,17 @@ def build(base, t, p, seed, export=False, timing=None):
     stats['near_vertices'] = len(x)
     if timing is not None:
         timing['terrain_meshes'] = round(clock() - t0, 2); t0 = clock()
-    near.data.materials.append(bake_near(t, paths, tiles, avg))
+    near.data.materials.append(bake_near(t, paths, tiles, avg, p.get('buildings')))
     if timing is not None:
         timing['bake_ground_texture'] = round(clock() - t0, 2); t0 = clock()
+
+    bld, buildings_info = p.get('buildings'), None
+    if bld is not None:
+        import buildings_blender as bb
+        surf = bb.Surface(ax, near_z, axis, mid_z)
+        buildings_info, stats['buildings'] = bb.build(bld, surf, base.make_coll('Buildings'))
+        if timing is not None:
+            timing['buildings'] = round(clock() - t0, 2); t0 = clock()
 
     suffix = '_export' if export else ''
     tris = {'terrain': mesh_tris(mid.data) + mesh_tris(near.data)}
@@ -252,7 +264,8 @@ def build(base, t, p, seed, export=False, timing=None):
     # 中景简化树：两款模型各一组实例
     rng, in_view = p['rng'], p['in_view']
     fx, fy, fz, fk = tc.far_tree_points(t, np.random.default_rng(seed),
-                                        lambda x, y: in_view(x, y, 7, 45, 400) & (np.sin(x * 0.09 + np.sin(y * 0.07) * 3) > -0.5))
+                                        lambda x, y: (in_view(x, y, 7, 45, 400) & (np.sin(x * 0.09 + np.sin(y * 0.07) * 3) > -0.5))
+                                        | (bld.blocked(x, y) if bld is not None else False))
     pine = simple_tree('mid_pine', [(0.15, 0.27), (1.0, 0.0)], (0.030, 0.078, 0.034))
     oak = simple_tree('mid_oak', [(0.32, 0.24), (0.62, 0.44), (0.9, 0.24), (1.0, 0.0)], (0.060, 0.135, 0.035))
     c_mid = base.make_coll('MidTrees')
@@ -267,12 +280,14 @@ def build(base, t, p, seed, export=False, timing=None):
         scatter(c_mid, 'mid_oak', oak, groups[1])
     tris['mid_trees'] = mesh_tris(pine.data) * len(groups[0]) + mesh_tris(oak.data) * len(groups[1])
     stats['mid_trees'] = len(fx)
+    if bld is not None:
+        tris['buildings_roads'] = sum(stats['buildings']['triangles'].values())
     stats['triangles'] = {**tris, 'total': sum(tris.values())}
     if timing is not None:
         timing['place_assets'] = round(clock() - t0, 2)
 
-    checks = tc.run_checks(t, layout, layout['fire'], p['spawn'], near_z, mid_z, axis, (fx, fy))
-    return {'stats': stats, 'checks': checks, 'height': {
+    checks = tc.run_checks(t, layout, layout['fire'], p['spawn'], near_z, mid_z, axis, (fx, fy), bld)
+    return {'stats': stats, 'checks': checks, 'buildings': buildings_info, 'height': {
         'half': tc.NEAR_HALF, 'step': tc.NEAR_STEP, 'n': len(ax), 'data': [round(float(v), 2) for v in near_z.tolist()]}}
 
 
@@ -293,6 +308,26 @@ def scene_json(t, p, seed, built, inputs):
                                              eye + 100 * math.tan(math.radians(max(p['skyline_deg'], 0) * 0.5 + 2)))}
     js['height'] = built['height']
     js['aerial'] = {'position': rules.to_three(-dx * 240, -dy * 240, 60), 'look_at': rules.to_three(dx * 300, dy * 300, 40)}
+    bld = p.get('buildings')
+    if bld is not None:
+        # 真实建筑清单：网站可以用来点选、搜索、飞到某栋楼。center 是屋顶中心（three.js 坐标）
+        js['buildings'] = {'status': bld.status, 'source': bld.meta.get('source'), 'release': bld.meta.get('release'),
+                           'half': bld.meta.get('half'),
+                           'items': [{'id': b['id'], 'type': b['type'], 'name': b['name'], 'height': b['height'],
+                                      'height_source': b['height_source'], 'data_source': b['data_source'],
+                                      'center': rules.to_three(b['center'][0], b['center'][1], b['roof'])}
+                                     for b in built['buildings'] or []]}
+        if built['buildings']:
+            # 高空视角：相机在场景中心的另一侧高处，朝建筑最多的方向看，场景中心在前景、街区在中间
+            c = np.array([b['center'] for b in built['buildings']]).mean(axis=0)
+            if np.hypot(*c) > 100:
+                ux, uy = c / np.hypot(*c); tx, ty = c
+            else:                                     # 建筑都在中心附近：按原来的方向看
+                ux, uy = dx, dy; tx, ty = 0.0, 0.0
+            px, py = -ux * 450, -uy * 450
+            pz = float(t.height(np.array([px]), np.array([py]))[0]) + 350      # 按脚下地形抬高，不会放进山里
+            js['aerial'] = {'position': rules.to_three(px, py, pz),
+                            'look_at': rules.to_three(tx, ty, float(t.height(np.array([tx]), np.array([ty]))[0]))}
     js['debug'].update({'inputs': inputs, 'placement': p['placement'], 'stats': built['stats'],
                         'checks': built['checks'], 'view': {'best': p['best_view'], 'table': p['view_rows']}})
     return js
