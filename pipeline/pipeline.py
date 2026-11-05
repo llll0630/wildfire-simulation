@@ -14,6 +14,8 @@
 #                    地形相关代码在 terrain_core.py（摆放、高度）和 terrain_blender.py（搭场景）
 #    --buildings 建筑.npz  真实建筑和道路（buildings_data.py 生成，要和 --terrain 一起用）；
 #                    加了就不再随机放房子（这个地方没有数据时也不放）。代码在 buildings_blender.py
+#    --quality low|medium|high  画质档位（默认 low = 原来的素材，输出不变）；每档用哪套素材见 quality.py。
+#                    medium / high 要和 --glb 一起用（新素材只有导出版），需要先运行 asset_builders/build_hq_vegetation.py
 #
 #  输出（在输出文件夹里）：
 #    scene.blend     生成的 Blender 场景
@@ -27,6 +29,7 @@ from mathutils import Vector
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import pipeline_rules as rules
+import quality as qa
 
 ASSET_DIR = rules.ASSET_DIR
 GROUND_MAT = {'water': 'mat_water', 'bare': 'mat_bare', 'urban': 'mat_urban', 'farmland': 'mat_farmland',
@@ -99,8 +102,8 @@ def scatter(coll, name, src, items):
     ob.modifiers.new('scatter', 'NODES').node_group = ng
 
 
-def build(decision, layout, ground_only=False, export=False):
-    """export=True 时用导出用素材（颜色已烘焙成顶点颜色/贴图），用于导出 GLB"""
+def build(decision, layout, ground_only=False, export=False, quality=qa.DEFAULT):
+    """export=True 时用导出用素材（颜色已烘焙成顶点颜色/贴图），用于导出 GLB；quality = 画质档位（quality.py）"""
     clear_scene()
     size = rules.SCENE_SIZE
     suffix = '_export' if export else ''
@@ -130,15 +133,21 @@ def build(decision, layout, ground_only=False, export=False):
 
     # 素材：只追加这次用到的
     veg = {}
-    for k in ('trees', 'shrubs', 'grass'):          # 每类素材在自己的文件夹里：assets/trees/trees.blend 等
-        veg.update(append_collections(os.path.join(k, f'{k}{suffix}.blend'), {i['name'] for i in layout[k]}))
+    if quality == qa.DEFAULT:
+        for k in ('trees', 'shrubs', 'grass'):      # 每类素材在自己的文件夹里：assets/trees/trees.blend 等
+            veg.update(append_collections(os.path.join(k, f'{k}{suffix}.blend'), {i['name'] for i in layout[k]}))
     houses = append_collections(os.path.join('houses', f'houses{suffix}.blend'), {h['name'] for h in layout['houses']})
 
     c_houses, c_trees = make_coll('Houses'), make_coll('Trees')
     c_shrubs, c_grass = make_coll('Shrubs'), make_coll('Grass')
     for h in layout['houses']:
         instance(c_houses, h['name'], houses[h['name']], h['x'], h['y'], h['rot'])
-    if export:                                      # 导出模式：同款素材合并成一个实例组
+    if quality != qa.DEFAULT:                       # 中档、高档：quality.py 里每档对应的素材（只有导出版）
+        groups = qa.vegetation_groups(quality, layout)
+        for key, coll in (('trees', c_trees), ('shrubs', c_shrubs), ('grass', c_grass)):
+            for name, src, items in groups[key]:
+                scatter(coll, name, src, items)
+    elif export:                                    # 导出模式：同款素材合并成一个实例组
         for key, coll in (('trees', c_trees), ('shrubs', c_shrubs), ('grass', c_grass)):
             for name in sorted({t['name'] for t in layout[key]}):
                 scatter(coll, name, veg[name], [t for t in layout[key] if t['name'] == name])
@@ -215,7 +224,7 @@ def frame_viewport():
                 bpy.ops.view3d.view_all()
 
 
-def generate_terrain(inputs, terrain_path, seed=None, export=False, buildings_path=None):
+def generate_terrain(inputs, terrain_path, seed=None, export=False, buildings_path=None, quality=qa.DEFAULT):
     """地形场景：做决定（规则不变）→ 按地形摆放 → 搭场景。返回 (seed, scene_json)
     buildings_path = buildings_data.py 生成的 .npz（可选）"""
     import random, time
@@ -229,10 +238,12 @@ def generate_terrain(inputs, terrain_path, seed=None, export=False, buildings_pa
     if buildings_path:
         import buildings_data
         bld = buildings_data.load(buildings_path)
-    p = tc.plan(t, inputs, seed, veg, houses, bld)
+    p = tc.plan(t, inputs, seed, veg, houses, bld, qa.species_manifest())
     timing['plan'] = round(time.perf_counter() - t0, 2)
-    built = tb.build(sys.modules[__name__], t, p, seed, export=export, timing=timing)
+    built = tb.build(sys.modules[__name__], t, p, seed, export=export, timing=timing, quality=quality)
     js = tb.scene_json(t, p, seed, built, inputs)
+    if quality != qa.DEFAULT:
+        js['quality'] = quality                     # 没有这个字段 = 低档
     js['debug']['timing_s'] = timing
     return seed, js
 
@@ -266,6 +277,7 @@ def main():
     ap.add_argument('--glb', action='store_true', help='用导出用素材搭场景，并导出 scene.glb')
     ap.add_argument('--terrain', default=None, help='地形文件 .npz（terrain_data.py 生成）；不加就是平地')
     ap.add_argument('--buildings', default=None, help='真实建筑和道路 .npz（buildings_data.py 生成），要和 --terrain 一起用')
+    ap.add_argument('--quality', default=qa.DEFAULT, choices=list(qa.TIERS), help='画质档位，见 quality.py')
     a = ap.parse_args(argv)
     a.out = os.path.abspath(a.out)          # 渲染输出要用绝对路径，否则会存到别的地方
 
@@ -273,11 +285,15 @@ def main():
         inputs = json.load(f)
     if a.buildings and not a.terrain:
         ap.error('--buildings 要和 --terrain 一起用')
+    if a.quality != qa.DEFAULT and not a.glb:
+        ap.error('--quality medium / high 要和 --glb 一起用（新素材只有导出版）')
     if a.terrain:
         main_terrain(a, inputs)
         return
     seed, decision, layout, js = rules.run_rules(inputs, a.seed)
-    build(decision, layout, a.ground_only, export=a.glb)
+    build(decision, layout, a.ground_only, export=a.glb, quality=a.quality)
+    if a.quality != qa.DEFAULT:
+        js['quality'] = a.quality
 
     os.makedirs(a.out, exist_ok=True)
     with open(os.path.join(a.out, 'scene.json'), 'w', encoding='utf-8') as f:
@@ -302,7 +318,7 @@ def main_terrain(a, inputs):
     if a.ground_only:
         print('[pipeline] --ground-only 只用于平地场景，地形场景忽略')
     t0 = time.perf_counter()
-    seed, js = generate_terrain(inputs, a.terrain, a.seed, export=a.glb, buildings_path=a.buildings)
+    seed, js = generate_terrain(inputs, a.terrain, a.seed, export=a.glb, buildings_path=a.buildings, quality=a.quality)
     os.makedirs(a.out, exist_ok=True)
     if a.glb:
         t1 = time.perf_counter()

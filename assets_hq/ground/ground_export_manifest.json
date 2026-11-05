@@ -1,0 +1,167 @@
+{
+  "grass_green": {
+    "texture": "textures/grass_green.png",
+    "tile_m": 2.0,
+    "source": "ambientCG Grass004 (CC0)"
+  },
+  "grass_dry": {
+    "texture": "textures/grass_dry.png",
+    "tile_m": 2.5,
+    "source": "ambientCG Grass007 (CC0)"
+  },
+  "meadow": {
+    "texture": "textures/meadow.png",
+    "tile_m": 2.5,
+    "source": "ambientCG Grass008 (CC0)"
+  },
+  "lawn": {
+    "texture": "textures/lawn.png",
+    "tile_m": 2.0,
+    "source": "ambientCG Grass005 (CC0)"
+  },
+  "litter_broadleaf": {
+    "texture": "textures/litter_broadleaf.png",
+    "tile_m": 2.5,
+    "source": "ambientCG ScatteredLeaves009 (CC0)"
+  },
+  "litter_conifer": {
+    "texture": "textures/litter_conifer.png",
+    "tile_m": 2.5,
+    "source": "ambientCG Ground077 (CC0)"
+  },
+  "scrub_soil": {
+    "texture": "textures/scrub_soil.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground079S (CC0)"
+  },
+  "bare": {
+    "texture": "textures/bare.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground109 (CC0)"
+  },
+  "desert_sand": {
+    "texture": "textures/desert_sand.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Ground097 (CC0)"
+  },
+  "desert_gravel": {
+    "texture": "textures/desert_gravel.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground110 (CC0)"
+  },
+  "playa": {
+    "texture": "textures/playa.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Ground102 (CC0)"
+  },
+  "beach_sand": {
+    "texture": "textures/beach_sand.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Ground093A (CC0)"
+  },
+  "rock_grey": {
+    "texture": "textures/rock_grey.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Rock062 (CC0)"
+  },
+  "rock_red": {
+    "texture": "textures/rock_red.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Rock029 (CC0)"
+  },
+  "garden_soil": {
+    "texture": "textures/garden_soil.png",
+    "tile_m": 2.5,
+    "source": "ambientCG Ground036 (CC0)"
+  },
+  "snow": {
+    "texture": "textures/snow.png",
+    "tile_m": 4.0,
+    "source": "ambientCG Snow014 (CC0)"
+  },
+  "ice": {
+    "texture": "textures/ice.png",
+    "tile_m": 6.0,
+    "source": "ambientCG Snow005 (CC0)"
+  },
+  "wetland": {
+    "texture": "textures/wetland.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground083 (CC0)"
+  },
+  "shore": {
+    "texture": "textures/shore.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground094C (CC0)"
+  },
+  "concrete": {
+    "texture": "textures/concrete.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Concrete047A (CC0)"
+  },
+  "paving": {
+    "texture": "textures/paving.png",
+    "tile_m": 2.0,
+    "source": "ambientCG PavingStones136 (CC0)"
+  },
+  "gravel": {
+    "texture": "textures/gravel.png",
+    "tile_m": 2.0,
+    "source": "ambientCG Gravel043 (CC0)"
+  },
+  "dirt": {
+    "texture": "textures/dirt.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Ground081 (CC0)"
+  },
+  "wood": {
+    "texture": "textures/wood.png",
+    "tile_m": 2.0,
+    "source": "ambientCG Planks037A (CC0)"
+  },
+  "sports": {
+    "texture": "textures/sports.png",
+    "tile_m": 2.0,
+    "source": "ambientCG Rubber001 (CC0)"
+  },
+  "asphalt": {
+    "texture": "textures/asphalt.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Road012A (CC0)"
+  },
+  "parking": {
+    "texture": "textures/parking.png",
+    "tile_m": 3.0,
+    "source": "ambientCG Asphalt031 (CC0)"
+  },
+  "farmland": {
+    "texture": "textures/farmland.png",
+    "tile_m": 7.6,
+    "source": "ambientCG Ground103 + Grass004 (CC0)"
+  },
+  "water_lake": {
+    "texture": "textures/water_lake.png",
+    "tile_m": 8.0,
+    "source": "low water texture, tinted"
+  },
+  "water_river": {
+    "texture": "textures/water_river.png",
+    "tile_m": 8.0,
+    "source": "low water texture, tinted"
+  },
+  "water_ocean": {
+    "texture": "textures/water_ocean.png",
+    "tile_m": 8.0,
+    "source": "low water texture, tinted"
+  },
+  "water_pool": {
+    "texture": "textures/water_pool.png",
+    "tile_m": 8.0,
+    "source": "low water texture, tinted"
+  },
+  "_detail_normal": {
+    "texture": "textures/detail_normal.png",
+    "tile_m": 2.5,
+    "source": "ambientCG Ground037 (CC0)"
+  }
+}

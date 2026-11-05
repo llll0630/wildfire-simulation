@@ -4,3 +4,6 @@ __pycache__/
 terrain_data/
 # 测试输出
 tests/output/
+# 中高档地面贴图的 CC0 原始下载（build_hq_ground.py 的输入，下载地址写在脚本开头）
+assets_hq/ground/sources/
+assets_hq/buildings/sources/

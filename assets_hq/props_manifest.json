@@ -1,0 +1,377 @@
+{
+ "wire": {
+  "diameter_m": 0.02,
+  "color": [
+   0.08,
+   0.08,
+   0.08
+  ],
+  "sag_ratio": 0.03
+ },
+ "assets": [
+  {
+   "name": "pole_utility",
+   "kind": "power",
+   "height_m": 11.0,
+   "wire_attach_z": 10.55,
+   "wire_attach_x": [
+    -1.05,
+    0.0,
+    1.05
+   ],
+   "triangles": {
+    "low": 88,
+    "medium": 124,
+    "high": 140
+   }
+  },
+  {
+   "name": "pole_utility_transformer",
+   "kind": "power",
+   "height_m": 11.0,
+   "wire_attach_z": 10.55,
+   "wire_attach_x": [
+    -1.05,
+    0.0,
+    1.05
+   ],
+   "triangles": {
+    "low": 104,
+    "medium": 152,
+    "high": 184
+   }
+  },
+  {
+   "name": "tower_transmission",
+   "kind": "power",
+   "height_m": 30.0,
+   "wire_attach_z": [
+    20.4,
+    25.4
+   ],
+   "wire_attach_x": [
+    -6.0,
+    6.0,
+    -4.5,
+    4.5
+   ],
+   "triangles": {
+    "low": 344,
+    "medium": 536,
+    "high": 632
+   }
+  },
+  {
+   "name": "fence_wood_privacy",
+   "kind": "fence",
+   "length_m": 2.4,
+   "height_m": 1.8,
+   "triangles": {
+    "low": 48,
+    "medium": 228,
+    "high": 228
+   }
+  },
+  {
+   "name": "fence_picket",
+   "kind": "fence",
+   "length_m": 2.4,
+   "height_m": 1.0,
+   "triangles": {
+    "low": 48,
+    "medium": 204,
+    "high": 372
+   }
+  },
+  {
+   "name": "fence_chain_link",
+   "kind": "fence",
+   "length_m": 3.0,
+   "height_m": 1.8,
+   "triangles": {
+    "low": 48,
+    "medium": 50,
+    "high": 66
+   }
+  },
+  {
+   "name": "fence_split_rail",
+   "kind": "fence",
+   "length_m": 3.0,
+   "height_m": 1.2,
+   "triangles": {
+    "low": 36,
+    "medium": 36,
+    "high": 36
+   }
+  },
+  {
+   "name": "fence_barbed_wire",
+   "kind": "fence",
+   "length_m": 3.5,
+   "height_m": 1.2,
+   "triangles": {
+    "low": 48,
+    "medium": 18,
+    "high": 18
+   }
+  },
+  {
+   "name": "hedge",
+   "kind": "hedge",
+   "length_m": 2.0,
+   "height_m": 1.4,
+   "triangles": {
+    "low": 12,
+    "medium": 172,
+    "high": 412
+   }
+  },
+  {
+   "name": "crop_corn",
+   "kind": "crop",
+   "height_m": 2.5,
+   "triangles": {
+    "low": 84,
+    "medium": 64,
+    "high": 72
+   }
+  },
+  {
+   "name": "car_sedan_white",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_sedan_black",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_sedan_silver",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_sedan_gray",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_sedan_red",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_sedan_blue",
+   "kind": "vehicle",
+   "length_m": 4.8,
+   "width_m": 1.85,
+   "height_m": 1.45,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_white",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_black",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_silver",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_gray",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_red",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_suv_blue",
+   "kind": "vehicle",
+   "length_m": 4.9,
+   "width_m": 1.95,
+   "height_m": 1.75,
+   "triangles": {
+    "low": 116,
+    "medium": 180,
+    "high": 324
+   }
+  },
+  {
+   "name": "car_pickup_white",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "car_pickup_black",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "car_pickup_silver",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "car_pickup_gray",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "car_pickup_red",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "car_pickup_blue",
+   "kind": "vehicle",
+   "length_m": 5.8,
+   "width_m": 2.0,
+   "height_m": 1.9,
+   "triangles": {
+    "low": 128,
+    "medium": 192,
+    "high": 336
+   }
+  },
+  {
+   "name": "street_light",
+   "kind": "street",
+   "height_m": 8.15,
+   "triangles": {
+    "low": 44,
+    "medium": 68,
+    "high": 100
+   }
+  },
+  {
+   "name": "stop_sign",
+   "kind": "street",
+   "height_m": 2.85,
+   "triangles": {
+    "low": 22,
+    "medium": 34,
+    "high": 50
+   }
+  }
+ ]
+}

@@ -1,0 +1,97 @@
+{
+ "tree_oak_01": {
+  "triangles": 2032,
+  "height_m": 10.15,
+  "scale": 0.979
+ },
+ "tree_oak_02": {
+  "triangles": 2358,
+  "height_m": 11.81,
+  "scale": 1.015
+ },
+ "tree_oak_03": {
+  "triangles": 2184,
+  "height_m": 11.22,
+  "scale": 0.9
+ },
+ "tree_oak_04": {
+  "triangles": 2448,
+  "height_m": 10.05,
+  "scale": 1.014
+ },
+ "tree_pine_01": {
+  "triangles": 3858,
+  "height_m": 8.7,
+  "scale": 0.931
+ },
+ "tree_pine_02": {
+  "triangles": 4332,
+  "height_m": 8.73,
+  "scale": 0.916
+ },
+ "tree_pine_03": {
+  "triangles": 3528,
+  "height_m": 8.19,
+  "scale": 0.927
+ },
+ "tree_pine_04": {
+  "triangles": 5012,
+  "height_m": 9.85,
+  "scale": 0.902
+ },
+ "shrub_olive_01": {
+  "triangles": 856,
+  "height_m": 2.63,
+  "scale": 0.6
+ },
+ "shrub_olive_02": {
+  "triangles": 790,
+  "height_m": 2.51,
+  "scale": 0.544
+ },
+ "shrub_olive_03": {
+  "triangles": 574,
+  "height_m": 2.48,
+  "scale": 0.573
+ },
+ "shrub_bush_01": {
+  "triangles": 514,
+  "height_m": 2.67,
+  "scale": 0.645
+ },
+ "shrub_bush_02": {
+  "triangles": 882,
+  "height_m": 2.34,
+  "scale": 0.648
+ },
+ "grass_green_01": {
+  "triangles": 12,
+  "height_m": 0.55,
+  "scale": 1.0
+ },
+ "grass_green_02": {
+  "triangles": 12,
+  "height_m": 0.52,
+  "scale": 1.0
+ },
+ "grass_green_03": {
+  "triangles": 12,
+  "height_m": 0.55,
+  "scale": 1.0
+ },
+ "grass_dry_01": {
+  "triangles": 12,
+  "height_m": 1.06,
+  "scale": 1.0
+ },
+ "grass_dry_02": {
+  "triangles": 12,
+  "height_m": 1.09,
+  "scale": 1.0
+ },
+ "grass_dry_03": {
+  "triangles": 12,
+  "height_m": 1.09,
+  "scale": 1.0
+ }
+}

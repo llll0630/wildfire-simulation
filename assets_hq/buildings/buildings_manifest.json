@@ -1,0 +1,1492 @@
+{
+ "floor_m": 3.2,
+ "tiers": {
+  "low": 40,
+  "medium": 100,
+  "high": 200
+ },
+ "walls": {
+  "brick_red": {
+   "source": "ambientCG Bricks101 (CC0)",
+   "tile_m": 1.6,
+   "tile_h_m": 1.6,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.628,
+    0.45,
+    0.368
+   ],
+   "files": {
+    "low": "low/walls/brick_red.jpg",
+    "medium": "medium/walls/brick_red.jpg",
+    "high": "high/walls/brick_red.jpg"
+   }
+  },
+  "brick_tan": {
+   "source": "ambientCG Bricks105 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.715,
+    0.573,
+    0.416
+   ],
+   "files": {
+    "low": "low/walls/brick_tan.jpg",
+    "medium": "medium/walls/brick_tan.jpg",
+    "high": "high/walls/brick_tan.jpg"
+   }
+  },
+  "stone": {
+   "source": "ambientCG Bricks113A (CC0)",
+   "tile_m": 2.5,
+   "tile_h_m": 2.5,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.485,
+    0.445,
+    0.379
+   ],
+   "files": {
+    "low": "low/walls/stone.jpg",
+    "medium": "medium/walls/stone.jpg",
+    "high": "high/walls/stone.jpg"
+   }
+  },
+  "siding_white": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.88,
+    0.88,
+    0.85
+   ],
+   "files": {
+    "low": "low/walls/siding_white.jpg",
+    "medium": "medium/walls/siding_white.jpg",
+    "high": "high/walls/siding_white.jpg"
+   }
+  },
+  "siding_gray": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.62,
+    0.64,
+    0.64
+   ],
+   "files": {
+    "low": "low/walls/siding_gray.jpg",
+    "medium": "medium/walls/siding_gray.jpg",
+    "high": "high/walls/siding_gray.jpg"
+   }
+  },
+  "siding_blue": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.52,
+    0.6,
+    0.68
+   ],
+   "files": {
+    "low": "low/walls/siding_blue.jpg",
+    "medium": "medium/walls/siding_blue.jpg",
+    "high": "high/walls/siding_blue.jpg"
+   }
+  },
+  "siding_beige": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.8,
+    0.74,
+    0.62
+   ],
+   "files": {
+    "low": "low/walls/siding_beige.jpg",
+    "medium": "medium/walls/siding_beige.jpg",
+    "high": "high/walls/siding_beige.jpg"
+   }
+  },
+  "siding_sage": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.62,
+    0.67,
+    0.56
+   ],
+   "files": {
+    "low": "low/walls/siding_sage.jpg",
+    "medium": "medium/walls/siding_sage.jpg",
+    "high": "high/walls/siding_sage.jpg"
+   }
+  },
+  "wood_shingle": {
+   "source": "ambientCG WoodSiding013 (CC0)",
+   "tile_m": 1.8,
+   "tile_h_m": 1.8,
+   "use": [
+    "residential"
+   ],
+   "avg_rgb": [
+    0.388,
+    0.335,
+    0.263
+   ],
+   "files": {
+    "low": "low/walls/wood_shingle.jpg",
+    "medium": "medium/walls/wood_shingle.jpg",
+    "high": "high/walls/wood_shingle.jpg"
+   }
+  },
+  "stucco_white": {
+   "source": "ambientCG Plaster001 (CC0)",
+   "tile_m": 3.0,
+   "tile_h_m": 3.0,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.9,
+    0.89,
+    0.86
+   ],
+   "files": {
+    "low": "low/walls/stucco_white.jpg",
+    "medium": "medium/walls/stucco_white.jpg",
+    "high": "high/walls/stucco_white.jpg"
+   }
+  },
+  "stucco_cream": {
+   "source": "ambientCG Plaster001 (CC0)",
+   "tile_m": 3.0,
+   "tile_h_m": 3.0,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.88,
+    0.82,
+    0.7
+   ],
+   "files": {
+    "low": "low/walls/stucco_cream.jpg",
+    "medium": "medium/walls/stucco_cream.jpg",
+    "high": "high/walls/stucco_cream.jpg"
+   }
+  },
+  "stucco_terracotta": {
+   "source": "ambientCG Plaster001 (CC0)",
+   "tile_m": 3.0,
+   "tile_h_m": 3.0,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.8,
+    0.58,
+    0.45
+   ],
+   "files": {
+    "low": "low/walls/stucco_terracotta.jpg",
+    "medium": "medium/walls/stucco_terracotta.jpg",
+    "high": "high/walls/stucco_terracotta.jpg"
+   }
+  },
+  "stucco_tan": {
+   "source": "ambientCG Plaster001 (CC0)",
+   "tile_m": 3.0,
+   "tile_h_m": 3.0,
+   "use": [
+    "residential",
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.76,
+    0.68,
+    0.55
+   ],
+   "files": {
+    "low": "low/walls/stucco_tan.jpg",
+    "medium": "medium/walls/stucco_tan.jpg",
+    "high": "high/walls/stucco_tan.jpg"
+   }
+  },
+  "concrete": {
+   "source": "ambientCG Concrete034 (CC0)",
+   "tile_m": 4.0,
+   "tile_h_m": 2.0,
+   "use": [
+    "commercial",
+    "industrial"
+   ],
+   "avg_rgb": [
+    0.723,
+    0.723,
+    0.723
+   ],
+   "files": {
+    "low": "low/walls/concrete.jpg",
+    "medium": "medium/walls/concrete.jpg",
+    "high": "high/walls/concrete.jpg"
+   }
+  },
+  "metal_wall": {
+   "source": "ambientCG CorrugatedSteel005 (CC0)",
+   "tile_m": 2.5,
+   "tile_h_m": 2.5,
+   "use": [
+    "industrial"
+   ],
+   "avg_rgb": [
+    0.556,
+    0.562,
+    0.572
+   ],
+   "files": {
+    "low": "low/walls/metal_wall.jpg",
+    "medium": "medium/walls/metal_wall.jpg",
+    "high": "high/walls/metal_wall.jpg"
+   }
+  },
+  "glass_curtain": {
+   "source": "ambientCG Facade001 (CC0)",
+   "tile_m": 6.0,
+   "tile_h_m": 6.0,
+   "use": [
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.288,
+    0.316,
+    0.34
+   ],
+   "files": {
+    "low": "low/walls/glass_curtain.jpg",
+    "medium": "medium/walls/glass_curtain.jpg",
+    "high": "high/walls/glass_curtain.jpg"
+   }
+  },
+  "highrise": {
+   "source": "ambientCG Facade018A (CC0)",
+   "tile_m": 12.0,
+   "tile_h_m": 12.0,
+   "use": [
+    "commercial"
+   ],
+   "avg_rgb": [
+    0.448,
+    0.411,
+    0.399
+   ],
+   "files": {
+    "low": "low/walls/highrise.jpg",
+    "medium": "medium/walls/highrise.jpg",
+    "high": "high/walls/highrise.jpg"
+   }
+  }
+ },
+ "roofs": {
+  "shingle_gray": {
+   "source": "procedural",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.342,
+    0.342,
+    0.342
+   ],
+   "files": {
+    "low": "low/roofs/shingle_gray.jpg",
+    "medium": "medium/roofs/shingle_gray.jpg",
+    "high": "high/roofs/shingle_gray.jpg"
+   }
+  },
+  "shingle_brown": {
+   "source": "procedural",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.3,
+    0.236,
+    0.182
+   ],
+   "files": {
+    "low": "low/roofs/shingle_brown.jpg",
+    "medium": "medium/roofs/shingle_brown.jpg",
+    "high": "high/roofs/shingle_brown.jpg"
+   }
+  },
+  "shingle_black": {
+   "source": "procedural",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.155,
+    0.155,
+    0.164
+   ],
+   "files": {
+    "low": "low/roofs/shingle_black.jpg",
+    "medium": "medium/roofs/shingle_black.jpg",
+    "high": "high/roofs/shingle_black.jpg"
+   }
+  },
+  "clay_tile": {
+   "source": "ambientCG RoofingTiles012A (CC0)",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.617,
+    0.358,
+    0.262
+   ],
+   "files": {
+    "low": "low/roofs/clay_tile.jpg",
+    "medium": "medium/roofs/clay_tile.jpg",
+    "high": "high/roofs/clay_tile.jpg"
+   }
+  },
+  "slate": {
+   "source": "ambientCG RoofingTiles003 (CC0)",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.214,
+    0.223,
+    0.214
+   ],
+   "files": {
+    "low": "low/roofs/slate.jpg",
+    "medium": "medium/roofs/slate.jpg",
+    "high": "high/roofs/slate.jpg"
+   }
+  },
+  "metal_roof": {
+   "source": "ambientCG CorrugatedSteel009 (CC0)",
+   "tile_m": 2.0,
+   "use": "pitched",
+   "avg_rgb": [
+    0.506,
+    0.504,
+    0.505
+   ],
+   "files": {
+    "low": "low/roofs/metal_roof.jpg",
+    "medium": "medium/roofs/metal_roof.jpg",
+    "high": "high/roofs/metal_roof.jpg"
+   }
+  },
+  "flat_gravel": {
+   "source": "ambientCG Gravel023 (CC0)",
+   "tile_m": 3.0,
+   "use": "flat",
+   "avg_rgb": [
+    0.801,
+    0.788,
+    0.76
+   ],
+   "files": {
+    "low": "low/roofs/flat_gravel.jpg",
+    "medium": "medium/roofs/flat_gravel.jpg",
+    "high": "high/roofs/flat_gravel.jpg"
+   }
+  },
+  "flat_membrane": {
+   "source": "procedural",
+   "tile_m": 6.0,
+   "use": "flat",
+   "avg_rgb": [
+    0.618,
+    0.618,
+    0.598
+   ],
+   "files": {
+    "low": "low/roofs/flat_membrane.jpg",
+    "medium": "medium/roofs/flat_membrane.jpg",
+    "high": "high/roofs/flat_membrane.jpg"
+   }
+  }
+ },
+ "modules": {
+  "brick_red__window": {
+   "wall": "brick_red",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_red__window.jpg",
+    "medium": "medium/modules/brick_red__window.jpg",
+    "high": "high/modules/brick_red__window.jpg"
+   }
+  },
+  "brick_red__window_pair": {
+   "wall": "brick_red",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_red__window_pair.jpg",
+    "medium": "medium/modules/brick_red__window_pair.jpg",
+    "high": "high/modules/brick_red__window_pair.jpg"
+   }
+  },
+  "brick_red__door": {
+   "wall": "brick_red",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_red__door.jpg",
+    "medium": "medium/modules/brick_red__door.jpg",
+    "high": "high/modules/brick_red__door.jpg"
+   }
+  },
+  "brick_red__garage": {
+   "wall": "brick_red",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_red__garage.jpg",
+    "medium": "medium/modules/brick_red__garage.jpg",
+    "high": "high/modules/brick_red__garage.jpg"
+   }
+  },
+  "brick_red__blank": {
+   "wall": "brick_red",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/brick_red__blank.jpg",
+    "medium": "medium/modules/brick_red__blank.jpg",
+    "high": "high/modules/brick_red__blank.jpg"
+   }
+  },
+  "brick_red__storefront": {
+   "wall": "brick_red",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/brick_red__storefront.jpg",
+    "medium": "medium/modules/brick_red__storefront.jpg",
+    "high": "high/modules/brick_red__storefront.jpg"
+   }
+  },
+  "brick_red__office": {
+   "wall": "brick_red",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/brick_red__office.jpg",
+    "medium": "medium/modules/brick_red__office.jpg",
+    "high": "high/modules/brick_red__office.jpg"
+   }
+  },
+  "brick_tan__window": {
+   "wall": "brick_tan",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_tan__window.jpg",
+    "medium": "medium/modules/brick_tan__window.jpg",
+    "high": "high/modules/brick_tan__window.jpg"
+   }
+  },
+  "brick_tan__window_pair": {
+   "wall": "brick_tan",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_tan__window_pair.jpg",
+    "medium": "medium/modules/brick_tan__window_pair.jpg",
+    "high": "high/modules/brick_tan__window_pair.jpg"
+   }
+  },
+  "brick_tan__door": {
+   "wall": "brick_tan",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_tan__door.jpg",
+    "medium": "medium/modules/brick_tan__door.jpg",
+    "high": "high/modules/brick_tan__door.jpg"
+   }
+  },
+  "brick_tan__garage": {
+   "wall": "brick_tan",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/brick_tan__garage.jpg",
+    "medium": "medium/modules/brick_tan__garage.jpg",
+    "high": "high/modules/brick_tan__garage.jpg"
+   }
+  },
+  "brick_tan__blank": {
+   "wall": "brick_tan",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/brick_tan__blank.jpg",
+    "medium": "medium/modules/brick_tan__blank.jpg",
+    "high": "high/modules/brick_tan__blank.jpg"
+   }
+  },
+  "brick_tan__storefront": {
+   "wall": "brick_tan",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/brick_tan__storefront.jpg",
+    "medium": "medium/modules/brick_tan__storefront.jpg",
+    "high": "high/modules/brick_tan__storefront.jpg"
+   }
+  },
+  "brick_tan__office": {
+   "wall": "brick_tan",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/brick_tan__office.jpg",
+    "medium": "medium/modules/brick_tan__office.jpg",
+    "high": "high/modules/brick_tan__office.jpg"
+   }
+  },
+  "stone__window": {
+   "wall": "stone",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stone__window.jpg",
+    "medium": "medium/modules/stone__window.jpg",
+    "high": "high/modules/stone__window.jpg"
+   }
+  },
+  "stone__window_pair": {
+   "wall": "stone",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stone__window_pair.jpg",
+    "medium": "medium/modules/stone__window_pair.jpg",
+    "high": "high/modules/stone__window_pair.jpg"
+   }
+  },
+  "stone__door": {
+   "wall": "stone",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stone__door.jpg",
+    "medium": "medium/modules/stone__door.jpg",
+    "high": "high/modules/stone__door.jpg"
+   }
+  },
+  "stone__garage": {
+   "wall": "stone",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stone__garage.jpg",
+    "medium": "medium/modules/stone__garage.jpg",
+    "high": "high/modules/stone__garage.jpg"
+   }
+  },
+  "stone__blank": {
+   "wall": "stone",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/stone__blank.jpg",
+    "medium": "medium/modules/stone__blank.jpg",
+    "high": "high/modules/stone__blank.jpg"
+   }
+  },
+  "stone__storefront": {
+   "wall": "stone",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stone__storefront.jpg",
+    "medium": "medium/modules/stone__storefront.jpg",
+    "high": "high/modules/stone__storefront.jpg"
+   }
+  },
+  "stone__office": {
+   "wall": "stone",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stone__office.jpg",
+    "medium": "medium/modules/stone__office.jpg",
+    "high": "high/modules/stone__office.jpg"
+   }
+  },
+  "siding_white__window": {
+   "wall": "siding_white",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_white__window.jpg",
+    "medium": "medium/modules/siding_white__window.jpg",
+    "high": "high/modules/siding_white__window.jpg"
+   }
+  },
+  "siding_white__window_pair": {
+   "wall": "siding_white",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_white__window_pair.jpg",
+    "medium": "medium/modules/siding_white__window_pair.jpg",
+    "high": "high/modules/siding_white__window_pair.jpg"
+   }
+  },
+  "siding_white__door": {
+   "wall": "siding_white",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_white__door.jpg",
+    "medium": "medium/modules/siding_white__door.jpg",
+    "high": "high/modules/siding_white__door.jpg"
+   }
+  },
+  "siding_white__garage": {
+   "wall": "siding_white",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_white__garage.jpg",
+    "medium": "medium/modules/siding_white__garage.jpg",
+    "high": "high/modules/siding_white__garage.jpg"
+   }
+  },
+  "siding_white__blank": {
+   "wall": "siding_white",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_white__blank.jpg",
+    "medium": "medium/modules/siding_white__blank.jpg",
+    "high": "high/modules/siding_white__blank.jpg"
+   }
+  },
+  "siding_gray__window": {
+   "wall": "siding_gray",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_gray__window.jpg",
+    "medium": "medium/modules/siding_gray__window.jpg",
+    "high": "high/modules/siding_gray__window.jpg"
+   }
+  },
+  "siding_gray__window_pair": {
+   "wall": "siding_gray",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_gray__window_pair.jpg",
+    "medium": "medium/modules/siding_gray__window_pair.jpg",
+    "high": "high/modules/siding_gray__window_pair.jpg"
+   }
+  },
+  "siding_gray__door": {
+   "wall": "siding_gray",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_gray__door.jpg",
+    "medium": "medium/modules/siding_gray__door.jpg",
+    "high": "high/modules/siding_gray__door.jpg"
+   }
+  },
+  "siding_gray__garage": {
+   "wall": "siding_gray",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_gray__garage.jpg",
+    "medium": "medium/modules/siding_gray__garage.jpg",
+    "high": "high/modules/siding_gray__garage.jpg"
+   }
+  },
+  "siding_gray__blank": {
+   "wall": "siding_gray",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_gray__blank.jpg",
+    "medium": "medium/modules/siding_gray__blank.jpg",
+    "high": "high/modules/siding_gray__blank.jpg"
+   }
+  },
+  "siding_blue__window": {
+   "wall": "siding_blue",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_blue__window.jpg",
+    "medium": "medium/modules/siding_blue__window.jpg",
+    "high": "high/modules/siding_blue__window.jpg"
+   }
+  },
+  "siding_blue__window_pair": {
+   "wall": "siding_blue",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_blue__window_pair.jpg",
+    "medium": "medium/modules/siding_blue__window_pair.jpg",
+    "high": "high/modules/siding_blue__window_pair.jpg"
+   }
+  },
+  "siding_blue__door": {
+   "wall": "siding_blue",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_blue__door.jpg",
+    "medium": "medium/modules/siding_blue__door.jpg",
+    "high": "high/modules/siding_blue__door.jpg"
+   }
+  },
+  "siding_blue__garage": {
+   "wall": "siding_blue",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_blue__garage.jpg",
+    "medium": "medium/modules/siding_blue__garage.jpg",
+    "high": "high/modules/siding_blue__garage.jpg"
+   }
+  },
+  "siding_blue__blank": {
+   "wall": "siding_blue",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_blue__blank.jpg",
+    "medium": "medium/modules/siding_blue__blank.jpg",
+    "high": "high/modules/siding_blue__blank.jpg"
+   }
+  },
+  "siding_beige__window": {
+   "wall": "siding_beige",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_beige__window.jpg",
+    "medium": "medium/modules/siding_beige__window.jpg",
+    "high": "high/modules/siding_beige__window.jpg"
+   }
+  },
+  "siding_beige__window_pair": {
+   "wall": "siding_beige",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_beige__window_pair.jpg",
+    "medium": "medium/modules/siding_beige__window_pair.jpg",
+    "high": "high/modules/siding_beige__window_pair.jpg"
+   }
+  },
+  "siding_beige__door": {
+   "wall": "siding_beige",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_beige__door.jpg",
+    "medium": "medium/modules/siding_beige__door.jpg",
+    "high": "high/modules/siding_beige__door.jpg"
+   }
+  },
+  "siding_beige__garage": {
+   "wall": "siding_beige",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_beige__garage.jpg",
+    "medium": "medium/modules/siding_beige__garage.jpg",
+    "high": "high/modules/siding_beige__garage.jpg"
+   }
+  },
+  "siding_beige__blank": {
+   "wall": "siding_beige",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_beige__blank.jpg",
+    "medium": "medium/modules/siding_beige__blank.jpg",
+    "high": "high/modules/siding_beige__blank.jpg"
+   }
+  },
+  "siding_sage__window": {
+   "wall": "siding_sage",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_sage__window.jpg",
+    "medium": "medium/modules/siding_sage__window.jpg",
+    "high": "high/modules/siding_sage__window.jpg"
+   }
+  },
+  "siding_sage__window_pair": {
+   "wall": "siding_sage",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_sage__window_pair.jpg",
+    "medium": "medium/modules/siding_sage__window_pair.jpg",
+    "high": "high/modules/siding_sage__window_pair.jpg"
+   }
+  },
+  "siding_sage__door": {
+   "wall": "siding_sage",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_sage__door.jpg",
+    "medium": "medium/modules/siding_sage__door.jpg",
+    "high": "high/modules/siding_sage__door.jpg"
+   }
+  },
+  "siding_sage__garage": {
+   "wall": "siding_sage",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_sage__garage.jpg",
+    "medium": "medium/modules/siding_sage__garage.jpg",
+    "high": "high/modules/siding_sage__garage.jpg"
+   }
+  },
+  "siding_sage__blank": {
+   "wall": "siding_sage",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_sage__blank.jpg",
+    "medium": "medium/modules/siding_sage__blank.jpg",
+    "high": "high/modules/siding_sage__blank.jpg"
+   }
+  },
+  "wood_shingle__window": {
+   "wall": "wood_shingle",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/wood_shingle__window.jpg",
+    "medium": "medium/modules/wood_shingle__window.jpg",
+    "high": "high/modules/wood_shingle__window.jpg"
+   }
+  },
+  "wood_shingle__window_pair": {
+   "wall": "wood_shingle",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/wood_shingle__window_pair.jpg",
+    "medium": "medium/modules/wood_shingle__window_pair.jpg",
+    "high": "high/modules/wood_shingle__window_pair.jpg"
+   }
+  },
+  "wood_shingle__door": {
+   "wall": "wood_shingle",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/wood_shingle__door.jpg",
+    "medium": "medium/modules/wood_shingle__door.jpg",
+    "high": "high/modules/wood_shingle__door.jpg"
+   }
+  },
+  "wood_shingle__garage": {
+   "wall": "wood_shingle",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/wood_shingle__garage.jpg",
+    "medium": "medium/modules/wood_shingle__garage.jpg",
+    "high": "high/modules/wood_shingle__garage.jpg"
+   }
+  },
+  "wood_shingle__blank": {
+   "wall": "wood_shingle",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/wood_shingle__blank.jpg",
+    "medium": "medium/modules/wood_shingle__blank.jpg",
+    "high": "high/modules/wood_shingle__blank.jpg"
+   }
+  },
+  "stucco_white__window": {
+   "wall": "stucco_white",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_white__window.jpg",
+    "medium": "medium/modules/stucco_white__window.jpg",
+    "high": "high/modules/stucco_white__window.jpg"
+   }
+  },
+  "stucco_white__window_pair": {
+   "wall": "stucco_white",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_white__window_pair.jpg",
+    "medium": "medium/modules/stucco_white__window_pair.jpg",
+    "high": "high/modules/stucco_white__window_pair.jpg"
+   }
+  },
+  "stucco_white__door": {
+   "wall": "stucco_white",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_white__door.jpg",
+    "medium": "medium/modules/stucco_white__door.jpg",
+    "high": "high/modules/stucco_white__door.jpg"
+   }
+  },
+  "stucco_white__garage": {
+   "wall": "stucco_white",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_white__garage.jpg",
+    "medium": "medium/modules/stucco_white__garage.jpg",
+    "high": "high/modules/stucco_white__garage.jpg"
+   }
+  },
+  "stucco_white__blank": {
+   "wall": "stucco_white",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/stucco_white__blank.jpg",
+    "medium": "medium/modules/stucco_white__blank.jpg",
+    "high": "high/modules/stucco_white__blank.jpg"
+   }
+  },
+  "stucco_white__storefront": {
+   "wall": "stucco_white",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_white__storefront.jpg",
+    "medium": "medium/modules/stucco_white__storefront.jpg",
+    "high": "high/modules/stucco_white__storefront.jpg"
+   }
+  },
+  "stucco_white__office": {
+   "wall": "stucco_white",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_white__office.jpg",
+    "medium": "medium/modules/stucco_white__office.jpg",
+    "high": "high/modules/stucco_white__office.jpg"
+   }
+  },
+  "stucco_cream__window": {
+   "wall": "stucco_cream",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_cream__window.jpg",
+    "medium": "medium/modules/stucco_cream__window.jpg",
+    "high": "high/modules/stucco_cream__window.jpg"
+   }
+  },
+  "stucco_cream__window_pair": {
+   "wall": "stucco_cream",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_cream__window_pair.jpg",
+    "medium": "medium/modules/stucco_cream__window_pair.jpg",
+    "high": "high/modules/stucco_cream__window_pair.jpg"
+   }
+  },
+  "stucco_cream__door": {
+   "wall": "stucco_cream",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_cream__door.jpg",
+    "medium": "medium/modules/stucco_cream__door.jpg",
+    "high": "high/modules/stucco_cream__door.jpg"
+   }
+  },
+  "stucco_cream__garage": {
+   "wall": "stucco_cream",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_cream__garage.jpg",
+    "medium": "medium/modules/stucco_cream__garage.jpg",
+    "high": "high/modules/stucco_cream__garage.jpg"
+   }
+  },
+  "stucco_cream__blank": {
+   "wall": "stucco_cream",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/stucco_cream__blank.jpg",
+    "medium": "medium/modules/stucco_cream__blank.jpg",
+    "high": "high/modules/stucco_cream__blank.jpg"
+   }
+  },
+  "stucco_cream__storefront": {
+   "wall": "stucco_cream",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_cream__storefront.jpg",
+    "medium": "medium/modules/stucco_cream__storefront.jpg",
+    "high": "high/modules/stucco_cream__storefront.jpg"
+   }
+  },
+  "stucco_cream__office": {
+   "wall": "stucco_cream",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_cream__office.jpg",
+    "medium": "medium/modules/stucco_cream__office.jpg",
+    "high": "high/modules/stucco_cream__office.jpg"
+   }
+  },
+  "stucco_terracotta__window": {
+   "wall": "stucco_terracotta",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_terracotta__window.jpg",
+    "medium": "medium/modules/stucco_terracotta__window.jpg",
+    "high": "high/modules/stucco_terracotta__window.jpg"
+   }
+  },
+  "stucco_terracotta__window_pair": {
+   "wall": "stucco_terracotta",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_terracotta__window_pair.jpg",
+    "medium": "medium/modules/stucco_terracotta__window_pair.jpg",
+    "high": "high/modules/stucco_terracotta__window_pair.jpg"
+   }
+  },
+  "stucco_terracotta__door": {
+   "wall": "stucco_terracotta",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_terracotta__door.jpg",
+    "medium": "medium/modules/stucco_terracotta__door.jpg",
+    "high": "high/modules/stucco_terracotta__door.jpg"
+   }
+  },
+  "stucco_terracotta__garage": {
+   "wall": "stucco_terracotta",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_terracotta__garage.jpg",
+    "medium": "medium/modules/stucco_terracotta__garage.jpg",
+    "high": "high/modules/stucco_terracotta__garage.jpg"
+   }
+  },
+  "stucco_terracotta__blank": {
+   "wall": "stucco_terracotta",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/stucco_terracotta__blank.jpg",
+    "medium": "medium/modules/stucco_terracotta__blank.jpg",
+    "high": "high/modules/stucco_terracotta__blank.jpg"
+   }
+  },
+  "stucco_terracotta__storefront": {
+   "wall": "stucco_terracotta",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_terracotta__storefront.jpg",
+    "medium": "medium/modules/stucco_terracotta__storefront.jpg",
+    "high": "high/modules/stucco_terracotta__storefront.jpg"
+   }
+  },
+  "stucco_terracotta__office": {
+   "wall": "stucco_terracotta",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_terracotta__office.jpg",
+    "medium": "medium/modules/stucco_terracotta__office.jpg",
+    "high": "high/modules/stucco_terracotta__office.jpg"
+   }
+  },
+  "stucco_tan__window": {
+   "wall": "stucco_tan",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_tan__window.jpg",
+    "medium": "medium/modules/stucco_tan__window.jpg",
+    "high": "high/modules/stucco_tan__window.jpg"
+   }
+  },
+  "stucco_tan__window_pair": {
+   "wall": "stucco_tan",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_tan__window_pair.jpg",
+    "medium": "medium/modules/stucco_tan__window_pair.jpg",
+    "high": "high/modules/stucco_tan__window_pair.jpg"
+   }
+  },
+  "stucco_tan__door": {
+   "wall": "stucco_tan",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_tan__door.jpg",
+    "medium": "medium/modules/stucco_tan__door.jpg",
+    "high": "high/modules/stucco_tan__door.jpg"
+   }
+  },
+  "stucco_tan__garage": {
+   "wall": "stucco_tan",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/stucco_tan__garage.jpg",
+    "medium": "medium/modules/stucco_tan__garage.jpg",
+    "high": "high/modules/stucco_tan__garage.jpg"
+   }
+  },
+  "stucco_tan__blank": {
+   "wall": "stucco_tan",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/stucco_tan__blank.jpg",
+    "medium": "medium/modules/stucco_tan__blank.jpg",
+    "high": "high/modules/stucco_tan__blank.jpg"
+   }
+  },
+  "stucco_tan__storefront": {
+   "wall": "stucco_tan",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_tan__storefront.jpg",
+    "medium": "medium/modules/stucco_tan__storefront.jpg",
+    "high": "high/modules/stucco_tan__storefront.jpg"
+   }
+  },
+  "stucco_tan__office": {
+   "wall": "stucco_tan",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/stucco_tan__office.jpg",
+    "medium": "medium/modules/stucco_tan__office.jpg",
+    "high": "high/modules/stucco_tan__office.jpg"
+   }
+  },
+  "concrete__blank": {
+   "wall": "concrete",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/concrete__blank.jpg",
+    "medium": "medium/modules/concrete__blank.jpg",
+    "high": "high/modules/concrete__blank.jpg"
+   }
+  },
+  "concrete__storefront": {
+   "wall": "concrete",
+   "module": "storefront",
+   "width_m": 4.5,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/concrete__storefront.jpg",
+    "medium": "medium/modules/concrete__storefront.jpg",
+    "high": "high/modules/concrete__storefront.jpg"
+   }
+  },
+  "concrete__office": {
+   "wall": "concrete",
+   "module": "office",
+   "width_m": 4.0,
+   "height_m": 3.2,
+   "use": "commercial",
+   "files": {
+    "low": "low/modules/concrete__office.jpg",
+    "medium": "medium/modules/concrete__office.jpg",
+    "high": "high/modules/concrete__office.jpg"
+   }
+  },
+  "concrete__rollup": {
+   "wall": "concrete",
+   "module": "rollup",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/concrete__rollup.jpg",
+    "medium": "medium/modules/concrete__rollup.jpg",
+    "high": "high/modules/concrete__rollup.jpg"
+   }
+  },
+  "concrete__high_window": {
+   "wall": "concrete",
+   "module": "high_window",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/concrete__high_window.jpg",
+    "medium": "medium/modules/concrete__high_window.jpg",
+    "high": "high/modules/concrete__high_window.jpg"
+   }
+  },
+  "metal_wall__blank": {
+   "wall": "metal_wall",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/metal_wall__blank.jpg",
+    "medium": "medium/modules/metal_wall__blank.jpg",
+    "high": "high/modules/metal_wall__blank.jpg"
+   }
+  },
+  "metal_wall__rollup": {
+   "wall": "metal_wall",
+   "module": "rollup",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/metal_wall__rollup.jpg",
+    "medium": "medium/modules/metal_wall__rollup.jpg",
+    "high": "high/modules/metal_wall__rollup.jpg"
+   }
+  },
+  "metal_wall__high_window": {
+   "wall": "metal_wall",
+   "module": "high_window",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/metal_wall__high_window.jpg",
+    "medium": "medium/modules/metal_wall__high_window.jpg",
+    "high": "high/modules/metal_wall__high_window.jpg"
+   }
+  }
+ }
+}

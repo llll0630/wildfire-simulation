@@ -25,6 +25,129 @@ MID_GROWTH = 1.08            # 往外每一格比上一格大多少
 FAR_HALF = 90000.0           # 远景到多远
 MAX_HOUSE_SLOPE = 14.0       # 房子只放在坡度小于这个值的地方（度）
 BUILDING_CLASS = 5           # buildings_data.py 占地图里“建筑”的编号
+
+# 按 Overture 地面类型（buildings_data.GROUND）留下多少树、灌木、高草丛（0 ~ 1；没列出的 = 1，不管）
+# 草坪上不长高草丛，沙滩、停车场、冰川、水里什么都不长。
+# 草坪、校园只说明地面是修剪过的，不说明没有树：树的多少照旧按 LANDFIRE 的树冠覆盖
+GROUND_KEEP = {
+    'lawn':          (1.0, 0.3, 0.0),
+    'meadow':        (0.15, 0.3, 1.0),
+    'farmland':      (0.0, 0.0, 0.0),
+    'orchard':       (1.0, 0.0, 0.3),
+    'scrub':         (0.3, 1.0, 1.0),
+    'sand':          (0.0, 0.0, 0.15),
+    'rock':          (0.1, 0.2, 0.2),
+    'wetland':       (0.5, 0.6, 1.0),
+    'glacier':       (0.0, 0.0, 0.0),
+    'desert':        (0.1, 1.0, 0.5),
+    'bare_soil':     (0.1, 0.2, 0.2),
+    'gravel':        (0.0, 0.0, 0.0),
+    'concrete':      (0.0, 0.0, 0.0),
+    'commercial':    (0.6, 0.2, 0.0),
+    'campus':        (1.0, 0.3, 0.0),
+    'paving_stones': (0.0, 0.0, 0.0),
+    'wood_deck':     (0.0, 0.0, 0.0),
+    'sports_court':  (0.0, 0.0, 0.0),
+    'parking':       (0.0, 0.0, 0.0),
+    'water_river':   (0.0, 0.0, 0.0),
+    'water_lake':    (0.0, 0.0, 0.0),
+    'water_ocean':   (0.0, 0.0, 0.0),
+    'water_pool':    (0.0, 0.0, 0.0),
+    'asphalt':       (0.0, 0.0, 0.0),
+}
+
+
+def assign_species(t, layout, species, bld, rng):
+    """按每棵树 / 每丛灌木和草所在位置的植被类型（LANDFIRE，veg_types.py）和地面类型（Overture）换成对应树种的素材。
+    species = 分树种素材清单；Overture 地面类型优先（湿地长芦苇、沙滩长沙丘草），其次植被类型；都对不上的保留通用素材。
+    同一处有几种可选时按 share 加权随机（比如沙漠灌丛里约书亚树、仙人掌只占少数）。返回 {树种: 数量}"""
+    import veg_types as vt
+    kinds = {'trees': 'tree', 'shrubs': 'shrub', 'grass': 'grass'}
+    by_veg, by_ground = {}, {}
+    for a in species:
+        for v in a['veg_types']:
+            by_veg.setdefault((a['kind'], vt.ID[v]), []).append(a)
+        for g in a['ground_types']:
+            by_ground.setdefault((a['kind'], g), []).append(a)
+    gnames = None
+    if bld is not None:
+        import buildings_data as bdm
+        gnames = bdm.GROUND
+    counts = {}
+    moved = []                          # 树的位置是灌丛、草地（沙漠里没有对应的树种）：换成这里的灌木，挪到灌木那一组
+    for key, kind in kinds.items():
+        items = layout[key]
+        if not items:
+            continue
+        xs = np.array([i['x'] for i in items]); ys = np.array([i['y'] for i in items])
+        vegs = t.veg(xs, ys).tolist()
+        grounds = bld.ground(xs, ys).tolist() if bld is not None else [0] * len(items)
+        for it, v, g in zip(items, vegs, grounds):
+            cands = (by_ground.get((kind, gnames[g])) if g else None) or by_veg.get((kind, v))
+            if not cands and kind == 'tree' and v:
+                cands = by_veg.get(('shrub', v))
+                if cands:
+                    moved.append(it)
+            if not cands:
+                continue
+            w = np.array([c.get('share', 1.0) for c in cands]); w = w / w.sum()
+            a = cands[int(np.searchsorted(np.cumsum(w), rng.random() * 0.999999))]
+            s_ = rng.uniform(0.85, 1.15)
+            it.update({'name': a['name'], 's': s_, 'sz': s_ * rng.uniform(0.95, 1.08) if kind == 'tree' else s_,
+                       'r': a['crown_diameter_m'] * s_ / 2})
+            counts[a['species']] = counts.get(a['species'], 0) + 1
+    if moved:
+        ids = {id(i) for i in moved}
+        layout['trees'] = [i for i in layout['trees'] if id(i) not in ids]
+        layout['shrubs'] += moved
+    return counts
+
+
+# 按 LANDFIRE 植被类型（veg_types.py）留下多少树、灌木、高草丛（没列出的 = 1）：
+# 8 大类只能说"这里是灌丛"，分不出莫哈韦沙漠（草很稀）和查帕拉尔；有植被类型时按它再筛一遍
+VEG_KEEP = {
+    'desert_scrub':   (0.0, 1.0, 0.12),
+    'sagebrush':      (0.1, 1.0, 0.5),
+    'chaparral':      (0.15, 1.0, 0.3),
+    'alpine_shrub':   (0.05, 1.0, 0.6),
+    'grass_dry':      (0.05, 0.3, 1.0),
+    'meadow':         (0.1, 0.3, 1.0),
+    'pasture':        (0.05, 0.1, 0.6),
+    'crop_row':       (0.0, 0.0, 0.0),
+    'crop_close':     (0.0, 0.0, 0.0),
+    'developed':      (0.3, 0.3, 0.1),
+    'developed_open': (0.6, 0.2, 0.0),
+    'road':           (0.0, 0.0, 0.0),
+    'quarry':         (0.0, 0.0, 0.05),
+    'desert_barren':  (0.0, 0.3, 0.05),
+    'rock_barren':    (0.1, 0.3, 0.3),
+    'sparse_other':   (0.1, 0.5, 0.4),
+    'snow_ice':       (0.0, 0.0, 0.0),
+    'water':          (0.0, 0.0, 0.0),
+}
+
+
+def veg_keep(t, layout, rng):
+    """按植被类型筛一遍树、灌木、高草丛（VEG_KEEP）。返回 {类别: 去掉多少}"""
+    import veg_types as vt
+    removed = {}
+    for k, kind in enumerate(('trees', 'shrubs', 'grass')):
+        table = np.array([VEG_KEEP.get(n, (1.0, 1.0, 1.0))[k] for n in vt.TYPES])
+        items = layout[kind]
+        if not items:
+            removed[kind] = 0; continue
+        p = table[t.veg(np.array([i['x'] for i in items]), np.array([i['y'] for i in items]))]
+        layout[kind] = [i for i, pk in zip(items, p.tolist()) if pk >= 1.0 or rng.random() < pk]
+        removed[kind] = len(items) - len(layout[kind])
+    return removed
+
+
+def ground_keep_table(names):
+    """{类别: 按地面类型编号查的保留比例数组}。names = buildings_data.GROUND"""
+    out = {}
+    for k, kind in enumerate(('trees', 'shrubs', 'grass')):
+        out[kind] = np.array([GROUND_KEEP.get(n, (1.0, 1.0, 1.0))[k] for n in names])
+    return out
 ASSET_TREE_HALF = 150.0      # 这个范围内的树都用真实素材（活动范围外，但离得近看得清）
 GRASS_RING_HALF = 170.0      # 草丛延伸到这里并逐渐变稀
 NEAR_TREE_TRIES = 15000      # 600 m 内简化树的尝试次数（再按森林占比筛）
@@ -78,6 +201,8 @@ class Terrain:
         self.le, self.lc = d['local_elev'], d['local_cover']
         self.fe, self.fc = d['far_elev'], d['far_cover']
         self.fr = d['far_relief']
+        # 每格植被类型（veg_types.py）；旧地形文件、示例地点没有就全 0（不知道）
+        self.lveg = d['local_veg'] if 'local_veg' in d.files else np.zeros(self.le.shape, np.uint8)
         self.lox, self.loy, self.lcs = float(d['local_ox']), float(d['local_oy']), float(d['local_cs'])
         self.fox, self.foy, self.fcs = float(d['far_ox']), float(d['far_oy']), float(d['far_cs'])
         self.half = self.le.shape[0] * self.lcs / 2
@@ -131,6 +256,15 @@ class Terrain:
         dx = (self.raw(x + e, y) - self.raw(x - e, y)) / (2 * e)
         dy = (self.raw(x, y + e) - self.raw(x, y - e)) / (2 * e)
         return np.degrees(np.arctan(np.hypot(dx, dy)))
+
+    def veg(self, x, y):
+        """植被类型编号（veg_types.TYPES），取所在格子的值；近景范围外是 0"""
+        x = np.asarray(x, dtype=float); y = np.asarray(y, dtype=float)
+        u, v = self._uv(x, y, self.lox, self.loy, self.lcs)
+        i = np.floor(u + 0.5).astype(int); j = np.floor(v + 0.5).astype(int)
+        h, w = self.lveg.shape
+        ok = (i >= 0) & (i < w) & (j >= 0) & (j < h)
+        return np.where(ok, self.lveg[np.clip(j, 0, h - 1), np.clip(i, 0, w - 1)], 0)
 
     def cover(self, x, y):
         """返回 8 类地表占比，形状 (8, ...)"""
@@ -459,9 +593,10 @@ def footprint_distance(bld, x, y):
     return 0.0 if int(bld.classes(np.array([x]), np.array([y]))[0]) == BUILDING_CLASS else d
 
 
-def plan(t, inputs, seed, veg_m, house_m, bld=None):
+def plan(t, inputs, seed, veg_m, house_m, bld=None, species=None):
     """完整的“做决定”：5 个输入 → 决定 → 按地形摆放 → 出生点、火。返回给 Blender 端搭场景用的东西
-    bld = buildings_data.load(...) 的结果（可选）：有它时不再随机放房子（没有数据也不放），树草让开真实建筑和道路"""
+    bld = buildings_data.load(...) 的结果（可选）：有它时不再随机放房子（没有数据也不放），树草让开真实建筑和道路
+    species = 分树种素材清单（可选，quality.species_manifest()）：按植被类型、地面类型换成对应树种"""
     import random
     rng = random.Random(seed)
     tree_h = {m['name']: m['height_m'] for m in veg_m if m['kind'] == 'tree'}
@@ -490,13 +625,27 @@ def plan(t, inputs, seed, veg_m, house_m, bld=None):
     layout['shrubs'] = [i for i in layout['shrubs'] if not in_view(i['x'], i['y'], 3, 10, 40)]
     extend_near(t, layout, veg_m, rng, lambda x, y: in_view(x, y, 7, 45, 400))
     if bld is not None:
+        import buildings_data as bdm
+        table = ground_keep_table(bdm.GROUND)
         placement['buildings_removed'] = {}
+        placement['ground_removed'] = {}
         for k in ('trees', 'shrubs', 'grass'):
             before = len(layout[k])
             if layout[k]:
                 keep = ~bld.blocked(np.array([i['x'] for i in layout[k]]), np.array([i['y'] for i in layout[k]]))
                 layout[k] = [i for i, ok in zip(layout[k], keep.tolist()) if ok]
             placement['buildings_removed'][k] = before - len(layout[k])
+            # 再按地面类型（草坪、沙滩、停车场……）筛一遍
+            before = len(layout[k])
+            if layout[k]:
+                p = table[k][bld.ground(np.array([i['x'] for i in layout[k]]), np.array([i['y'] for i in layout[k]]))]
+                layout[k] = [i for i, pk in zip(layout[k], p.tolist()) if pk >= 1.0 or rng.random() < pk]
+            placement['ground_removed'][k] = before - len(layout[k])
+    if t.lveg.any():
+        placement['veg_removed'] = veg_keep(t, layout, rng)
+    if species:
+        placement['species'] = assign_species(t, layout, species, bld, rng)
+        tree_h.update({a['name']: a['height_m'] for a in species if a['kind'] == 'tree'})
     for tr in layout['trees']:
         tr.setdefault('h', tree_h[tr['name']] * tr.get('s', 1.0))
     if bld is not None:

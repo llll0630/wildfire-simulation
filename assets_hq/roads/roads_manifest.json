@@ -1,0 +1,120 @@
+{
+ "length_m": 12.0,
+ "tiers": {
+  "low": 20,
+  "medium": 50,
+  "high": 100
+ },
+ "roads": {
+  "residential": {
+   "surface": "asphalt",
+   "width_m": 7.0,
+   "use": "Overture residential / living_street / service，美国住宅街道多数没有标线",
+   "files": {
+    "low": "low/residential.jpg",
+    "medium": "medium/residential.jpg",
+    "high": "high/residential.jpg"
+   }
+  },
+  "two_lane": {
+   "surface": "asphalt",
+   "width_m": 9.0,
+   "use": "tertiary / secondary：双黄中线 + 白边线",
+   "files": {
+    "low": "low/two_lane.jpg",
+    "medium": "medium/two_lane.jpg",
+    "high": "high/two_lane.jpg"
+   }
+  },
+  "four_lane": {
+   "surface": "asphalt",
+   "width_m": 15.0,
+   "use": "primary / trunk：双向四车道",
+   "files": {
+    "low": "low/four_lane.jpg",
+    "medium": "medium/four_lane.jpg",
+    "high": "high/four_lane.jpg"
+   }
+  },
+  "highway": {
+   "surface": "asphalt",
+   "width_m": 12.0,
+   "use": "motorway 单向三车道（左黄边线、右白边线）",
+   "files": {
+    "low": "low/highway.jpg",
+    "medium": "medium/highway.jpg",
+    "high": "high/highway.jpg"
+   }
+  },
+  "parking_lot": {
+   "surface": "asphalt",
+   "width_m": 17.0,
+   "use": "transit/parking：两排车位（各深 5.5 m）+ 中间 6 m 通道",
+   "files": {
+    "low": "low/parking_lot.jpg",
+    "medium": "medium/parking_lot.jpg",
+    "high": "high/parking_lot.jpg"
+   }
+  },
+  "crosswalk": {
+   "surface": "asphalt",
+   "width_m": 9.0,
+   "use": "路口人行横道（贴在路口）",
+   "files": {
+    "low": "low/crosswalk.jpg",
+    "medium": "medium/crosswalk.jpg",
+    "high": "high/crosswalk.jpg"
+   }
+  },
+  "dirt_road": {
+   "surface": "dirt",
+   "width_m": 4.0,
+   "use": "road_surface = dirt / earth / unpaved：两道车辙 + 中间一条草",
+   "files": {
+    "low": "low/dirt_road.jpg",
+    "medium": "medium/dirt_road.jpg",
+    "high": "high/dirt_road.jpg"
+   }
+  },
+  "gravel_road": {
+   "surface": "gravel",
+   "width_m": 5.0,
+   "use": "road_surface = gravel / compacted",
+   "files": {
+    "low": "low/gravel_road.jpg",
+    "medium": "medium/gravel_road.jpg",
+    "high": "high/gravel_road.jpg"
+   }
+  },
+  "sidewalk": {
+   "surface": "concrete",
+   "width_m": 1.8,
+   "use": "人行道：每 1.5 m 一道伸缩缝",
+   "files": {
+    "low": "low/sidewalk.jpg",
+    "medium": "medium/sidewalk.jpg",
+    "high": "high/sidewalk.jpg"
+   }
+  },
+  "curb": {
+   "surface": "concrete",
+   "width_m": 0.3,
+   "use": "路缘石（立面，高 0.15 m）",
+   "files": {
+    "low": "low/curb.jpg",
+    "medium": "medium/curb.jpg",
+    "high": "high/curb.jpg"
+   }
+  },
+  "trail": {
+   "surface": "dirt",
+   "width_m": 1.5,
+   "use": "footway / path / track 的土路小径",
+   "files": {
+    "low": "low/trail.jpg",
+    "medium": "medium/trail.jpg",
+    "high": "high/trail.jpg"
+   }
+  }
+ }
+}

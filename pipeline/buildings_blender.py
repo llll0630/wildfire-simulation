@@ -24,7 +24,9 @@ FAR_SAMPLE = 10.0            # 近景外（中景网格 10 m 起）
 ASSET_HALF = 150.0
 
 ROAD_RGB = (0.055, 0.055, 0.06)
-PATH_RGB = {'dirt': (0.30, 0.23, 0.15), 'paved': (0.33, 0.33, 0.32)}
+PATH_RGB = {'dirt': (0.30, 0.23, 0.15), 'paved': (0.33, 0.33, 0.32), 'gravel': (0.36, 0.34, 0.31)}
+UNPAVED_ROAD = {'unpaved': 'dirt', 'dirt': 'dirt', 'earth': 'dirt', 'ground': 'dirt', 'mud': 'dirt', 'sand': 'dirt',
+                'gravel': 'gravel', 'fine_gravel': 'gravel', 'compacted': 'gravel', 'pebblestone': 'gravel'}
 ROOF_RGB = ((0.16, 0.14, 0.13), (0.22, 0.12, 0.09), (0.12, 0.13, 0.15), (0.25, 0.24, 0.22))
 WALL_RGB = ((0.62, 0.58, 0.52), (0.55, 0.50, 0.44), (0.68, 0.66, 0.62), (0.48, 0.40, 0.34), (0.60, 0.55, 0.47))
 
@@ -143,8 +145,11 @@ def build_roads(bld, surf, coll):
         lift = PATH_LIFT if r['kind'] == 'path' else ROAD_LIFT + 0.004 * r['width']
         lift = lift + LIFT_PER_M * np.maximum(np.maximum(np.abs((lx + rx) / 2), np.abs((ly + ry) / 2)) - tc.NEAR_HALF, 0)
         lz = surf(lx, ly) + lift; rz = surf(rx, ry) + lift
+        surface = r.get('surface') or ''
         if r['kind'] == 'path':
-            rgb = PATH_RGB['paved' if (r.get('surface') or '') in bd.PAVED_SURFACES else 'dirt']
+            rgb = PATH_RGB['paved' if surface in bd.PAVED_SURFACES else 'dirt']
+        elif surface in UNPAVED_ROAD:                 # 土路、砾石路（真实数据里的路面材质）
+            rgb = PATH_RGB[UNPAVED_ROAD[surface]]
         else:
             rgb = ROAD_RGB
         o = len(verts); m = len(lx)
@@ -156,15 +161,17 @@ def build_roads(bld, surf, coll):
     return 2 * len(faces)
 
 
-def overlay_ground(bld, x, y, rgb, tex):
-    """近景地面烘焙图：路、小路、铺装、建筑底下换成对应颜色 / 贴图（x、y、rgb 是烘焙图每个像素，sRGB）"""
+def overlay_ground(bld, x, y, rgb, sample):
+    """近景地面烘焙图：路、小路、铺装、建筑底下换成对应贴图（x、y、rgb 是烘焙图每个像素，sRGB）
+    sample(材质名, 选中的像素) → 那些像素的贴图颜色。铺装处 Overture 已经细分过（停车场、地砖……）就不再覆盖"""
     c = bld.classes(x, y)
+    g = bld.ground(x, y)
     out = rgb.copy()
-    out[c == bd.PAVED] = tex['mat_urban'][c == bd.PAVED]
-    out[c == bd.BUILDING] = tex['mat_urban'][c == bd.BUILDING] * 0.8
-    out[c == bd.PATH] = tex['mat_bare'][c == bd.PATH] * 0.9
-    road = c == bd.ROAD
-    out[road] = np.power(np.array(ROAD_RGB), 1 / 2.2) * (0.9 + 0.2 * tex['mat_urban'][road].mean(axis=-1, keepdims=True))
+    paved = (c == bd.PAVED) & (g == 0)
+    for sel, key, k in ((paved, 'concrete', 1.0), (c == bd.BUILDING, 'concrete', 0.8), (c == bd.PATH, 'dirt', 0.9),
+                        (c == bd.ROAD, 'asphalt', 1.0)):
+        if sel.any():
+            out[sel] = sample(key, sel) * k
     return out
 
 

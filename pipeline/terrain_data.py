@@ -17,10 +17,15 @@
 #
 #  输出 npz 的内容（坐标：EPSG:5070 米，相对场景中心）：
 #    local_*：近景 + 中景（默认 6 km 见方）；far_*：远景（约 ±100 km，每 3 km 一格）
+#    local_veg：每格的植被类型（veg_types.py 的编号，比 8 大类细：松 / 冷杉 / 橡树、山艾 / 石炭酸灌木……）。
+#      只有原始栅格才有；示例地点和粗略模式全是 0（不知道），场景里用 8 大类的通用素材
 #    缺高度或缺地表的格子（海边、国境、数据边缘）用远景数据补，补了多少记在 local_missing / local_no_cover
 # ===============================================================
 import argparse, json, math, os, sys, time
 import numpy as np
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import veg_types as vt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.environ.get('FIRE_TERRAIN_DATA', os.path.join(os.path.dirname(HERE), 'terrain_data'))
@@ -110,8 +115,8 @@ def sample_far(far, cx, cy, x, y):
     return bl(fe), bl(far['far_cover'])
 
 
-def save_terrain(out, local_elev, local_cover, ox, oy, cs, cx, cy):
-    """保存地形文件。近景缺高度或缺地表的格子（海边、国境、数据边缘）用远景数据补"""
+def save_terrain(out, local_elev, local_cover, ox, oy, cs, cx, cy, local_veg=None):
+    """保存地形文件。近景缺高度或缺地表的格子（海边、国境、数据边缘）用远景数据补；local_veg 是每格植被类型（没有就全 0）"""
     far = far_arrays(cx, cy)
     n = local_elev.shape[0]
     jj, ii = np.mgrid[0:n, 0:n]
@@ -121,11 +126,15 @@ def save_terrain(out, local_elev, local_cover, ox, oy, cs, cx, cy):
     no_cover = np.isnan(local_cover).any(axis=0) | (np.nan_to_num(local_cover).sum(axis=0) == 0)
     local_elev = np.where(missing, fe, local_elev)
     local_cover = np.where(no_cover[None], fc, np.nan_to_num(local_cover))
+    if local_veg is None:
+        local_veg = np.zeros((n, n), np.uint8)
+    local_veg = np.where(no_cover, 0, local_veg).astype(np.uint8)
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     np.savez_compressed(out, local_elev=local_elev, local_cover=local_cover,
                         local_ox=ox - cx, local_oy=oy - cy, local_cs=cs,
                         origin_x=cx, origin_y=cy,                            # 场景中心（EPSG:5070），buildings_data.py 用
                         local_missing=int(missing.sum()), local_no_cover=int(no_cover.sum()),
+                        local_veg=local_veg, veg_types=np.array(vt.TYPES),
                         **{k: v for k, v in far.items() if k not in ('far_filled', 'far_outside_cells')})
     return {'local_grid': f'{n}x{n}', 'local_cell_m': cs, 'local_missing_height': int(missing.sum()),
             'local_missing_cover': int(no_cover.sum()), 'far_outside_conus_cells': far['far_outside_cells']}
@@ -166,8 +175,30 @@ def from_rasters(context, reader, lon, lat, out, width_m=LOCAL_WIDTH_M, cell_m=3
         elev = np.where(g['dem_count'] > 0, g['dem_sum'] / g['dem_count'], np.nan)
     t = d['transform']
     ox, oy, cs = t.c, t.f, factor * 30
-    info = save_terrain(out, elev, cover, ox, oy, cs, ox + n * 30 / 2, oy - n * 30 / 2)
-    return {**info, 'read_seconds': round(read_s, 3)}
+    veg = veg_grid(reader, row, col, n, d['domain'], factor)
+    info = save_terrain(out, elev, cover, ox, oy, cs, ox + n * 30 / 2, oy - n * 30 / 2, veg)
+    return {**info, 'read_seconds': round(read_s, 3),
+            'veg_types': {vt.TYPES[k]: round(float(v), 3) for k, v in enumerate(np.bincount(veg.ravel(), minlength=len(vt.TYPES)) / veg.size) if v > 0.005}}
+
+
+def veg_grid(reader, row, col, n, domain, factor):
+    """每格的植被类型：原始 EVT 栅格（和 reader.read 同一个窗口）按对照表归类，合并格子时取最多的那种"""
+    from rasterio.windows import Window
+    lut = np.zeros(65536, np.uint8)
+    for value, k in vt.lookup(reader.paths['lookup']).items():
+        lut[value] = k
+    dr, dc = reader.offsets['vegetation']
+    v = reader.sources['vegetation'].read(1, window=Window(col + dc, row + dr, n, n), boundless=True, masked=True)
+    codes = np.where(~np.ma.getmaskarray(v) & (v.data >= 0), v.data, 0).astype(np.uint16)
+    veg = np.where(domain, lut[codes], 0)
+    if factor == 1:
+        return veg.astype(np.uint8)
+    m = n // factor
+    blocks = veg.reshape(m, factor, m, factor).transpose(0, 2, 1, 3).reshape(m, m, -1)
+    counts = np.stack([(blocks == k).sum(axis=-1) for k in range(len(vt.TYPES))])
+    counts[0] = 0                                        # 有已知类型时不选"不知道"
+    out = counts.argmax(axis=0).astype(np.uint8)
+    return np.where(counts.max(axis=0) > 0, out, 0).astype(np.uint8)
 
 
 def from_example(site, out):
