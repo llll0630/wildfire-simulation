@@ -1,6 +1,144 @@
 {
  "assets": [
   {
+   "name": "bb_tree_whitepine_02",
+   "source": "tree_whitepine_02",
+   "width_m": 13.26,
+   "height_m": 26.52,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_whitepine_01",
+   "source": "tree_whitepine_01",
+   "width_m": 11.22,
+   "height_m": 22.44,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_sycamore_02",
+   "source": "tree_sycamore_02",
+   "width_m": 24.48,
+   "height_m": 24.48,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_sycamore_01",
+   "source": "tree_sycamore_01",
+   "width_m": 20.75,
+   "height_m": 20.75,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_redwood_02",
+   "source": "tree_redwood_02",
+   "width_m": 22.95,
+   "height_m": 45.9,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_redwood_01",
+   "source": "tree_redwood_01",
+   "width_m": 19.38,
+   "height_m": 38.76,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
    "name": "bb_tree_ponderosa_03",
    "source": "tree_ponderosa_03",
    "width_m": 12.24,
@@ -70,6 +208,52 @@
    }
   },
   {
+   "name": "bb_tree_pine_young_02",
+   "source": "tree_pine_young_02",
+   "width_m": 3.13,
+   "height_m": 6.27,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_pine_young_01",
+   "source": "tree_pine_young_01",
+   "width_m": 3.06,
+   "height_m": 3.06,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
    "name": "bb_tree_palm_02",
    "source": "tree_palm_02",
    "width_m": 12.24,
@@ -116,6 +300,98 @@
    }
   },
   {
+   "name": "bb_tree_mesquite_02",
+   "source": "tree_mesquite_02",
+   "width_m": 9.49,
+   "height_m": 9.49,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_mesquite_01",
+   "source": "tree_mesquite_01",
+   "width_m": 6.42,
+   "height_m": 6.42,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_maple_young_02",
+   "source": "tree_maple_young_02",
+   "width_m": 5.29,
+   "height_m": 5.29,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_maple_young_01",
+   "source": "tree_maple_young_01",
+   "width_m": 3.81,
+   "height_m": 3.81,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
    "name": "bb_tree_maple_02",
    "source": "tree_maple_02",
    "width_m": 18.36,
@@ -143,6 +419,52 @@
    "source": "tree_maple_01",
    "width_m": 15.3,
    "height_m": 15.3,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_mangrove_02",
+   "source": "tree_mangrove_02",
+   "width_m": 7.14,
+   "height_m": 7.14,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_mangrove_01",
+   "source": "tree_mangrove_01",
+   "width_m": 5.56,
+   "height_m": 5.56,
    "tiers": {
     "low": {
      "px": 128,
@@ -281,6 +603,98 @@
    "source": "tree_juniper_01",
    "width_m": 4.63,
    "height_m": 4.63,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_hemlock_02",
+   "source": "tree_hemlock_02",
+   "width_m": 12.24,
+   "height_m": 24.48,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_hemlock_01",
+   "source": "tree_hemlock_01",
+   "width_m": 10.21,
+   "height_m": 20.42,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_fir_young_02",
+   "source": "tree_fir_young_02",
+   "width_m": 2.88,
+   "height_m": 5.76,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_fir_young_01",
+   "source": "tree_fir_young_01",
+   "width_m": 3.06,
+   "height_m": 3.06,
    "tiers": {
     "low": {
      "px": 128,
@@ -442,6 +856,98 @@
    "source": "tree_cottonwood_01",
    "width_m": 18.39,
    "height_m": 18.39,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_birch_02",
+   "source": "tree_birch_02",
+   "width_m": 14.28,
+   "height_m": 14.28,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_birch_01",
+   "source": "tree_birch_01",
+   "width_m": 12.24,
+   "height_m": 12.24,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_aspen_02",
+   "source": "tree_aspen_02",
+   "width_m": 8.61,
+   "height_m": 17.21,
+   "tiers": {
+    "low": {
+     "px": 128,
+     "planes": 2,
+     "triangles": 4
+    },
+    "medium": {
+     "px": 256,
+     "planes": 3,
+     "triangles": 6
+    },
+    "high": {
+     "px": 512,
+     "planes": 3,
+     "triangles": 6
+    }
+   }
+  },
+  {
+   "name": "bb_tree_aspen_01",
+   "source": "tree_aspen_01",
+   "width_m": 8.59,
+   "height_m": 17.18,
    "tiers": {
     "low": {
      "px": 128,

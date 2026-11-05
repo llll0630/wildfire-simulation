@@ -42,6 +42,7 @@ WALLS = {
     'siding_blue':     ('WoodSiding009', 2.4, (0.52, 0.60, 0.68), ('residential',)),
     'siding_beige':    ('WoodSiding009', 2.4, (0.80, 0.74, 0.62), ('residential',)),
     'siding_sage':     ('WoodSiding009', 2.4, (0.62, 0.67, 0.56), ('residential',)),
+    'siding_red':      ('WoodSiding009', 2.4, (0.55, 0.14, 0.10), ('residential', 'industrial')),   # 谷仓红
     'wood_shingle':    ('WoodSiding013', 1.8, None, ('residential',)),
     'stucco_white':    ('Plaster001', 3.0, (0.90, 0.89, 0.86), ('residential', 'commercial')),
     'stucco_cream':    ('Plaster001', 3.0, (0.88, 0.82, 0.70), ('residential', 'commercial')),

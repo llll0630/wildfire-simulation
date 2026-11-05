@@ -1,0 +1,243 @@
+{
+ "generator": "asset_builders/build_building_parts.py: roof_mesh(kind, L, W, pitch, overhang, parapet)",
+ "assets": [
+  {
+   "name": "roof_gable",
+   "kind": "roof",
+   "shape": "gable",
+   "footprint_m": [
+    10,
+    8
+   ],
+   "pitch": 0.5,
+   "roof": "shingle_gray",
+   "wall": "siding_white",
+   "triangles": {
+    "low": 6,
+    "medium": 6,
+    "high": 6
+   }
+  },
+  {
+   "name": "roof_gable_steep",
+   "kind": "roof",
+   "shape": "gable",
+   "footprint_m": [
+    10,
+    8
+   ],
+   "pitch": 0.75,
+   "roof": "slate",
+   "wall": "brick_red",
+   "triangles": {
+    "low": 6,
+    "medium": 6,
+    "high": 6
+   }
+  },
+  {
+   "name": "roof_hip",
+   "kind": "roof",
+   "shape": "hip",
+   "footprint_m": [
+    10,
+    8
+   ],
+   "pitch": 0.5,
+   "roof": "shingle_brown",
+   "wall": "stucco_cream",
+   "triangles": {
+    "low": 6,
+    "medium": 6,
+    "high": 6
+   }
+  },
+  {
+   "name": "roof_hip_tile",
+   "kind": "roof",
+   "shape": "hip",
+   "footprint_m": [
+    12,
+    9
+   ],
+   "pitch": 0.4,
+   "roof": "clay_tile",
+   "wall": "stucco_terracotta",
+   "triangles": {
+    "low": 6,
+    "medium": 6,
+    "high": 6
+   }
+  },
+  {
+   "name": "roof_shed",
+   "kind": "roof",
+   "shape": "shed",
+   "footprint_m": [
+    8,
+    6
+   ],
+   "pitch": 0.3,
+   "roof": "metal_roof",
+   "wall": "siding_gray",
+   "triangles": {
+    "low": 6,
+    "medium": 6,
+    "high": 6
+   }
+  },
+  {
+   "name": "roof_gambrel",
+   "kind": "roof",
+   "shape": "gambrel",
+   "footprint_m": [
+    12,
+    9
+   ],
+   "pitch": 1.0,
+   "roof": "metal_roof",
+   "wall": "siding_gray",
+   "triangles": {
+    "low": 14,
+    "medium": 14,
+    "high": 14
+   }
+  },
+  {
+   "name": "roof_flat_parapet",
+   "kind": "roof",
+   "shape": "flat",
+   "footprint_m": [
+    14,
+    10
+   ],
+   "pitch": 0,
+   "roof": "flat_membrane",
+   "wall": "concrete",
+   "triangles": {
+    "low": 26,
+    "medium": 26,
+    "high": 26
+   }
+  },
+  {
+   "name": "roof_flat_gravel",
+   "kind": "roof",
+   "shape": "flat",
+   "footprint_m": [
+    14,
+    10
+   ],
+   "pitch": 0,
+   "roof": "flat_gravel",
+   "wall": "brick_tan",
+   "triangles": {
+    "low": 26,
+    "medium": 26,
+    "high": 26
+   }
+  },
+  {
+   "name": "chimney_brick",
+   "kind": "fixture",
+   "height_m": 2.32,
+   "note": "底部 z = 0 放在屋脊旁；埋进屋顶的部分让屋面挡住",
+   "triangles": {
+    "low": 24,
+    "medium": 24,
+    "high": 24
+   }
+  },
+  {
+   "name": "dormer_gable",
+   "kind": "fixture",
+   "width_m": 1.6,
+   "depth_m": 1.4,
+   "height_m": 2.02,
+   "triangles": {
+    "low": 29,
+    "medium": 29,
+    "high": 29
+   }
+  },
+  {
+   "name": "porch_front",
+   "kind": "fixture",
+   "width_m": 4.0,
+   "depth_m": 3.1,
+   "height_m": 2.75,
+   "note": "原点 = 门所在墙面的中点，门廊朝 -y",
+   "triangles": {
+    "low": 84,
+    "medium": 252,
+    "high": 348
+   }
+  },
+  {
+   "name": "balcony",
+   "kind": "fixture",
+   "width_m": 3.0,
+   "depth_m": 1.2,
+   "height_m": 1.11,
+   "triangles": {
+    "low": 96,
+    "medium": 216,
+    "high": 360
+   }
+  },
+  {
+   "name": "deck_wood",
+   "kind": "fixture",
+   "width_m": 4.0,
+   "depth_m": 3.0,
+   "height_m": 1.56,
+   "triangles": {
+    "low": 96,
+    "medium": 252,
+    "high": 420
+   }
+  },
+  {
+   "name": "ac_condenser",
+   "kind": "fixture",
+   "height_m": 0.87,
+   "triangles": {
+    "low": 28,
+    "medium": 40,
+    "high": 56
+   }
+  },
+  {
+   "name": "rooftop_hvac",
+   "kind": "fixture",
+   "height_m": 1.34,
+   "triangles": {
+    "low": 56,
+    "medium": 80,
+    "high": 112
+   }
+  },
+  {
+   "name": "solar_array",
+   "kind": "fixture",
+   "width_m": 7.0,
+   "depth_m": 2.1,
+   "height_m": 0.09,
+   "triangles": {
+    "low": 96,
+    "medium": 96,
+    "high": 288
+   }
+  },
+  {
+   "name": "satellite_dish",
+   "kind": "fixture",
+   "height_m": 0.95,
+   "triangles": {
+    "low": 36,
+    "medium": 48,
+    "high": 64
+   }
+  }
+ ]
+}

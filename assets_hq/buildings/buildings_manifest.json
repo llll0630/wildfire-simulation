@@ -153,6 +153,25 @@
     "high": "high/walls/siding_sage.jpg"
    }
   },
+  "siding_red": {
+   "source": "ambientCG WoodSiding009 (CC0)",
+   "tile_m": 2.4,
+   "tile_h_m": 1.2,
+   "use": [
+    "residential",
+    "industrial"
+   ],
+   "avg_rgb": [
+    0.55,
+    0.14,
+    0.1
+   ],
+   "files": {
+    "low": "low/walls/siding_red.jpg",
+    "medium": "medium/walls/siding_red.jpg",
+    "high": "high/walls/siding_red.jpg"
+   }
+  },
   "wood_shingle": {
    "source": "ambientCG WoodSiding013 (CC0)",
    "tile_m": 1.8,
@@ -327,9 +346,9 @@
    "tile_m": 2.0,
    "use": "pitched",
    "avg_rgb": [
-    0.342,
-    0.342,
-    0.342
+    0.344,
+    0.344,
+    0.344
    ],
    "files": {
     "low": "low/roofs/shingle_gray.jpg",
@@ -342,9 +361,9 @@
    "tile_m": 2.0,
    "use": "pitched",
    "avg_rgb": [
-    0.3,
-    0.236,
-    0.182
+    0.303,
+    0.238,
+    0.183
    ],
    "files": {
     "low": "low/roofs/shingle_brown.jpg",
@@ -357,9 +376,9 @@
    "tile_m": 2.0,
    "use": "pitched",
    "avg_rgb": [
-    0.155,
-    0.155,
-    0.164
+    0.152,
+    0.152,
+    0.16
    ],
    "files": {
     "low": "low/roofs/shingle_black.jpg",
@@ -994,6 +1013,90 @@
     "low": "low/modules/siding_sage__blank.jpg",
     "medium": "medium/modules/siding_sage__blank.jpg",
     "high": "high/modules/siding_sage__blank.jpg"
+   }
+  },
+  "siding_red__window": {
+   "wall": "siding_red",
+   "module": "window",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_red__window.jpg",
+    "medium": "medium/modules/siding_red__window.jpg",
+    "high": "high/modules/siding_red__window.jpg"
+   }
+  },
+  "siding_red__window_pair": {
+   "wall": "siding_red",
+   "module": "window_pair",
+   "width_m": 4.2,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_red__window_pair.jpg",
+    "medium": "medium/modules/siding_red__window_pair.jpg",
+    "high": "high/modules/siding_red__window_pair.jpg"
+   }
+  },
+  "siding_red__door": {
+   "wall": "siding_red",
+   "module": "door",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_red__door.jpg",
+    "medium": "medium/modules/siding_red__door.jpg",
+    "high": "high/modules/siding_red__door.jpg"
+   }
+  },
+  "siding_red__garage": {
+   "wall": "siding_red",
+   "module": "garage",
+   "width_m": 3.4,
+   "height_m": 3.2,
+   "use": "residential",
+   "files": {
+    "low": "low/modules/siding_red__garage.jpg",
+    "medium": "medium/modules/siding_red__garage.jpg",
+    "high": "high/modules/siding_red__garage.jpg"
+   }
+  },
+  "siding_red__blank": {
+   "wall": "siding_red",
+   "module": "blank",
+   "width_m": 3.0,
+   "height_m": 3.2,
+   "use": "any",
+   "files": {
+    "low": "low/modules/siding_red__blank.jpg",
+    "medium": "medium/modules/siding_red__blank.jpg",
+    "high": "high/modules/siding_red__blank.jpg"
+   }
+  },
+  "siding_red__rollup": {
+   "wall": "siding_red",
+   "module": "rollup",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/siding_red__rollup.jpg",
+    "medium": "medium/modules/siding_red__rollup.jpg",
+    "high": "high/modules/siding_red__rollup.jpg"
+   }
+  },
+  "siding_red__high_window": {
+   "wall": "siding_red",
+   "module": "high_window",
+   "width_m": 5.0,
+   "height_m": 3.2,
+   "use": "industrial",
+   "files": {
+    "low": "low/modules/siding_red__high_window.jpg",
+    "medium": "medium/modules/siding_red__high_window.jpg",
+    "high": "high/modules/siding_red__high_window.jpg"
    }
   },
   "wood_shingle__window": {

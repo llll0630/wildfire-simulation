@@ -138,222 +138,6 @@
    }
   },
   {
-   "name": "car_sedan_white",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_sedan_black",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_sedan_silver",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_sedan_gray",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_sedan_red",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_sedan_blue",
-   "kind": "vehicle",
-   "length_m": 4.8,
-   "width_m": 1.85,
-   "height_m": 1.45,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_white",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_black",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_silver",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_gray",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_red",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_suv_blue",
-   "kind": "vehicle",
-   "length_m": 4.9,
-   "width_m": 1.95,
-   "height_m": 1.75,
-   "triangles": {
-    "low": 116,
-    "medium": 180,
-    "high": 324
-   }
-  },
-  {
-   "name": "car_pickup_white",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
-   "name": "car_pickup_black",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
-   "name": "car_pickup_silver",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
-   "name": "car_pickup_gray",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
-   "name": "car_pickup_red",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
-   "name": "car_pickup_blue",
-   "kind": "vehicle",
-   "length_m": 5.8,
-   "width_m": 2.0,
-   "height_m": 1.9,
-   "triangles": {
-    "low": 128,
-    "medium": 192,
-    "high": 336
-   }
-  },
-  {
    "name": "street_light",
    "kind": "street",
    "height_m": 8.15,
@@ -371,6 +155,189 @@
     "low": 22,
     "medium": 34,
     "high": 50
+   }
+  },
+  {
+   "name": "traffic_light",
+   "kind": "street",
+   "height_m": 6.0,
+   "arm_m": 6.0,
+   "triangles": {
+    "low": 128,
+    "medium": 152,
+    "high": 184
+   }
+  },
+  {
+   "name": "fire_hydrant",
+   "kind": "street",
+   "height_m": 0.8,
+   "triangles": {
+    "low": 88,
+    "medium": 124,
+    "high": 172
+   }
+  },
+  {
+   "name": "mailbox",
+   "kind": "street",
+   "height_m": 1.33,
+   "triangles": {
+    "low": 40,
+    "medium": 52,
+    "high": 68
+   }
+  },
+  {
+   "name": "trash_bins",
+   "kind": "street",
+   "height_m": 1.06,
+   "triangles": {
+    "low": 160,
+    "medium": 160,
+    "high": 160
+   }
+  },
+  {
+   "name": "bench",
+   "kind": "street",
+   "length_m": 1.8,
+   "height_m": 0.9,
+   "triangles": {
+    "low": 72,
+    "medium": 120,
+    "high": 120
+   }
+  },
+  {
+   "name": "utility_box",
+   "kind": "street",
+   "height_m": 1.35,
+   "triangles": {
+    "low": 24,
+    "medium": 24,
+    "high": 24
+   }
+  },
+  {
+   "name": "bridge_segment",
+   "kind": "bridge",
+   "length_m": 12.0,
+   "width_m": 10.0,
+   "pier_height_m": 8.1,
+   "note": "桥墩高度以后按桥下地形截短",
+   "triangles": {
+    "low": 72,
+    "medium": 72,
+    "high": 96
+   }
+  },
+  {
+   "name": "playground_swing",
+   "kind": "park",
+   "length_m": 3.8,
+   "height_m": 2.45,
+   "triangles": {
+    "low": 156,
+    "medium": 156,
+    "high": 156
+   }
+  },
+  {
+   "name": "playground_slide",
+   "kind": "park",
+   "length_m": 4.0,
+   "height_m": 2.3,
+   "triangles": {
+    "low": 176,
+    "medium": 176,
+    "high": 176
+   }
+  },
+  {
+   "name": "picnic_table",
+   "kind": "park",
+   "length_m": 1.8,
+   "height_m": 0.77,
+   "triangles": {
+    "low": 84,
+    "medium": 84,
+    "high": 84
+   }
+  },
+  {
+   "name": "basketball_hoop",
+   "kind": "park",
+   "height_m": 3.43,
+   "triangles": {
+    "low": 108,
+    "medium": 156,
+    "high": 188
+   }
+  },
+  {
+   "name": "dock_segment",
+   "kind": "waterfront",
+   "length_m": 4.0,
+   "width_m": 2.0,
+   "deck_z_m": 0.8,
+   "triangles": {
+    "low": 100,
+    "medium": 304,
+    "high": 512
+   }
+  },
+  {
+   "name": "guardrail",
+   "kind": "road",
+   "length_m": 4.0,
+   "height_m": 0.8,
+   "triangles": {
+    "low": 36,
+    "medium": 60,
+    "high": 60
+   }
+  },
+  {
+   "name": "sign_speed",
+   "kind": "road",
+   "height_m": 2.7,
+   "note": "限速牌，数字以后用贴图换",
+   "triangles": {
+    "low": 44,
+    "medium": 44,
+    "high": 44
+   }
+  },
+  {
+   "name": "sign_yield",
+   "kind": "road",
+   "height_m": 2.6,
+   "triangles": {
+    "low": 21,
+    "medium": 21,
+    "high": 21
+   }
+  },
+  {
+   "name": "sign_street_name",
+   "kind": "road",
+   "height_m": 2.85,
+   "note": "路名牌（十字两块），路名以后用贴图换",
+   "triangles": {
+    "low": 44,
+    "medium": 44,
+    "high": 44
+   }
+  },
+  {
+   "name": "sign_highway",
+   "kind": "road",
+   "height_m": 6.4,
+   "triangles": {
+    "low": 68,
+    "medium": 92,
+    "high": 124
    }
   }
  ]

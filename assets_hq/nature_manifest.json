@@ -1,0 +1,364 @@
+{
+ "assets": [
+  {
+   "name": "crop_soybean",
+   "kind": "crop",
+   "height_m": 0.8,
+   "width_m": 0.53,
+   "triangles": {
+    "low": 60,
+    "medium": 200,
+    "high": 378
+   }
+  },
+  {
+   "name": "crop_cotton",
+   "kind": "crop",
+   "height_m": 1.1,
+   "width_m": 0.62,
+   "triangles": {
+    "low": 60,
+    "medium": 202,
+    "high": 348
+   }
+  },
+  {
+   "name": "crop_wheat",
+   "kind": "crop",
+   "height_m": 0.9,
+   "width_m": 0.24,
+   "triangles": {
+    "low": 5,
+    "medium": 12,
+    "high": 32
+   }
+  },
+  {
+   "name": "tree_apple",
+   "kind": "orchard",
+   "height_m": 4.38,
+   "width_m": 4.65,
+   "triangles": {
+    "low": 120,
+    "medium": 3396,
+    "high": 9194
+   }
+  },
+  {
+   "name": "tree_citrus",
+   "kind": "orchard",
+   "height_m": 4.3,
+   "width_m": 3.55,
+   "triangles": {
+    "low": 120,
+    "medium": 2652,
+    "high": 7586
+   }
+  },
+  {
+   "name": "vineyard_row",
+   "kind": "orchard",
+   "height_m": 2.0,
+   "width_m": 6.08,
+   "length_m": 6.0,
+   "triangles": {
+    "low": 124,
+    "medium": 232,
+    "high": 392
+   }
+  },
+  {
+   "name": "rock_grey_01",
+   "kind": "rock",
+   "height_m": 0.27,
+   "width_m": 0.56,
+   "size_m": 0.6,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_grey_02",
+   "kind": "rock",
+   "height_m": 0.62,
+   "width_m": 1.26,
+   "size_m": 1.4,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_grey_03",
+   "kind": "rock",
+   "height_m": 1.18,
+   "width_m": 2.74,
+   "size_m": 3.0,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_grey_pile",
+   "kind": "rock",
+   "height_m": 0.27,
+   "width_m": 1.3,
+   "triangles": {
+    "low": 80,
+    "medium": 640,
+    "high": 3840
+   }
+  },
+  {
+   "name": "rock_red_01",
+   "kind": "rock",
+   "height_m": 0.31,
+   "width_m": 0.58,
+   "size_m": 0.6,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_red_02",
+   "kind": "rock",
+   "height_m": 0.66,
+   "width_m": 1.36,
+   "size_m": 1.4,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_red_03",
+   "kind": "rock",
+   "height_m": 1.52,
+   "width_m": 2.81,
+   "size_m": 3.0,
+   "triangles": {
+    "low": 20,
+    "medium": 80,
+    "high": 320
+   }
+  },
+  {
+   "name": "rock_red_pile",
+   "kind": "rock",
+   "height_m": 0.27,
+   "width_m": 1.3,
+   "triangles": {
+    "low": 80,
+    "medium": 640,
+    "high": 3840
+   }
+  },
+  {
+   "name": "rock_grey_outcrop_01",
+   "kind": "rock",
+   "height_m": 3.95,
+   "width_m": 7.35,
+   "size_m": [
+    6.0,
+    4.0,
+    3.5
+   ],
+   "triangles": {
+    "low": 300,
+    "medium": 588,
+    "high": 972
+   }
+  },
+  {
+   "name": "rock_grey_outcrop_02",
+   "kind": "rock",
+   "height_m": 6.97,
+   "width_m": 15.03,
+   "size_m": [
+    12.0,
+    7.0,
+    6.0
+   ],
+   "triangles": {
+    "low": 300,
+    "medium": 588,
+    "high": 972
+   }
+  },
+  {
+   "name": "rock_grey_cliff",
+   "kind": "rock",
+   "height_m": 15.0,
+   "width_m": 20.0,
+   "size_m": [
+    20.0,
+    15.0
+   ],
+   "note": "一段崖壁，朝 -y；左右可以并排接着放（起伏是随机的，接缝处用岩块挡）",
+   "triangles": {
+    "low": 96,
+    "medium": 864,
+    "high": 3456
+   }
+  },
+  {
+   "name": "rock_red_outcrop_01",
+   "kind": "rock",
+   "height_m": 3.95,
+   "width_m": 7.35,
+   "size_m": [
+    6.0,
+    4.0,
+    3.5
+   ],
+   "triangles": {
+    "low": 300,
+    "medium": 588,
+    "high": 972
+   }
+  },
+  {
+   "name": "rock_red_outcrop_02",
+   "kind": "rock",
+   "height_m": 6.97,
+   "width_m": 15.03,
+   "size_m": [
+    12.0,
+    7.0,
+    6.0
+   ],
+   "triangles": {
+    "low": 300,
+    "medium": 588,
+    "high": 972
+   }
+  },
+  {
+   "name": "rock_red_cliff",
+   "kind": "rock",
+   "height_m": 15.0,
+   "width_m": 20.0,
+   "size_m": [
+    20.0,
+    15.0
+   ],
+   "note": "一段崖壁，朝 -y；左右可以并排接着放（起伏是随机的，接缝处用岩块挡）",
+   "triangles": {
+    "low": 96,
+    "medium": 864,
+    "high": 3456
+   }
+  },
+  {
+   "name": "riprap_segment",
+   "kind": "rock",
+   "height_m": 0.64,
+   "width_m": 6.04,
+   "length_m": 6.0,
+   "note": "护岸抛石一段（沿 x 长 6 m），沿水岸线重复",
+   "triangles": {
+    "low": 200,
+    "medium": 440,
+    "high": 680
+   }
+  },
+  {
+   "name": "river_stones",
+   "kind": "rock",
+   "height_m": 0.16,
+   "width_m": 3.24,
+   "note": "河边、溪床的卵石一堆（3 m 见方）",
+   "triangles": {
+    "low": 160,
+    "medium": 2000,
+    "high": 14400
+   }
+  },
+  {
+   "name": "fern_01",
+   "kind": "understory",
+   "height_m": 0.9,
+   "width_m": 0.97,
+   "triangles": {
+    "low": 60,
+    "medium": 250,
+    "high": 340
+   }
+  },
+  {
+   "name": "fern_02",
+   "kind": "understory",
+   "height_m": 0.9,
+   "width_m": 1.05,
+   "triangles": {
+    "low": 60,
+    "medium": 244,
+    "high": 330
+   }
+  },
+  {
+   "name": "snag_01",
+   "kind": "deadwood",
+   "height_m": 12.9,
+   "width_m": 1.09,
+   "triangles": {
+    "low": 128,
+    "medium": 220,
+    "high": 440
+   }
+  },
+  {
+   "name": "snag_02",
+   "kind": "deadwood",
+   "height_m": 8.31,
+   "width_m": 1.82,
+   "triangles": {
+    "low": 128,
+    "medium": 220,
+    "high": 440
+   }
+  },
+  {
+   "name": "log_01",
+   "kind": "deadwood",
+   "height_m": 0.76,
+   "width_m": 7.02,
+   "triangles": {
+    "low": 84,
+    "medium": 140,
+    "high": 216
+   }
+  },
+  {
+   "name": "stump_01",
+   "kind": "deadwood",
+   "height_m": 0.6,
+   "width_m": 0.78,
+   "triangles": {
+    "low": 24,
+    "medium": 40,
+    "high": 56
+   }
+  },
+  {
+   "name": "forest_debris",
+   "kind": "understory",
+   "height_m": 0.0,
+   "width_m": 4.45,
+   "size_m": 4.0,
+   "note": "贴地的落枝落叶片，林地里零散铺几块",
+   "triangles": {
+    "medium": 6,
+    "high": 6
+   }
+  }
+ ]
+}

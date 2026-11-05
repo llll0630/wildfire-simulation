@@ -1,0 +1,154 @@
+{
+ "assets": [
+  {
+   "name": "barn_red",
+   "kind": "farm_building",
+   "size_m": [
+    19.0,
+    13.0,
+    12.7
+   ],
+   "triangles": {
+    "low": 24,
+    "medium": 24,
+    "high": 24
+   }
+  },
+  {
+   "name": "machine_shed",
+   "kind": "farm_building",
+   "size_m": [
+    25.0,
+    16.0,
+    7.2
+   ],
+   "triangles": {
+    "low": 16,
+    "medium": 16,
+    "high": 16
+   }
+  },
+  {
+   "name": "grain_bin_large",
+   "kind": "farm_storage",
+   "size_m": [
+    11.0,
+    10.5,
+    11.2
+   ],
+   "triangles": {
+    "low": 30,
+    "medium": 60,
+    "high": 96
+   }
+  },
+  {
+   "name": "grain_bin_small",
+   "kind": "farm_storage",
+   "size_m": [
+    6.0,
+    5.7,
+    8.0
+   ],
+   "triangles": {
+    "low": 30,
+    "medium": 60,
+    "high": 96
+   }
+  },
+  {
+   "name": "silo_concrete",
+   "kind": "farm_storage",
+   "size_m": [
+    5.5,
+    5.2,
+    22.6
+   ],
+   "triangles": {
+    "low": 90,
+    "medium": 180,
+    "high": 288
+   }
+  },
+  {
+   "name": "hay_round",
+   "kind": "farm_small",
+   "diameter_m": 1.5,
+   "width_m": 1.2,
+   "size_m": [
+    1.4,
+    1.2,
+    1.4
+   ],
+   "triangles": {
+    "low": 16,
+    "medium": 28,
+    "high": 44
+   }
+  },
+  {
+   "name": "hay_stack",
+   "kind": "farm_small",
+   "length_m": 4.0,
+   "height_m": 1.08,
+   "size_m": [
+    4.0,
+    0.9,
+    1.1
+   ],
+   "triangles": {
+    "low": 216,
+    "medium": 216,
+    "high": 216
+   }
+  },
+  {
+   "name": "pivot_span",
+   "kind": "irrigation",
+   "length_m": 50.0,
+   "height_m": 3.8,
+   "note": "原点在支轴一端，沿 +x；一台喷灌机 = 中心塔 + 若干跨首尾相接（一般 7 ~ 9 跨，约 400 m）",
+   "size_m": [
+    50.5,
+    4.2,
+    3.9
+   ],
+   "triangles": {
+    "low": 160,
+    "medium": 388,
+    "high": 596
+   }
+  },
+  {
+   "name": "water_tower",
+   "kind": "utility",
+   "height_m": 39.0,
+   "tank_diameter_m": 14.0,
+   "size_m": [
+    13.3,
+    14.0,
+    39.1
+   ],
+   "triangles": {
+    "low": 308,
+    "medium": 708,
+    "high": 1436
+   }
+  },
+  {
+   "name": "windmill",
+   "kind": "farm_small",
+   "height_m": 11.9,
+   "size_m": [
+    3.2,
+    2.9,
+    13.0
+   ],
+   "triangles": {
+    "low": 228,
+    "medium": 300,
+    "high": 372
+   }
+  }
+ ]
+}
