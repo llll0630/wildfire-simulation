@@ -3,12 +3,13 @@
 #  由 terrain_blender.build 调用（pipeline.py --terrain ... --buildings buildings.npz）
 #
 #  做法（轮廓和位置真实，细节估计）：
-#    建筑：轮廓直接挤出，平屋顶；墙往地下多埋 0.5 m，斜坡上不悬空；地形不压平
+#    建筑：轮廓直接挤出；墙往地下多埋 0.5 m，斜坡上不悬空；地形不压平
+#          外观按建筑类别（asset_use.building_look）：墙用立面模块，接近长方形的小住宅加坡屋顶，其余平屋顶
 #          屋顶高度 = 轮廓下地面平均高度 + 建筑高度（至少比最高的地面高 2.5 m）
 #    道路：按等级给宽度，做成贴着地形网格的条带；路面颜色同时烘焙进近景地面贴图（overlay_ground）
 #    高度都按真实网格插值（Surface），不按地形函数：网格之间的地方才不会被地面盖住
 # ===============================================================
-import math, zlib
+import math, os, zlib
 import numpy as np
 import bpy
 import buildings_data as bd
@@ -76,38 +77,146 @@ def _mesh(name, verts, faces, colors, coll):
     return ob
 
 
-def build_buildings(bld, surf, coll):
-    """全部建筑合成一个网格：墙 + 平屋顶。返回每栋的信息（给 scene.json 用）和三角形数"""
-    verts, faces, colors, info = [], [], [], []
-    tris = 0
+def _tex_material(name, img_path, normal_path=None, rough=0.85):
+    """贴图材质（素材库里的外墙、屋顶、立面模块、路带）；同名的只建一次"""
+    if name in bpy.data.materials:
+        return bpy.data.materials[name]
+    m = bpy.data.materials.new(name); N, L = m.node_tree.nodes, m.node_tree.links
+    bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(img_path, check_existing=True)
+    L.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    if normal_path and os.path.exists(normal_path):
+        ni = N.new('ShaderNodeTexImage'); ni.image = bpy.data.images.load(normal_path, check_existing=True)
+        ni.image.colorspace_settings.name = 'Non-Color'
+        nm = N.new('ShaderNodeNormalMap'); L.new(ni.outputs['Color'], nm.inputs['Color']); L.new(nm.outputs['Normal'], bs.inputs['Normal'])
+    return m
+
+
+class _Slots:
+    """一个网格里用到的材质：按 (种类, 名字) 编号"""
+    def __init__(self, lib, folder, tier, prefix):
+        self.lib, self.folder, self.tier, self.prefix = lib, folder, tier, prefix
+        self.index, self.mats = {}, []
+
+    def __call__(self, kind, name):
+        key = (kind, name)
+        if key not in self.index:
+            rel = self.lib[kind][name]['files'][self.tier]
+            path = os.path.join(self.folder, rel)
+            self.mats.append(_tex_material(f'{self.prefix}_{kind}_{name}_{self.tier}', path, path.replace('.jpg', '_normal.jpg')))
+            self.index[key] = len(self.mats) - 1
+        return self.index[key]
+
+
+def _obb(p):
+    """轮廓的最小外接矩形：(中心 x, 中心 y, 长边方向角, 长, 宽)"""
+    pts = sorted(map(tuple, p))
+    def cross(o, a, b): return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    lo, hi = [], []
+    for q in pts:
+        while len(lo) >= 2 and cross(lo[-2], lo[-1], q) <= 0: lo.pop()
+        lo.append(q)
+    for q in reversed(pts):
+        while len(hi) >= 2 and cross(hi[-2], hi[-1], q) <= 0: hi.pop()
+        hi.append(q)
+    hull = np.array(lo[:-1] + hi[:-1])
+    best = None
+    for i in range(len(hull)):
+        e = hull[(i + 1) % len(hull)] - hull[i]
+        ang = math.atan2(e[1], e[0]); c, s_ = math.cos(-ang), math.sin(-ang)
+        r = hull @ np.array([[c, s_], [-s_, c]])
+        mn, mx = r.min(axis=0), r.max(axis=0); area = float(np.prod(mx - mn))
+        if best is None or area < best[0]:
+            ctr = (mn + mx) / 2; cx = ctr[0] * math.cos(ang) - ctr[1] * math.sin(ang); cy = ctr[0] * math.sin(ang) + ctr[1] * math.cos(ang)
+            w, h = mx - mn
+            best = (area, cx, cy, ang if w >= h else ang + math.pi / 2, max(w, h), min(w, h))
+    return best[1:]
+
+
+def _poly_area(p):
+    x, y = p[:, 0], p[:, 1]
+    return 0.5 * abs(float(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1))))
+
+
+def build_buildings(bld, surf, coll, tier='low'):
+    """全部建筑合成一个网格：墙用立面模块（底层、上面各一种，按建筑类别选，见 asset_use.building_look），
+    接近长方形的小住宅加坡屋顶（roof_shapes），其余平屋顶。返回每栋的信息（给 scene.json 用）和三角形数"""
+    import json, roof_shapes as rs, asset_use as au, quality as qa
+    folder = qa.buildings_dir()
+    with open(os.path.join(folder, 'buildings_manifest.json'), encoding='utf-8') as f:
+        lib = json.load(f)
+    slot = _Slots(lib, folder, tier, 'bld')
+    V, F, M, UV, info = [], [], [], [], []
+    def face(pts, uvs, mat):
+        o = len(V); V.extend(pts); UV.extend(uvs); F.append(tuple(range(o, o + len(pts)))); M.append(mat)
     for b in bld.buildings:
         p = np.array(b['poly'], dtype=float)
         if len(p) < 3:
             continue
         gz = surf(p[:, 0], p[:, 1])
         ground = float(np.mean(gz))
-        roof = max(ground + b['height'], float(gz.max()) + ROOF_MIN)
+        top = max(ground + b['height'], float(gz.max()) + ROOF_MIN)
         bottom = float(gz.min()) - WALL_SINK
-        k = zlib.crc32(b['id'].encode())                # 每栋楼的颜色固定，重新生成也一样
-        wall = WALL_RGB[k % len(WALL_RGB)]; roof_c = ROOF_RGB[(k // 7) % len(ROOF_RGB)]
+        look = au.building_look(b)
+        pitched = None
+        if look['pitched'] and len(p) <= 16:
+            cx, cy, ang, L, W = _obb(p)
+            if _poly_area(p) <= au.PITCH_MAX_AREA and _poly_area(p) / max(L * W, 1e-6) >= au.PITCH_MIN_FILL and W >= 3:
+                pitch = 0.45; rise = W / 2 * pitch
+                eave = max(ground + 2.6, top - rise * 0.6)
+                pitched = (cx, cy, ang, L, W, pitch, eave)
+        eave = pitched[6] if pitched else top
+        # 墙：每条边 1 ~ 2 段（底层 + 上面几层），立面模块按真实宽度、层高铺 UV
+        floor_z = ground + lib['floor_m']
+        bands = [(bottom, min(floor_z, eave), look['ground_module'])]
+        if eave > floor_z + 0.5:
+            bands.append((floor_z, eave, look['upper_module']))
+        s0 = 0.0
         n = len(p)
-        o = len(verts)
-        for a in range(n):                              # 墙：每条边单独 4 个点，平面着色
-            (x0, y0), (x1, y1) = p[a], p[(a + 1) % n]
-            verts += [(x0, y0, bottom), (x1, y1, bottom), (x1, y1, roof), (x0, y0, roof)]
-            shade = 0.85 + 0.15 * math.cos(math.atan2(y1 - y0, x1 - x0) - 0.6)      # 各面深浅不同，看得出体积
-            colors += [tuple(v * shade for v in wall)] * 4
-            faces.append((o + 4 * a, o + 4 * a + 1, o + 4 * a + 2, o + 4 * a + 3))
-        o = len(verts)
-        verts += [(x, y, roof) for x, y in p]
-        colors += [roof_c] * n
-        faces.append(tuple(range(o, o + n)))
-        tris += 2 * n + n - 2
-        c = p.mean(axis=0)
+        for k in range(n):
+            (x0, y0), (x1, y1) = p[k], p[(k + 1) % n]
+            le = math.hypot(x1 - x0, y1 - y0)
+            for za, zb, mod in bands:
+                if mod and mod in lib['modules']:
+                    mi = slot('modules', mod); tw = lib['modules'][mod]['width_m']; th = lib['floor_m']
+                else:
+                    mi = slot('walls', look['wall']); tw = lib['walls'][look['wall']]['tile_m']; th = lib['walls'][look['wall']]['tile_h_m']
+                u0, u1 = s0 / tw, (s0 + le) / tw; va, vb = (za - ground) / th, (zb - ground) / th
+                face([(x0, y0, za), (x1, y1, za), (x1, y1, zb), (x0, y0, zb)], [(u0, va), (u1, va), (u1, vb), (u0, vb)], mi)
+            s0 += le
+        roof = look['roof']
+        rm_i = slot('roofs', roof); rt = lib['roofs'][roof]['tile_m']
+        if pitched:
+            cx, cy, ang, L, W, pitch, _ = pitched
+            kind = 'gable' if L / W > 1.3 else 'hip'
+            rv, rf, rmi = rs.roof_mesh(kind, L, W, pitch, overhang=0.35)
+            c, s_ = math.cos(ang), math.sin(ang)
+            wall_i = slot('walls', look['wall']); wt = lib['walls'][look['wall']]['tile_m']
+            for fv, fm in zip(rf, rmi):
+                loc = [rv[i] for i in fv]
+                pts = [(cx + x * c - y * s_, cy + x * s_ + y * c, eave + z) for x, y, z in loc]
+                if fm == 0:       # 坡面：沿屋脊方向是 x，沿坡面量长度是 v
+                    uvs = [(x / rt, math.hypot(y, z) / rt) for x, y, z in loc]
+                    face(pts, uvs, rm_i)
+                else:             # 山墙三角：墙面材质
+                    uvs = [(y / wt, z / wt) for x, y, z in loc]
+                    face(pts, uvs, wall_i)
+        else:
+            face([(x, y, top) for x, y in p], [(x / rt, y / rt) for x, y in p], rm_i)
+        c_ = p.mean(axis=0)
         info.append({**{k_: b.get(k_) for k_ in ('id', 'type', 'name', 'height', 'height_source', 'data_source')},
-                     'center': (float(c[0]), float(c[1])), 'ground': round(ground, 2), 'roof': round(roof, 2)})
-    if verts:
-        _mesh('buildings', verts, faces, colors, coll)
+                     'center': (float(c_[0]), float(c_[1])), 'ground': round(ground, 2), 'roof': round(top, 2),
+                     'look': {'wall': look['wall'], 'roof': roof, 'pitched': bool(pitched)}})
+    tris = 0
+    if V:
+        me = bpy.data.meshes.new('buildings'); me.from_pydata(V, [], F); me.update()
+        for poly, m in zip(me.polygons, M): poly.material_index = m
+        uv = me.uv_layers.new(name='UVMap')
+        loops_v = np.empty(len(me.loops), np.int32); me.loops.foreach_get('vertex_index', loops_v)
+        uv.data.foreach_set('uv', np.array(UV, np.float32)[loops_v].ravel())
+        for m in slot.mats: me.materials.append(m)
+        coll.objects.link(bpy.data.objects.new('buildings', me))
+        tris = sum(len(f) - 2 for f in F)
     return info, tris
 
 
@@ -134,8 +243,15 @@ def _ribbon(line, width):
     return x - nrm[:, 0], y - nrm[:, 1], x + nrm[:, 0], y + nrm[:, 1]
 
 
-def build_roads(bld, surf, coll):
-    verts, faces, colors = [], [], []
+def build_roads(bld, surf, coll, tier='low'):
+    """道路网格：贴着地形的条带，按道路等级、路面材质用路带贴图（asset_use.road_strip）；
+    UV 横向 0 ~ 1 = 路的整个宽度，纵向按真实长度每 12 m 重复一次"""
+    import json, asset_use as au, quality as qa
+    folder = qa.roads_dir()
+    with open(os.path.join(folder, 'roads_manifest.json'), encoding='utf-8') as f:
+        lib = json.load(f)
+    slot = _Slots({'roads': lib['roads']}, folder, tier, 'road')
+    verts, faces, mats, uvs = [], [], [], []
     for r in sorted(bld.roads, key=lambda r: (r['kind'] == 'road', r['width'])):
         rib = _ribbon(r['line'], r['width'])
         if rib is None:
@@ -145,19 +261,22 @@ def build_roads(bld, surf, coll):
         lift = PATH_LIFT if r['kind'] == 'path' else ROAD_LIFT + 0.004 * r['width']
         lift = lift + LIFT_PER_M * np.maximum(np.maximum(np.abs((lx + rx) / 2), np.abs((ly + ry) / 2)) - tc.NEAR_HALF, 0)
         lz = surf(lx, ly) + lift; rz = surf(rx, ry) + lift
-        surface = r.get('surface') or ''
-        if r['kind'] == 'path':
-            rgb = PATH_RGB['paved' if surface in bd.PAVED_SURFACES else 'dirt']
-        elif surface in UNPAVED_ROAD:                 # 土路、砾石路（真实数据里的路面材质）
-            rgb = PATH_RGB[UNPAVED_ROAD[surface]]
-        else:
-            rgb = ROAD_RGB
+        mi = slot('roads', au.road_strip(r))
+        cx, cy = (lx + rx) / 2, (ly + ry) / 2
+        sv = np.concatenate([[0], np.cumsum(np.hypot(np.diff(cx), np.diff(cy)))]) / lib['length_m']
         o = len(verts); m = len(lx)
         verts += list(zip(lx.tolist(), ly.tolist(), lz.tolist())) + list(zip(rx.tolist(), ry.tolist(), rz.tolist()))
-        colors += [rgb] * (2 * m)
+        uvs += [(0.0, v) for v in sv.tolist()] + [(1.0, v) for v in sv.tolist()]
         faces += [(o + k, o + k + 1, o + m + k + 1, o + m + k) for k in range(m - 1)]
+        mats += [mi] * (m - 1)
     if verts:
-        _mesh('roads', verts, faces, colors, coll)
+        me = bpy.data.meshes.new('roads'); me.from_pydata(verts, [], faces); me.validate(clean_customdata=False); me.update()
+        for poly, mi in zip(me.polygons, mats): poly.material_index = mi
+        uv = me.uv_layers.new(name='UVMap')
+        loops_v = np.empty(len(me.loops), np.int32); me.loops.foreach_get('vertex_index', loops_v)
+        uv.data.foreach_set('uv', np.array(uvs, np.float32)[loops_v].ravel())
+        for mm in slot.mats: me.materials.append(mm)
+        coll.objects.link(bpy.data.objects.new('roads', me))
     return 2 * len(faces)
 
 
@@ -175,10 +294,10 @@ def overlay_ground(bld, x, y, rgb, sample):
     return out
 
 
-def build(bld, surf, coll):
-    """建筑和道路网格。返回 (每栋建筑的信息, 统计)"""
-    info, b_tris = build_buildings(bld, surf, coll)
-    r_tris = build_roads(bld, surf, coll)
+def build(bld, surf, coll, tier='low'):
+    """建筑和道路网格（贴图按画质档位取）。返回 (每栋建筑的信息, 统计)"""
+    info, b_tris = build_buildings(bld, surf, coll, tier)
+    r_tris = build_roads(bld, surf, coll, tier)
     stats = {'status': bld.status, 'release': bld.meta.get('release'), 'buildings': len(info),
              'roads': len(bld.roads), 'triangles': {'buildings': b_tris, 'roads': r_tris},
              'height_source': {s: sum(1 for b in info if b['height_source'] == s) for s in ('height', 'floors', 'default')}}

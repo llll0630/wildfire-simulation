@@ -95,7 +95,32 @@ def assign_species(t, layout, species, bld, rng):
             s_ = rng.uniform(0.85, 1.15)
             it.update({'name': a['name'], 's': s_, 'sz': s_ * rng.uniform(0.95, 1.08) if kind == 'tree' else s_,
                        'r': a['crown_diameter_m'] * s_ / 2})
+            it['species'] = a['species']
             counts[a['species']] = counts.get(a['species'], 0) + 1
+    # 林下幼树：大树旁边 2.5 ~ 6 m 再长几棵同类的小树（asset_use.UNDERSTORY_YOUNG）
+    import asset_use as au
+    young_names = {}
+    for a in species:
+        if a['kind'] == 'tree':
+            young_names.setdefault(a['species'], []).append(a)
+    young = []
+    for it in layout['trees']:
+        rule = au.UNDERSTORY_YOUNG.get(it.get('species'))
+        if not rule or rule[0] not in young_names:
+            continue
+        n = int(rule[1]) + (1 if rng.random() < rule[1] - int(rule[1]) else 0)
+        for _ in range(n):
+            a = young_names[rule[0]][int(rng.random() * len(young_names[rule[0]]))]
+            ang, d = rng.uniform(0, 6.28), rng.uniform(2.5, 6.0)
+            x, y = it['x'] + d * math.cos(ang), it['y'] + d * math.sin(ang)
+            if bld is not None and bool(bld.blocked(np.array([x]), np.array([y]))[0]):
+                continue
+            s_ = rng.uniform(0.8, 1.2)
+            young.append({'name': a['name'], 'x': x, 'y': y, 'rot': rng.uniform(0, 6.28), 's': s_, 'sz': s_,
+                          'r': a['crown_diameter_m'] * s_ / 2, 'species': a['species']})
+    layout['trees'] += young
+    if young:
+        counts['young_trees'] = len(young)
     if moved:
         ids = {id(i) for i in moved}
         layout['trees'] = [i for i in layout['trees'] if id(i) not in ids]

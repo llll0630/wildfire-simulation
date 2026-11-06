@@ -117,7 +117,11 @@ def cc0_image(asset, name):
         data = z.read(f'{asset}_1K-JPG_Color.jpg')
     path = os.path.join(tempfile.gettempdir(), f'{name}.jpg')
     with open(path, 'wb') as f: f.write(data)
-    img = bpy.data.images.load(path); img.name = name; img.pack()
+    img = bpy.data.images.load(path); img.name = name
+    # 石头贴图提亮：照片本身偏暗，做成立体的石块后背光面更暗，网页里会接近黑色
+    px = np.empty(len(img.pixels), np.float32); img.pixels.foreach_get(px); px = px.reshape(-1, 4)
+    px[:, :3] = np.clip(px[:, :3] * 1.6, 0, 1); img.pixels.foreach_set(px.ravel()); img.update()
+    img.pack()
     return img
 
 

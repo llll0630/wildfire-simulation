@@ -71,16 +71,17 @@ SPECIES = {
     'tree_palm':      dict(kind='trees', arche='palm', variants=2, H=(9, 12), D=(5, 5.5),
                            veg=['tropical_forest'], foliage='palm_fan', bark=((0.12, 0.11, 0.09), (0.40, 0.36, 0.30)),
                            tint=((0.75, 0.9, 0.7), (0.9, 1.0, 0.75)), fronds=16, low=((0.14, 0.27, 0.1), (0.36, 0.32, 0.26))),
-    # ---- 更多树种、幼树（只准备素材：veg 为空，pipeline 不会自动选它们；cand = 以后打算用在哪些植被类型） ----
-    'tree_aspen':     dict(kind='trees', arche='broadleaf', variants=2, H=(12, 15), D=(5, 6), veg=[], cand=['hardwood'],
+    # ---- 更多树种（和上面的树种按 share 混着用）、幼树（veg 为空：pipeline 在大树旁边按 asset_use.UNDERSTORY_YOUNG 加）；
+    #      cand = 合适但还没启用的植被类型（红杉只在加州、牧豆树在沙漠里，按植被类型还分不出来） ----
+    'tree_aspen':     dict(kind='trees', arche='broadleaf', variants=2, H=(12, 15), D=(5, 6), veg=['hardwood'], share=0.5,
                            foliage='leaf_round', bark=((0.30, 0.30, 0.27), (0.72, 0.71, 0.66)),
                            tint=((0.95, 1.1, 0.7), (1.1, 1.15, 0.7)), trunk=0.45, crown_z=0.7, crown_h=0.3, spread=0.2,
                            low=((0.22, 0.36, 0.1), (0.6, 0.6, 0.56))),
-    'tree_birch':     dict(kind='trees', arche='broadleaf', variants=2, H=(12, 14), D=(6, 7), veg=[], cand=['hardwood'],
+    'tree_birch':     dict(kind='trees', arche='broadleaf', variants=2, H=(12, 14), D=(6, 7), veg=['hardwood'], share=0.4,
                            foliage='leaf_oval', bark=((0.35, 0.34, 0.32), (0.80, 0.79, 0.76)),
                            tint=((0.9, 1.05, 0.7), (1.05, 1.1, 0.75)), trunk=0.4, crown_z=0.65, crown_h=0.32, spread=0.3,
                            low=((0.2, 0.33, 0.09), (0.65, 0.64, 0.6))),
-    'tree_sycamore':  dict(kind='trees', arche='broadleaf', variants=2, H=(20, 24), D=(15, 17), veg=[], cand=['riparian_forest'],
+    'tree_sycamore':  dict(kind='trees', arche='broadleaf', variants=2, H=(20, 24), D=(15, 17), veg=['riparian_forest'], share=0.6,
                            foliage='leaf_lobed', bark=((0.25, 0.23, 0.19), (0.68, 0.65, 0.57)),
                            tint=((0.9, 1.0, 0.7), (1.05, 1.1, 0.75)), trunk=0.32, crown_z=0.62, crown_h=0.38, spread=0.6,
                            low=((0.16, 0.28, 0.08), (0.55, 0.52, 0.45))),
@@ -88,15 +89,15 @@ SPECIES = {
                            foliage='leaf_small', bark=((0.06, 0.045, 0.035), (0.25, 0.19, 0.14)),
                            tint=((0.45, 0.55, 0.28), (0.55, 0.62, 0.32)), trunk=0.15, crown_z=0.6, crown_h=0.35, spread=0.9,
                            low=((0.18, 0.24, 0.1), (0.22, 0.17, 0.12))),
-    'tree_mangrove':  dict(kind='trees', arche='broadleaf', variants=2, H=(5, 7), D=(6, 7), veg=[], cand=['tropical_forest'],
+    'tree_mangrove':  dict(kind='trees', arche='broadleaf', variants=2, H=(5, 7), D=(6, 7), veg=['tropical_forest'], share=0.5,
                            foliage='leaf_oval', bark=((0.08, 0.07, 0.05), (0.30, 0.27, 0.2)),
                            tint=((0.6, 0.75, 0.5), (0.72, 0.85, 0.55)), trunk=0.15, crown_z=0.6, crown_h=0.38, spread=0.6,
                            low=((0.1, 0.2, 0.07), (0.25, 0.22, 0.16))),
-    'tree_whitepine': dict(kind='trees', arche='conifer', variants=2, H=(22, 26), D=(9, 10), veg=[], cand=['pine_east', 'mixed_forest'],
+    'tree_whitepine': dict(kind='trees', arche='conifer', variants=2, H=(22, 26), D=(9, 10), veg=['pine_east', 'mixed_forest'], share=0.6,
                            foliage='needles_long', bark=((0.06, 0.05, 0.04), (0.24, 0.20, 0.16)),
                            tint=((0.6, 0.75, 0.65), (0.72, 0.85, 0.7)), clear=0.3, shape='round_cone', whorl=0.7,
                            skip=0.05, droop=0.0, tips=1.0, card=1.7, dens=2.2, low=((0.08, 0.17, 0.09), (0.22, 0.18, 0.14))),
-    'tree_hemlock':   dict(kind='trees', arche='conifer', variants=2, H=(20, 24), D=(7, 8), veg=[], cand=['mixed_forest', 'fir_spruce'],
+    'tree_hemlock':   dict(kind='trees', arche='conifer', variants=2, H=(20, 24), D=(7, 8), veg=['mixed_forest', 'fir_spruce'], share=0.4,
                            foliage='needles_short', bark=((0.07, 0.05, 0.04), (0.28, 0.20, 0.15)),
                            tint=((0.65, 0.8, 0.65), (0.78, 0.9, 0.7)), clear=0.1, shape='cone', whorl=0.5,
                            skip=0.0, droop=0.5, tips=1.0, card=1.35, dens=1.1, low=((0.05, 0.13, 0.07), (0.2, 0.15, 0.11))),
@@ -153,6 +154,11 @@ SPECIES = {
     'grass_dune':     dict(kind='grass', arche='grass', variants=2, H=(0.7, 0.9), D=(0.8, 0.9),
                            veg=['dune_grass'], ground=['sand'], foliage='dune', cards=4,
                            low=((0.45, 0.45, 0.28), (0.6, 0.58, 0.4))),
+    'grass_fern':     dict(kind='grass', arche='shrub', variants=2, H=(0.8, 1.0), D=(1.1, 1.3),
+                           veg=['hardwood', 'fir_spruce', 'mixed_forest', 'riparian_forest', 'swamp_forest'], share=0.6,
+                           foliage='fern', bark=((0.1, 0.15, 0.05), (0.2, 0.3, 0.1)),
+                           tint=((0.85, 0.95, 0.75), (1.0, 1.05, 0.8)), stems=9, upright=0.3, cards=1.0, card=0.8,
+                           low=((0.12, 0.25, 0.07), (0.15, 0.2, 0.08))),
     'grass_flower':   dict(kind='grass', arche='grass', variants=2, H=(0.5, 0.6), D=(0.8, 0.9),
                            veg=['meadow', 'prairie_tall'], ground=['meadow'], foliage='flower', cards=4,
                            low=((0.2, 0.32, 0.1), (0.35, 0.42, 0.18))),
@@ -342,7 +348,7 @@ def tex_flower(S, seed):
 
 # 叶片贴图提亮倍数（线性）：画的是叶片本身的颜色，阳光下看起来要亮得多（hero 的树叶色乘数是 1.5 ~ 2.8）
 GAIN = {'needles_long': 2.0, 'needles_short': 1.9, 'scale': 1.6, 'feather': 1.7, 'leaf_round': 1.7, 'leaf_oval': 1.8, 'leaf_lobed': 1.7,
-        'leaf_narrow': 1.6, 'leaf_small': 1.0, 'palm_fan': 1.6, 'yucca': 1.4, 'reed': 1.3, 'dune': 1.0, 'flower': 1.3}
+        'leaf_narrow': 1.6, 'leaf_small': 1.0, 'fern': 1.5, 'palm_fan': 1.6, 'yucca': 1.4, 'reed': 1.3, 'dune': 1.0, 'flower': 1.3}
 FOLIAGE = {   # 贴图名 → 生成函数
     'needles_long': lambda S: tex_needles_long(S, 11),
     'needles_short': lambda S: hv.needle_texture(S, 12),
@@ -358,6 +364,7 @@ FOLIAGE = {   # 贴图名 → 生成函数
     'reed': lambda S: tex_reed(S, 21),
     'dune': lambda S: hv.grass_texture(S, ((0.30, 0.28, 0.16), (0.78, 0.74, 0.52)), 22, blades=40),
     'flower': lambda S: tex_flower(S, 23),
+    'fern': lambda S: __import__('build_nature').tex_fern(S),
 }
 
 
@@ -774,6 +781,8 @@ def build_tier(tier, manifest):
                                        'species': key, 'veg_types': sp.get('veg', []), 'ground_types': sp.get('ground', []),
                                        'candidate_veg_types': sp.get('cand', []),
                                        'share': sp.get('share', 1.0), 'triangles': {}})
+        e.update({'veg_types': sp.get('veg', []), 'ground_types': sp.get('ground', []), 'share': sp.get('share', 1.0),
+                  'candidate_veg_types': sp.get('cand', [])})      # 用在哪：每次按 SPECIES 更新
         if tier == 'high' or 'height_m' not in e:
             e['height_m'] = round(H, 2); e['crown_diameter_m'] = round(max(dims.x, dims.y), 2)
             e['crown_area_m2'] = round(math.pi * (max(dims.x, dims.y) / 2) ** 2, 1)

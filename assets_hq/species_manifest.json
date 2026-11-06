@@ -17,7 +17,8 @@
    },
    "height_m": 17,
    "crown_diameter_m": 8.31,
-   "crown_area_m2": 54.3
+   "crown_area_m2": 54.3,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_ponderosa_02",
@@ -36,7 +37,8 @@
    },
    "height_m": 20,
    "crown_diameter_m": 8.73,
-   "crown_area_m2": 59.9
+   "crown_area_m2": 59.9,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_ponderosa_03",
@@ -55,7 +57,8 @@
    },
    "height_m": 24,
    "crown_diameter_m": 10.17,
-   "crown_area_m2": 81.3
+   "crown_area_m2": 81.3,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_fir_01",
@@ -73,7 +76,8 @@
    },
    "height_m": 18,
    "crown_diameter_m": 7.09,
-   "crown_area_m2": 39.4
+   "crown_area_m2": 39.4,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_fir_02",
@@ -91,7 +95,8 @@
    },
    "height_m": 22,
    "crown_diameter_m": 8.5,
-   "crown_area_m2": 56.7
+   "crown_area_m2": 56.7,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_fir_03",
@@ -109,7 +114,8 @@
    },
    "height_m": 27,
    "crown_diameter_m": 10.12,
-   "crown_area_m2": 80.5
+   "crown_area_m2": 80.5,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_longleaf_01",
@@ -127,7 +133,8 @@
    },
    "height_m": 22,
    "crown_diameter_m": 8.75,
-   "crown_area_m2": 60.1
+   "crown_area_m2": 60.1,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_longleaf_02",
@@ -145,7 +152,8 @@
    },
    "height_m": 26,
    "crown_diameter_m": 11.06,
-   "crown_area_m2": 96.1
+   "crown_area_m2": 96.1,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_juniper_01",
@@ -163,7 +171,8 @@
    },
    "height_m": 4.5,
    "crown_diameter_m": 4.45,
-   "crown_area_m2": 15.6
+   "crown_area_m2": 15.6,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_juniper_02",
@@ -181,7 +190,8 @@
    },
    "height_m": 6,
    "crown_diameter_m": 5.71,
-   "crown_area_m2": 25.6
+   "crown_area_m2": 25.6,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_cypress_01",
@@ -199,7 +209,8 @@
    },
    "height_m": 18,
    "crown_diameter_m": 8.94,
-   "crown_area_m2": 62.8
+   "crown_area_m2": 62.8,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_cypress_02",
@@ -217,7 +228,8 @@
    },
    "height_m": 22,
    "crown_diameter_m": 10.47,
-   "crown_area_m2": 86.1
+   "crown_area_m2": 86.1,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_cottonwood_01",
@@ -235,7 +247,8 @@
    },
    "height_m": 17,
    "crown_diameter_m": 17.68,
-   "crown_area_m2": 245.5
+   "crown_area_m2": 245.5,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_cottonwood_02",
@@ -253,7 +266,8 @@
    },
    "height_m": 20,
    "crown_diameter_m": 19.22,
-   "crown_area_m2": 290.0
+   "crown_area_m2": 290.0,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_liveoak_01",
@@ -271,7 +285,8 @@
    },
    "height_m": 10,
    "crown_diameter_m": 14.41,
-   "crown_area_m2": 163.1
+   "crown_area_m2": 163.1,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_liveoak_02",
@@ -289,7 +304,8 @@
    },
    "height_m": 12,
    "crown_diameter_m": 16.67,
-   "crown_area_m2": 218.2
+   "crown_area_m2": 218.2,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_maple_01",
@@ -310,7 +326,8 @@
    },
    "height_m": 15,
    "crown_diameter_m": 14.63,
-   "crown_area_m2": 168.2
+   "crown_area_m2": 168.2,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_maple_02",
@@ -331,7 +348,8 @@
    },
    "height_m": 18,
    "crown_diameter_m": 16.79,
-   "crown_area_m2": 221.5
+   "crown_area_m2": 221.5,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_palm_01",
@@ -349,7 +367,8 @@
    },
    "height_m": 9,
    "crown_diameter_m": 8.25,
-   "crown_area_m2": 53.4
+   "crown_area_m2": 53.4,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_palm_02",
@@ -367,7 +386,8 @@
    },
    "height_m": 12,
    "crown_diameter_m": 8.72,
-   "crown_area_m2": 59.7
+   "crown_area_m2": 59.7,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_sage_01",
@@ -385,7 +405,8 @@
    },
    "height_m": 0.9,
    "crown_diameter_m": 1.15,
-   "crown_area_m2": 1.0
+   "crown_area_m2": 1.0,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_sage_02",
@@ -403,7 +424,8 @@
    },
    "height_m": 1.1,
    "crown_diameter_m": 1.45,
-   "crown_area_m2": 1.6
+   "crown_area_m2": 1.6,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_sage_03",
@@ -421,7 +443,8 @@
    },
    "height_m": 1.3,
    "crown_diameter_m": 1.73,
-   "crown_area_m2": 2.3
+   "crown_area_m2": 2.3,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_creosote_01",
@@ -439,7 +462,8 @@
    },
    "height_m": 1.5,
    "crown_diameter_m": 1.34,
-   "crown_area_m2": 1.4
+   "crown_area_m2": 1.4,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_creosote_02",
@@ -457,7 +481,8 @@
    },
    "height_m": 1.8,
    "crown_diameter_m": 1.88,
-   "crown_area_m2": 2.8
+   "crown_area_m2": 2.8,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_creosote_03",
@@ -475,7 +500,8 @@
    },
    "height_m": 2.2,
    "crown_diameter_m": 2.83,
-   "crown_area_m2": 6.3
+   "crown_area_m2": 6.3,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_chaparral_01",
@@ -496,7 +522,8 @@
    },
    "height_m": 1.8,
    "crown_diameter_m": 2.68,
-   "crown_area_m2": 5.6
+   "crown_area_m2": 5.6,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_chaparral_02",
@@ -517,7 +544,8 @@
    },
    "height_m": 2.2,
    "crown_diameter_m": 2.97,
-   "crown_area_m2": 6.9
+   "crown_area_m2": 6.9,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_chaparral_03",
@@ -538,7 +566,8 @@
    },
    "height_m": 2.6,
    "crown_diameter_m": 4.19,
-   "crown_area_m2": 13.8
+   "crown_area_m2": 13.8,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_willow_01",
@@ -556,7 +585,8 @@
    },
    "height_m": 2.8,
    "crown_diameter_m": 2.48,
-   "crown_area_m2": 4.8
+   "crown_area_m2": 4.8,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_willow_02",
@@ -574,7 +604,8 @@
    },
    "height_m": 3.5,
    "crown_diameter_m": 3.1,
-   "crown_area_m2": 7.6
+   "crown_area_m2": 7.6,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_alpine_01",
@@ -592,7 +623,8 @@
    },
    "height_m": 0.35,
    "crown_diameter_m": 0.45,
-   "crown_area_m2": 0.2
+   "crown_area_m2": 0.2,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_alpine_02",
@@ -610,7 +642,8 @@
    },
    "height_m": 0.5,
    "crown_diameter_m": 0.68,
-   "crown_area_m2": 0.4
+   "crown_area_m2": 0.4,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_palmetto_01",
@@ -629,7 +662,8 @@
    },
    "height_m": 1.2,
    "crown_diameter_m": 2.34,
-   "crown_area_m2": 4.3
+   "crown_area_m2": 4.3,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_palmetto_02",
@@ -648,7 +682,8 @@
    },
    "height_m": 1.5,
    "crown_diameter_m": 2.67,
-   "crown_area_m2": 5.6
+   "crown_area_m2": 5.6,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_joshua_01",
@@ -666,7 +701,8 @@
    },
    "height_m": 4.5,
    "crown_diameter_m": 3.98,
-   "crown_area_m2": 12.4
+   "crown_area_m2": 12.4,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_joshua_02",
@@ -684,7 +720,8 @@
    },
    "height_m": 6.5,
    "crown_diameter_m": 3.42,
-   "crown_area_m2": 9.2
+   "crown_area_m2": 9.2,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_cholla_01",
@@ -702,7 +739,8 @@
    },
    "height_m": 1.2,
    "crown_diameter_m": 0.7,
-   "crown_area_m2": 0.4
+   "crown_area_m2": 0.4,
+   "candidate_veg_types": []
   },
   {
    "name": "shrub_cholla_02",
@@ -720,7 +758,8 @@
    },
    "height_m": 1.6,
    "crown_diameter_m": 0.73,
-   "crown_area_m2": 0.4
+   "crown_area_m2": 0.4,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_reed_01",
@@ -741,7 +780,8 @@
    },
    "height_m": 1.7,
    "crown_diameter_m": 0.72,
-   "crown_area_m2": 0.4
+   "crown_area_m2": 0.4,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_reed_02",
@@ -762,7 +802,8 @@
    },
    "height_m": 2.1,
    "crown_diameter_m": 0.86,
-   "crown_area_m2": 0.6
+   "crown_area_m2": 0.6,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_dune_01",
@@ -782,7 +823,8 @@
    },
    "height_m": 0.7,
    "crown_diameter_m": 0.79,
-   "crown_area_m2": 0.5
+   "crown_area_m2": 0.5,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_dune_02",
@@ -802,7 +844,8 @@
    },
    "height_m": 0.9,
    "crown_diameter_m": 0.78,
-   "crown_area_m2": 0.5
+   "crown_area_m2": 0.5,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_flower_01",
@@ -823,7 +866,8 @@
    },
    "height_m": 0.5,
    "crown_diameter_m": 0.56,
-   "crown_area_m2": 0.2
+   "crown_area_m2": 0.2,
+   "candidate_veg_types": []
   },
   {
    "name": "grass_flower_02",
@@ -844,18 +888,19 @@
    },
    "height_m": 0.6,
    "crown_diameter_m": 0.74,
-   "crown_area_m2": 0.4
+   "crown_area_m2": 0.4,
+   "candidate_veg_types": []
   },
   {
    "name": "tree_aspen_01",
    "kind": "tree",
    "species": "tree_aspen",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "hardwood"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.5,
    "triangles": {
     "low": 120,
     "medium": 2948,
@@ -869,12 +914,12 @@
    "name": "tree_aspen_02",
    "kind": "tree",
    "species": "tree_aspen",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "hardwood"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.5,
    "triangles": {
     "low": 120,
     "medium": 3550,
@@ -888,12 +933,12 @@
    "name": "tree_birch_01",
    "kind": "tree",
    "species": "tree_birch",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "hardwood"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.4,
    "triangles": {
     "low": 120,
     "medium": 4054,
@@ -907,12 +952,12 @@
    "name": "tree_birch_02",
    "kind": "tree",
    "species": "tree_birch",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "hardwood"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.4,
    "triangles": {
     "low": 120,
     "medium": 3414,
@@ -926,12 +971,12 @@
    "name": "tree_sycamore_01",
    "kind": "tree",
    "species": "tree_sycamore",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "riparian_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
    "triangles": {
     "low": 120,
     "medium": 6200,
@@ -945,12 +990,12 @@
    "name": "tree_sycamore_02",
    "kind": "tree",
    "species": "tree_sycamore",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "riparian_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
    "triangles": {
     "low": 120,
     "medium": 8910,
@@ -1002,12 +1047,12 @@
    "name": "tree_mangrove_01",
    "kind": "tree",
    "species": "tree_mangrove",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "tropical_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.5,
    "triangles": {
     "low": 120,
     "medium": 1856,
@@ -1021,12 +1066,12 @@
    "name": "tree_mangrove_02",
    "kind": "tree",
    "species": "tree_mangrove",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "tropical_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.5,
    "triangles": {
     "low": 120,
     "medium": 1506,
@@ -1040,13 +1085,13 @@
    "name": "tree_whitepine_01",
    "kind": "tree",
    "species": "tree_whitepine",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "pine_east",
     "mixed_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
    "triangles": {
     "low": 80,
     "medium": 5078,
@@ -1060,13 +1105,13 @@
    "name": "tree_whitepine_02",
    "kind": "tree",
    "species": "tree_whitepine",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "pine_east",
     "mixed_forest"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
    "triangles": {
     "low": 80,
     "medium": 6054,
@@ -1080,13 +1125,13 @@
    "name": "tree_hemlock_01",
    "kind": "tree",
    "species": "tree_hemlock",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "mixed_forest",
     "fir_spruce"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.4,
    "triangles": {
     "low": 116,
     "medium": 5698,
@@ -1100,13 +1145,13 @@
    "name": "tree_hemlock_02",
    "kind": "tree",
    "species": "tree_hemlock",
-   "veg_types": [],
-   "ground_types": [],
-   "candidate_veg_types": [
+   "veg_types": [
     "mixed_forest",
     "fir_spruce"
    ],
-   "share": 1.0,
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.4,
    "triangles": {
     "low": 116,
     "medium": 6402,
@@ -1269,6 +1314,52 @@
    "height_m": 5.0,
    "crown_diameter_m": 5.09,
    "crown_area_m2": 20.4
+  },
+  {
+   "name": "grass_fern_01",
+   "kind": "grass",
+   "species": "grass_fern",
+   "veg_types": [
+    "hardwood",
+    "fir_spruce",
+    "mixed_forest",
+    "riparian_forest",
+    "swamp_forest"
+   ],
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
+   "triangles": {
+    "low": 60,
+    "medium": 236,
+    "high": 326
+   },
+   "height_m": 0.8,
+   "crown_diameter_m": 1.11,
+   "crown_area_m2": 1.0
+  },
+  {
+   "name": "grass_fern_02",
+   "kind": "grass",
+   "species": "grass_fern",
+   "veg_types": [
+    "hardwood",
+    "fir_spruce",
+    "mixed_forest",
+    "riparian_forest",
+    "swamp_forest"
+   ],
+   "ground_types": [],
+   "candidate_veg_types": [],
+   "share": 0.6,
+   "triangles": {
+    "low": 60,
+    "medium": 228,
+    "high": 312
+   },
+   "height_m": 1.0,
+   "crown_diameter_m": 1.54,
+   "crown_area_m2": 1.9
   }
  ]
 }

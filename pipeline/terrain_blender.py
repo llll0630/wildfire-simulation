@@ -334,7 +334,7 @@ def build(base, t, p, seed, export=False, timing=None, quality='low'):
     if bld is not None:
         import buildings_blender as bb
         surf = bb.Surface(ax, near_z, axis, mid_z)
-        buildings_info, stats['buildings'] = bb.build(bld, surf, base.make_coll('Buildings'))
+        buildings_info, stats['buildings'] = bb.build(bld, surf, base.make_coll('Buildings'), quality)
         if timing is not None:
             timing['buildings'] = round(clock() - t0, 2); t0 = clock()
 
@@ -375,21 +375,27 @@ def build(base, t, p, seed, export=False, timing=None, quality='low'):
                                         | (bld.blocked(x, y) if bld is not None else False)
                                         | (mid_no_tree(bld, x, y) if bld is not None else False)
                                         | veg_no_tree(t, x, y))
-    pine = simple_tree('mid_pine', [(0.15, 0.27), (1.0, 0.0)], (0.030, 0.078, 0.034))
-    oak = simple_tree('mid_oak', [(0.32, 0.24), (0.62, 0.44), (0.9, 0.24), (1.0, 0.0)], (0.060, 0.135, 0.035))
+    # 中景、远景：每个树种一张公告板（几张交叉面片贴树的照片），按植被类型选树种（asset_use.py）
+    import asset_use as au
     c_mid = base.make_coll('MidTrees')
-    groups = ([], [])
-    mid_kind = veg_mid_kind(t, fx, fy)              # 0 松树形、1 阔叶形、-1 不知道（各一半）
-    for px, py, pz, k, mk in zip(fx.tolist(), fy.tolist(), fz.tolist(), fk.tolist(), mid_kind.tolist()):
-        which = int(rng.random() < 0.5) if mk < 0 else mk
-        s_ = rng.uniform(8.5, 11) * k if which else rng.uniform(7.5, 10) * k
-        groups[which].append({'x': px, 'y': py, 'z': pz, 'rot': rng.uniform(0, 6.28), 's': s_})
-    if groups[0]:
-        scatter(c_mid, 'mid_pine', pine, groups[0])
-    if groups[1]:
-        scatter(c_mid, 'mid_oak', oak, groups[1])
-    tris['mid_trees'] = mesh_tris(pine.data) * len(groups[0]) + mesh_tris(oak.data) * len(groups[1])
+    table = au.billboard_table(qa.species_manifest())
+    mid_kind = veg_mid_kind(t, fx, fy)              # 没有对应树种时：0 松树形、1 阔叶形、-1 随机
+    vegs = t.veg(fx, fy)
+    groups = {}
+    for px, py, pz, k, mk, v in zip(fx.tolist(), fy.tolist(), fz.tolist(), fk.tolist(), mid_kind.tolist(), vegs.tolist()):
+        name = au.pick_billboard(table, v, mk, rng)
+        groups.setdefault(name, []).append({'x': px, 'y': py, 'z': pz, 'rot': rng.uniform(0, 6.28), 's': rng.uniform(0.85, 1.15) * k})
+    bbs = qa.load(qa.lib_path(quality, 'billboards'), groups)
+    tris['mid_trees'] = 0
+    for name in sorted(groups):
+        src = bbs[name].objects[0]
+        scatter(c_mid, name, src, groups[name])
+        tris['mid_trees'] += mesh_tris(src.data) * len(groups[name])
     stats['mid_trees'] = len(fx)
+    stats['mid_billboards'] = {n: len(v) for n, v in sorted(groups.items())}
+    # 小物件：石块、电线杆 + 电线、栅栏、路灯（props_blender.py）
+    import props_blender as pb
+    stats['props'], tris['props'] = pb.place(t, p, quality, base, scatter, mesh_tris, rng)
     if bld is not None:
         tris['buildings_roads'] = sum(stats['buildings']['triangles'].values())
     stats['triangles'] = {**tris, 'total': sum(tris.values())}
